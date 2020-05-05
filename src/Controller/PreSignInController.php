@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,107 +25,151 @@ class PreSignInController extends AbstractController
     {
         return $this->render('pre_sign_in/event.html.twig');
     }
-    
-    /** 
-    * @Route("/", name="home")
-    */
-    public function home(){
+
+    /**
+     * @Route("/", name="home")
+     */
+    public function home()
+    {
         return $this->render('pre_sign_in/home.html.twig');
     }
 
     /**
      * @Route("/comfirmation", name="comfirmation")
      */
-    public function comfirmation(Request $request){
-        return $this->render('pre_sign_in/comfirmation.html.twig',[
-            "username"=>$request->get('username')
+    public function comfirmation(Request $request)
+    {
+
+        $form = $this->createFormBuilder()
+            ->add('confirmationCode', TextType::class, [
+                "attr" => [
+                    "placeholder" => "confirmation code"
+                ]
+            ])
+            ->add('confirm', SubmitType::class)
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager = $this->getDoctrine()->getManager();
+            $user = $manager->getRepository("App:User")->findOneByEmail($request->getSession()->get('email'));
+
+            if ($form->get('confirmationCode')->getData() == $user->getConfirmationCode()) {
+                $user->setConfirmationCode('confirmed');
+                $manager->persist($user);
+                $manager->flush();
+                return $this->render("pre_sign_in/message.html.twig", [
+                    'message' => 'your email is confirmed .'
+                ]);
+            } else return $this->render("pre_sign_in/message.html.twig", [
+                'message' => 'wrong confirmation code .'
+            ]);
+
+        }
+
+
+        return $this->render('pre_sign_in/comfirmation.html.twig', [
+            "username" => $request->get('username'),
+            "form" => $form->createView()
         ]);
     }
 
-    /** 
-    * @Route("/register", name="register")
-    */
-    public function register(Request $request, EntityManagerInterface $manager , UserPasswordEncoderInterface $encoder){
+    /**
+     * @Route("/register", name="register")
+     */
+    public function register(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
+    {
+//        $request->getSession()->clear();
 
-        $compte=new User();
-        $form=$this->createFormBuilder($compte)
-        ->add('firstName',TextType::class,[
-            "attr"=>[
-                "id"=>"defaultRegisterFormFirstName",
-                "class"=>"form-control", 
-                "placeholder"=>"First name"
-            ]
-        ])
-        ->add('lastName',TextType::class,[
-            "attr"=>[
-                "id"=>"defaultRegisterFormLastName",
-                "class"=>"form-control", 
-                "placeholder"=>"Last name"
-            ]
-        ])
-        ->add('password',PasswordType::class,[
-            "attr"=>[
-                "id"=>"defaultRegisterFormPassword",
-                "class"=>"form-control", 
-                "placeholder"=>"Password",
-                "aria-describedby"=>"defaultRegisterFormPasswordHelpBlock"
-            ]
-        ])
-        ->add('confirmPassword',PasswordType::class,[
-            "attr"=>[
-                "id"=>"defaultRegisterFormPassword",
-                "class"=>"form-control", 
-                "placeholder"=>"Confirm Password",
-                "aria-describedby"=>"defaultRegisterFormPasswordHelpBlock"
-            ]
-        ])
-        ->add('email',TextType::class,[
-            "attr"=>[
-                "id"=>"defaultRegisterFormEmail",
-                "class"=>"form-control mb-4",
-                "placeholder"=>"example@insat.u-carthage.tn"
-            ]
-        ])
-        ->add('RegisterAs',ChoiceType::class,[
-            "choices"=>[
-                "teacher"=>"teacher",
-                "student"=>"student"
-            ],"attr"=>[
-                "class"=>"browser-default custom-select mb-4"
-            ]
-        ])
-        ->add('sign up',SubmitType::class,[
-            "attr"=>[
-                "class"=>"btn btn-success my-4 btn-block" 
-            ]
-        ])
-        ->getForm();
+        $compte = new User();
+        $form = $this->createFormBuilder($compte)
+            ->add('firstName', TextType::class, [
+                "attr" => [
+                    "id" => "defaultRegisterFormFirstName",
+                    "class" => "form-control",
+                    "placeholder" => "First name"
+                ]
+            ])
+            ->add('lastName', TextType::class, [
+                "attr" => [
+                    "id" => "defaultRegisterFormLastName",
+                    "class" => "form-control",
+                    "placeholder" => "Last name"
+                ]
+            ])
+            ->add('password', PasswordType::class, [
+                "attr" => [
+                    "id" => "defaultRegisterFormPassword",
+                    "class" => "form-control",
+                    "placeholder" => "Password",
+                    "aria-describedby" => "defaultRegisterFormPasswordHelpBlock"
+                ]
+            ])
+            ->add('confirmPassword', PasswordType::class, [
+                "attr" => [
+                    "id" => "defaultRegisterFormPassword",
+                    "class" => "form-control",
+                    "placeholder" => "Confirm Password",
+                    "aria-describedby" => "defaultRegisterFormPasswordHelpBlock"
+                ]
+            ])
+            ->add('email', TextType::class, [
+                "attr" => [
+                    "id" => "defaultRegisterFormEmail",
+                    "class" => "form-control mb-4",
+                    "placeholder" => "example@insat.u-carthage.tn"
+                ]
+            ])
+            ->add('RegisterAs', ChoiceType::class, [
+                "choices" => [
+                    "teacher" => "teacher",
+                    "student" => "student"
+                ], "attr" => [
+                    "class" => "browser-default custom-select mb-4"
+                ]
+            ])
+            ->add('sign up', SubmitType::class, [
+                "attr" => [
+                    "class" => "btn btn-success my-4 btn-block"
+                ]
+            ])
+            ->getForm();
         try {
             $form->handleRequest($request);
         } catch (\Exception $e) {
-            echo "failed : ".$e->getMessage();
+            echo "failed : " . $e->getMessage();
         }
-        
-        if($form->isSubmitted() && $form->isValid()){
-            $input='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            $input_length = strlen($input);
-            $random_string = '';
-            for($i = 0; $i < 8; $i++) {
-                $random_character = $input[mt_rand(0, $input_length - 1)];
-                $random_string .= $random_character;
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $input = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+            $random_string = 'confirmed';
+            while ($random_string == 'confirmed') {
+                $random_string = '';
+                for ($i = 0; $i < 20; $i++) {
+                    $random_character = $input[mt_rand(0, strlen($input) - 1)];
+                    $random_string .= $random_character;
+                }
             }
+
             $compte->setConfirmationCode($random_string);
-            $compte->setTried(false);
             $hash = $encoder->encodePassword($compte, $compte->getPassword());
             $compte->setPassword($hash);
             $manager->persist($compte);
             $manager->flush();
-            return $this->redirect('/comfirmation?username='.$compte->getFirstName());
+            $session = new Session();
+            $session->set('email', $compte->getEmail());
+            $this->forward('App\Controller\MailingController::ConfirmationMail', [
+                'email' => $compte->getEmail(),
+                'confirmationCode' => $compte->getConfirmationCode()
+            ]);
+            return $this->redirect('/comfirmation?username=' . $compte->getFirstName());
         }
 
-        return $this->render('pre_sign_in/register.html.twig',[
-            "form"=>$form->createView()
+        return $this->render('pre_sign_in/register.html.twig', [
+            "form" => $form->createView()
         ]);
-        }
+    }
 }
+
 ?>

@@ -10,32 +10,19 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ConnexionController extends AbstractController
 {
-    /**
-     * @Route("/preLogin" ,name="preLogin")
-     */
-    public function preLogin(){
-        if (isset($_POST['_username']) AND isset($_POST['_password'])){
-            return $this->forward('App\Controller\ConnexionController::login', [
-                'email' => $_POST['_username'],
-                'password' => $_POST['_password']
-
-            ]);}
-    }
-    
+ 
     
     /**
      * @Route("/login", name="login")
      */
     public function login(Request $request ,AuthenticationUtils $authenticationUtils)
     {
-        
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
         return $this->render('connexion/login.html.twig',[
             'last_username' => $lastUsername,
             'error'         => $error,
-            'email'         => $request->get('email'),
-            'password'      => $request->get('password') 
+
         ]);
     }
 

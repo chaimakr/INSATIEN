@@ -22,7 +22,7 @@ security:
                #csrf_token_generator: security.csrf.token_manager
                 #username_parameter: _username
                 #password_parameter: _password
-            logout: 
+            logout: true
                path: app_logout
 
             guard:

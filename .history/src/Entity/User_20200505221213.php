@@ -154,7 +154,7 @@ class User implements UserInterface
         return $this;
     }
     public function getUsername(){
-        return $this->email;
+        return $this->getEmail()
     }
     public function eraseCredentials(){}
     public function getSalt(){}

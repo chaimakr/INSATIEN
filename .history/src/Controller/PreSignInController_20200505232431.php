@@ -165,8 +165,7 @@ class PreSignInController extends AbstractController
                 'confirmationCode' => $compte->getConfirmationCode()
             ]);
             return $this->redirect('/comfirmation?username=' . $compte->getFirstName());
-           /*in case makhdemch arjaa chouf hkeyet return hedhi 
-           return $guardHandler->authenticateUserAndHandleSuccess(
+           /* return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
                 $request,
                 $authenticator,

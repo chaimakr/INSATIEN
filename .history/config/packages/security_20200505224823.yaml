@@ -15,16 +15,14 @@ security:
             security: false
         main:
             anonymous: lazy
-            provider: in_database
+            #provider: in_database
             #form_login:
                 #login_path: login
                 #check_path: login
                #csrf_token_generator: security.csrf.token_manager
                 #username_parameter: _username
                 #password_parameter: _password
-            logout: 
-               path: app_logout
-
+            #logout: true
             guard:
                 authenticators:
                     - App\Security\LoginAuthenticator

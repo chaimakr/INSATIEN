@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -170,6 +171,34 @@ class PreSignInController extends AbstractController
             "form" => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/confirmWithoutRegister", name="confirmWithoutRegister")
+     */
+    public function confirmWithoutRegister(Request $request)
+    {
+
+        $request->getSession()->set('user', $request->get('email'));
+        return $this->redirect('/comfirmation');
+    }
+
+    /**
+     * @Route("/resendConfirmation", name="resendConfirmation")
+     */
+    public function resendConfirmation(Request $request)
+    {
+        $manager=$this->getDoctrine()->getManager();
+
+        $user = $manager->getRepository("App:User")->findOneByEmail($request->getSession()->get('email'));
+
+        $this->forward('App\Controller\MailingController::ConfirmationMail', [
+            'email' => $user->getEmail(),
+            'confirmationCode' => $user->getConfirmationCode()
+        ]);
+        return $this->redirect('/comfirmation');
+    }
+
+
 }
 
 ?>

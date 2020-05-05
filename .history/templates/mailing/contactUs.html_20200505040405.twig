@@ -11,13 +11,13 @@
     </div>
 </div>
 {#{{ form(mailform) }}#}
-
+<form method="POST">
+{{ form_start(form) }}
 <div class="container">
     <div class="row">
         <div class="col-md-8">
             <div class="well well-sm">
                 <form>
-                    {{ form_start(form) }}
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -48,7 +48,8 @@
                         </div>
                     </div>
                 </div>
-                {{ form_end(form) }}
+
+
                 </form>
             </div>
         </div>
@@ -68,4 +69,6 @@
         </div>
     </div>
 </div>
+{{ form_end(form) }}
+</form>
 {% endblock %} 

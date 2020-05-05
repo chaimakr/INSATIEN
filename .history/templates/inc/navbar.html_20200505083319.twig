@@ -16,7 +16,7 @@
         <a class="nav-link" href="/contact">Contact us</a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0" method="POST" action="{{path('preLogin')}}" >
+    <form class="form-inline my-2 my-lg-0" method="POST" action="{{path('preLogin')}}"  {{ form_enctype(form) }}>
       <input class="form-control mr-sm-2" type="email" name="_username" placeholder="Email">
       <input class="form-control mr-sm-2" type="password" name="_password" placeholder="password">
       <button class="btn btn-secondary mr-sm-2" type="submit" > login </button>

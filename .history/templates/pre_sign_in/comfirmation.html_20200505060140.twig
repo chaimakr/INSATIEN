@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="jumbotron">
+    <h1 class="display-3">Hello! {{ username }}</h1>
+        <p class="lead"> A verification code has been sent to you email account .</p>
+    <hr class="my-4">
+        <p>Check your email account in a few minute later , click on the link to verify your email and continue the registration process.</p>
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+    </div>
+    <hr class="my-4">
+    <p class="lead">
+      <a class="btn btn-primary btn-lg" href="/" role="button">Go back</a>
+    </p>
+  </div>
+    
+{% endblock %}

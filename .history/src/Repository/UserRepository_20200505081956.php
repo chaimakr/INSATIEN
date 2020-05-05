@@ -39,7 +39,7 @@ class UserRepository extends ServiceEntityRepository
         }
 
         return $user;
-    } 
+    } }
     /*
     
     public function findByExampleField($value)

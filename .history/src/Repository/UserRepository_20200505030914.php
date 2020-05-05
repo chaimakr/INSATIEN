@@ -22,26 +22,7 @@ class UserRepository extends ServiceEntityRepository
     // /**
     //  * @return User[] Returns an array of User objects
     //  */
-    public function loadUserByUsername($username)
-    {
-        $user = $this->createQueryBuilder('u')
-            ->where('u.email = :email')
-            ->setParameter('email', $email)
-            ->getQuery()
-            ->getOneOrNullResult();
-
-        if (null === $user) {
-            $message = sprintf(
-                'Unable to find an active admin AppBundle:User object identified by "%s".',
-                $username
-            );
-            throw new UsernameNotFoundException($message);
-        }
-
-        return $user;
-    } 
     /*
-    
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('u')

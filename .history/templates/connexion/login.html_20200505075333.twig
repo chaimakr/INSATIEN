@@ -2,8 +2,8 @@
 {% block body %}
 {% if error %}
     <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+{% endif %}
 
-{% else %}
     
 <form name="myform" action="{{ path('login') }}" method="post">
     <label for="username">Username:</label>
@@ -11,7 +11,7 @@
 
     <label for="password">Password:</label>
     <input type="password" id="password" name="_password" value="{{ password }}"/>
-   {# <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">#}
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
     {#
         If you want to control the URL the user
@@ -21,5 +21,4 @@
     <button type="submit">login</button>
 </form>
 <script type="text/javascript">document.myform.submit();</script>
-{% endif %}
 {% endblock %}

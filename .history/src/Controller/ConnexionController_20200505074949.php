@@ -34,8 +34,6 @@ class ConnexionController extends AbstractController
         return $this->render('connexion/login.html.twig',[
             'last_username' => $lastUsername,
             'error'         => $error,
-            'email'         => $request->get('email'),
-            'password'      => $request->get('password') 
         ]);
     }
 

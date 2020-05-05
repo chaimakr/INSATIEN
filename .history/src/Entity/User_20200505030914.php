@@ -50,11 +50,6 @@ class User implements UserInterface
 
 
     private $password;
-    
-    /**
-     * @Assert\EqualTo(propertyPath="password" , message="Passwords do no match")
-     */
-    private $confirmPassword;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -104,16 +99,6 @@ class User implements UserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
-
-        return $this;
-    }
-    public function getconfirmPassword(): ?string
-    {
-        return $this->confirmPassword;
-    }
-    public function setconfirmPassword(string $confirmPassword): self
-    {
-        $this->confirmPassword = $confirmPassword;
 
         return $this;
     }

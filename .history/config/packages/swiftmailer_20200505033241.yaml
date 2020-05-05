@@ -1,7 +1,7 @@
 swiftmailer:
     url: '%env(MAILER_URL)%'
     spool: { type: 'memory' }
-    transport : gmail
+        transport : gmail
     host: smtp.gmail.com
     port: 465
     auth_mode: login

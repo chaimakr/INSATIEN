@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
+use App\Entity\NewCompte;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -46,7 +46,7 @@ class PreSignInController extends AbstractController
     */
     public function register(Request $request, EntityManagerInterface $manager , UserPasswordEncoderInterface $encoder){
 
-        $compte=new User();
+        $compte=new NewCompte();
         $form=$this->createFormBuilder($compte)
         ->add('firstName',TextType::class,[
             "attr"=>[

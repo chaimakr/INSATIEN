@@ -1,8 +1,5 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
-    encoders:
-        App\Entity\NewCompte:
-            algorithm : bcrypt
     providers:
         users_in_memory: { memory: null }
     firewalls:

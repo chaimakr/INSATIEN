@@ -1,0 +1,6 @@
+{% block body %}
+<h1 glyphicon glyphicon-globe >Nouveau contact ! </h1>
+<p>Nom : {{contact.fullName}}</p>
+<p>e-mail : {{contact.email}}</p>
+<p>Message : {{contact.Message|raw}}</p>
+{% endblock %}

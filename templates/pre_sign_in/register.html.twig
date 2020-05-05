@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="row">
+    <div class="col-sm-2 my-auto"></div>
+        <div class="col-sm-8 my-auto">
+            <form class="text-center border border-white p-5" method="POST">
+                {{ form_start(form) }}
+                <p class="h2 mb-4">Sign up</p>
+                    <div class="form-row mb-4">
+                        <div class="col">
+                            {{ form_row(form.firstName) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.lastName) }}
+                        </div>
+                    </div>
+                        {{ form_row(form.email) }}
+                        {{ form_row(form.password) }}
+                    <small id="defaultRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
+                        At least 8 characters and 1 digit
+                    </small>
+                        {{form_row(form.confirmPassword)}}
+                        {{ form_row(form.RegisterAs) }}
+                {{ form_end(form) }}
+            </form>
+        </div>       
+    <div class="col-sm-2 my-auto"></div>
+</div> 
+{% endblock %}

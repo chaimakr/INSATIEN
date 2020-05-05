@@ -1,6 +1,6 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
-    encoders:
+        encoders:
         App\Entity\NewCompte:
             algorithm : bcrypt
     providers:

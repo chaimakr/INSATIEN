@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="jumbotron jumbotron-sm">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-lg-12">
+                <h1 class="h1">
+                <small>Feel free to contact us</small></h1>
+            </div>
+        </div>
+    </div>
+</div>
+{#{{ form(mailform) }}#}
+{{ form_start(form) }}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="well well-sm">
+                <form>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_row(form.fullName) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_row(form.email) }}
+                            <div class="input-group">
+                                {#<span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span>#}
+                                {#</span>#}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ form_row(form.Subject) }}
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                {{ form_row(form.send) }}
+                            </div>
+                            <div class="col-md-4">
+                            {{ form_row(form.reset) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_row(form.Message) }}
+                        </div>
+                    </div>
+                </div>
+
+
+                </form>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <form>
+            <legend><span class="glyphicon glyphicon-globe"></span> Our office</legend>
+            <address>
+                <strong>Insat.</strong><br>
+                676 INSAT Centre Urbain Nord BP، Tunis Cedex 1080d<br>
+                <abbr title="Phone">(+216)</abbr>98 210 263
+            </address>
+            <address>
+                <strong>chaima AKKARI</strong><br> 
+                <a href="mailto:#">insatien.help@gmail.com</a>
+            </address>
+            </form>
+        </div>
+    </div>
+</div>
+{{ form_end(form) }}
+{% endblock %} 

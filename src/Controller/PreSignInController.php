@@ -56,16 +56,24 @@ class PreSignInController extends AbstractController
             $manager = $this->getDoctrine()->getManager();
             $user = $manager->getRepository("App:User")->findOneByEmail($request->getSession()->get(Security::LAST_USERNAME));
 
-            if ($form->get('confirmationCode')->getData() == $user->getConfirmationCode()) {
-                $user->setConfirmationCode('confirmed');
-                $manager->persist($user);
-                $manager->flush();
+            if(!$user){
                 return $this->render("pre_sign_in/message.html.twig", [
-                    'message' => 'your email is confirmed .'
+                    'message' => 'your email is not registred .'
                 ]);
-            } else return $this->render("pre_sign_in/message.html.twig", [
-                'message' => 'wrong confirmation code .'
-            ]);
+            }
+            else{
+                if ($form->get('confirmationCode')->getData() == $user->getConfirmationCode()) {
+                    $user->setConfirmationCode('confirmed');
+                    $manager->persist($user);
+                    $manager->flush();
+                    return $this->render("pre_sign_in/message.html.twig", [
+                        'message' => 'your email is confirmed .'
+                    ]);
+                } else return $this->render("pre_sign_in/message.html.twig", [
+                    'message' => 'wrong confirmation code .'
+                ]);
+            }
+
 
         }
 

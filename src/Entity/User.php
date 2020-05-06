@@ -159,9 +159,12 @@ class User implements UserInterface
     public function eraseCredentials(){}
     public function getSalt(){}
     public function getRoles(){
-        if($this->confirmationCode=='confirmed')
-        return ['ROLE_USER'];
+        if($this->confirmationCode=='confirmed'){
+            if($this->getRegisterAs()=='teacher') return  ['ROLE_STUDENT'];
+            elseif ($this->getRegisterAs()=="student") return  ['ROLE_TEACHER'];
+    }
+
         else
-            return['ROLE_NotConfirmedUser'];
+            return['IS_AUTHENTICATED_ANONYMOUSLY'];
     }
 }

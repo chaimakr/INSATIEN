@@ -8,7 +8,9 @@
         {% block stylesheets %} {% endblock %}
     </head>
     <body>
-        {{ include('inc/StudentNavbar.html.twig')}}
+        {% block  %}
+        {{ include('inc/navbar.html.twig')}} 
+        {% endblock %}
         <div class="container">
         {% block body %}{% endblock %}
         </div>

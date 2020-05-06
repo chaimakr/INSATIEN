@@ -22,10 +22,10 @@
 
     <form method="post" action="/login" class="form-inline my-2 my-lg-0">
 
-          <input type="email"  name="email" id="inputEmail" class="form-control mr-sm-2" placeholder="email" required>
+          <input type="email"  name="email" id="inputEmail" class="form-control mr-sm-2" placeholder="email">
 
 
-      <input type="password" name="password" id="inputPassword" class="form-control mr-sm-2" placeholder="password" required>
+      <input type="password" name="password" id="inputPassword" class="form-control mr-sm-2" placeholder="password" >
 
       <input type="hidden" name="_csrf_token"
              value="{{ csrf_token('authenticate') }}">
@@ -34,7 +34,7 @@
       </button>
       <a class="btn btn-info mr-sm-2" href="/register" role="button"> sign up </a>
 
-
+    </form>
 
 
 
@@ -47,6 +47,6 @@
 
       {% if (app.user)is defined  and app.user %}
         <div class="mb-3">
-          You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+          You are logged in as {{ app.user.confirmationCode }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
       {% endif %}

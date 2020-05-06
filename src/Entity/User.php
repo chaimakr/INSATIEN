@@ -159,6 +159,9 @@ class User implements UserInterface
     public function eraseCredentials(){}
     public function getSalt(){}
     public function getRoles(){
+        if($this->confirmationCode=='confirmed')
         return ['ROLE_USER'];
+        else
+            return['ROLE_NotConfirmedUser'];
     }
 }

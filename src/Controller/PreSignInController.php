@@ -16,6 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Security;
 
 class PreSignInController extends AbstractController
 {
@@ -53,7 +54,7 @@ class PreSignInController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $manager = $this->getDoctrine()->getManager();
-            $user = $manager->getRepository("App:User")->findOneByEmail($request->getSession()->get('email'));
+            $user = $manager->getRepository("App:User")->findOneByEmail($request->getSession()->get(Security::LAST_USERNAME));
 
             if ($form->get('confirmationCode')->getData() == $user->getConfirmationCode()) {
                 $user->setConfirmationCode('confirmed');
@@ -159,7 +160,7 @@ class PreSignInController extends AbstractController
             $manager->persist($compte);
             $manager->flush();
             $session = new Session();
-            $session->set('email', $compte->getEmail());
+            $session->set(Security::LAST_USERNAME, $compte->getEmail());
             $this->forward('App\Controller\MailingController::ConfirmationMail', [
                 'email' => $compte->getEmail(),
                 'confirmationCode' => $compte->getConfirmationCode()
@@ -185,7 +186,7 @@ class PreSignInController extends AbstractController
     public function confirmWithoutRegister(Request $request)
     {
 
-        $request->getSession()->set('user', $request->get('email'));
+        $request->getSession()->set(Security::LAST_USERNAME, $request->get('email'));
         return $this->redirect('/comfirmation');
     }
 
@@ -196,7 +197,7 @@ class PreSignInController extends AbstractController
     {
         $manager=$this->getDoctrine()->getManager();
 
-        $user = $manager->getRepository("App:User")->findOneByEmail($request->getSession()->get('email'));
+        $user = $manager->getRepository("App:User")->findOneByEmail($request->getSession()->get(Security::LAST_USERNAME));
 
         $this->forward('App\Controller\MailingController::ConfirmationMail', [
             'email' => $user->getEmail(),

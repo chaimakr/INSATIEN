@@ -97,7 +97,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
 
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $request->getSession()->get(Security::LAST_USERNAME)]);
         if ($user->getConfirmationCode() != 'confirmed') {
-
+            
             return new RedirectResponse($this->urlGenerator->generate('comfirmation'));
         }
 

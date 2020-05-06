@@ -79,7 +79,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']) && ($user->getConfirmationCode()=="confirmed");
+        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']) && ($user->getSalt()=="confirmed");
     }
 
     /**

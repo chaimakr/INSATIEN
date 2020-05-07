@@ -14,7 +14,7 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        //$user=$this->getUser();
+        $user=$this->getUser();
         //if($user){
         //    if ($user()->getRegisterAs()=="student") {
         //    return $this->redirectToRoute('main');

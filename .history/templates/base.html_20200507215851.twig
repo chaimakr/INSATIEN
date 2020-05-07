@@ -7,8 +7,10 @@
         <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.css">
         {% block stylesheets %} {% endblock %}
     </head>
-    <body>
-        {{ include('inc/StudentNavbar.html.twig')}}
+    <body> 
+        {% block navbar %}
+        {{ include('inc/navbar.html.twig')}}
+        {% endblock %}
         <div class="container">
         {% block body %}{% endblock %}
         </div>

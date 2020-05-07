@@ -46,4 +46,4 @@ security:
         - {path: ^/anon, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - {path: ^/student, roles: ROLE_STUDENT}
         - {path: ^/teacher, roles: ROLE_TEACHER}
-    #access_denied_url: /login
+    access_denied_url: /login

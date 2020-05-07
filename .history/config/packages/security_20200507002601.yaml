@@ -43,6 +43,8 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - {path: ^/anon, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - {path: ^/student, roles: ROLE_STUDENT}
-        - {path: ^/teacher, roles: ROLE_TEACHER}
+      - {path: ^/student, roles: ROLE_STUDENT}
+      - {path: ^/teacher, roles: ROLE_TEACHER}
+      - {path: ^/anon, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        # - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/profile, roles: ROLE_USER }

@@ -14,11 +14,9 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-         if ($this->getUser()->getRegisterAs() == 'student') {
+         if ($this->getUser()) {
              return $this->redirectToRoute('main');
-         }/*elseif ($this->getUser()->getRegisterAs() == 'teacher'){
-            return $this->redirectToRoute('main2');
-         }*/
+         }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -29,7 +27,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/logout", name="app_logout")
+     * @Route("/connected/logout", name="app_logout")
      */
     public function logout()
     {

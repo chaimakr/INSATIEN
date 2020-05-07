@@ -10,15 +10,13 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/anon/login", name="app_login")
+     * @Route("/login", name="app_login")
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-         if ($this->getUser()->getRegisterAs() == 'student') {
-             return $this->redirectToRoute('main');
-         }/*elseif ($this->getUser()->getRegisterAs() == 'teacher'){
-            return $this->redirectToRoute('main2');
-         }*/
+        // if ($this->getUser()) {
+        //     return $this->redirectToRoute('target_path');
+        // }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();

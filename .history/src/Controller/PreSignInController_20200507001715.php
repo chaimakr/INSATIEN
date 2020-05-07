@@ -29,11 +29,11 @@ class PreSignInController extends AbstractController
     }
 
     /**
-     * @Route("/anon", name="home")
+     * @Route("/anon/", name="home")
      */
     public function home()
     {
-        //dd();
+        dd();
         return $this->render('pre_sign_in/home.html.twig');
     }
 
@@ -200,7 +200,7 @@ class PreSignInController extends AbstractController
     }
 
     /**
-     * @Route("/anon/resendConfirmation", name="resendConfirmation")
+     * @Route("/resendConfirmation", name="resendConfirmation")
      */
     public function resendConfirmation(Request $request)
     {

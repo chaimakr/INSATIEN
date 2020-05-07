@@ -33,7 +33,7 @@ class PreSignInController extends AbstractController
      */
     public function home()
     {
-        //dd();
+        dd();
         return $this->render('pre_sign_in/home.html.twig');
     }
 

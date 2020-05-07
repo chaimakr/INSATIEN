@@ -21,7 +21,7 @@ use Symfony\Component\Security\Core\Security;
 class PreSignInController extends AbstractController
 {
     /**
-     * @Route("/anon/event", name="event")
+     * @Route("/event", name="event")
      */
     public function index()
     {
@@ -33,7 +33,7 @@ class PreSignInController extends AbstractController
      */
     public function home()
     {
-        //dd();
+        dd();
         return $this->render('pre_sign_in/home.html.twig');
     }
 
@@ -86,7 +86,7 @@ class PreSignInController extends AbstractController
     }
 
     /**
-     * @Route("/anon/register", name="register")
+     * @Route("/register", name="register")
      */
     public function register(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
     {
@@ -190,7 +190,7 @@ class PreSignInController extends AbstractController
     }
 
     /**
-     * @Route("/anon/confirmWithoutRegister", name="confirmWithoutRegister")
+     * @Route("/confirmWithoutRegister", name="confirmWithoutRegister")
      */
     public function confirmWithoutRegister(Request $request)
     {
@@ -200,7 +200,7 @@ class PreSignInController extends AbstractController
     }
 
     /**
-     * @Route("/anon/resendConfirmation", name="resendConfirmation")
+     * @Route("/resendConfirmation", name="resendConfirmation")
      */
     public function resendConfirmation(Request $request)
     {

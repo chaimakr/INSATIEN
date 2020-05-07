@@ -16,12 +16,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\Security;
 
 class PreSignInController extends AbstractController
 {
     /**
-     * @Route("/anon/event", name="event")
+     * @Route("/event", name="event")
      */
     public function index()
     {
@@ -29,16 +28,15 @@ class PreSignInController extends AbstractController
     }
 
     /**
-     * @Route("/anon", name="home")
+     * @Route("/", name="home")
      */
     public function home()
     {
-        //dd();
         return $this->render('pre_sign_in/home.html.twig');
     }
 
     /**
-     * @Route("/anon/comfirmation", name="comfirmation")
+     * @Route("/comfirmation", name="comfirmation")
      */
     public function comfirmation(Request $request)
     {
@@ -55,26 +53,18 @@ class PreSignInController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $manager = $this->getDoctrine()->getManager();
-            $user = $manager->getRepository("App:User")->findOneByEmail($request->getSession()->get(Security::LAST_USERNAME));
+            $user = $manager->getRepository("App:User")->findOneByEmail($request->getSession()->get('email'));
 
-            if(!$user){
+            if ($form->get('confirmationCode')->getData() == $user->getConfirmationCode()) {
+                $user->setConfirmationCode('confirmed');
+                $manager->persist($user);
+                $manager->flush();
                 return $this->render("pre_sign_in/message.html.twig", [
-                    'message' => 'your email is not registred .'
+                    'message' => 'your email is confirmed .'
                 ]);
-            }
-            else{
-                if ($form->get('confirmationCode')->getData() == $user->getConfirmationCode()) {
-                    $user->setConfirmationCode('confirmed');
-                    $manager->persist($user);
-                    $manager->flush();
-                    return $this->render("pre_sign_in/message.html.twig", [
-                        'message' => 'your email is confirmed .'
-                    ]);
-                } else return $this->render("pre_sign_in/message.html.twig", [
-                    'message' => 'wrong confirmation code .'
-                ]);
-            }
-
+            } else return $this->render("pre_sign_in/message.html.twig", [
+                'message' => 'wrong confirmation code .'
+            ]);
 
         }
 
@@ -86,7 +76,7 @@ class PreSignInController extends AbstractController
     }
 
     /**
-     * @Route("/anon/register", name="register")
+     * @Route("/register", name="register")
      */
     public function register(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
     {
@@ -169,7 +159,7 @@ class PreSignInController extends AbstractController
             $manager->persist($compte);
             $manager->flush();
             $session = new Session();
-            $session->set(Security::LAST_USERNAME, $compte->getEmail());
+            $session->set('email', $compte->getEmail());
             $this->forward('App\Controller\MailingController::ConfirmationMail', [
                 'email' => $compte->getEmail(),
                 'confirmationCode' => $compte->getConfirmationCode()
@@ -190,23 +180,23 @@ class PreSignInController extends AbstractController
     }
 
     /**
-     * @Route("/anon/confirmWithoutRegister", name="confirmWithoutRegister")
+     * @Route("/confirmWithoutRegister", name="confirmWithoutRegister")
      */
     public function confirmWithoutRegister(Request $request)
     {
 
-        $request->getSession()->set(Security::LAST_USERNAME, $request->get('email'));
+        $request->getSession()->set('user', $request->get('email'));
         return $this->redirect('/comfirmation');
     }
 
     /**
-     * @Route("/anon/resendConfirmation", name="resendConfirmation")
+     * @Route("/resendConfirmation", name="resendConfirmation")
      */
     public function resendConfirmation(Request $request)
     {
         $manager=$this->getDoctrine()->getManager();
 
-        $user = $manager->getRepository("App:User")->findOneByEmail($request->getSession()->get(Security::LAST_USERNAME));
+        $user = $manager->getRepository("App:User")->findOneByEmail($request->getSession()->get('email'));
 
         $this->forward('App\Controller\MailingController::ConfirmationMail', [
             'email' => $user->getEmail(),

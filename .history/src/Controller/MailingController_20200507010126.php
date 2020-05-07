@@ -80,7 +80,7 @@ class MailingController extends AbstractController
     }
 
     /**
-     * @Route("/anon/feedback", name="feedback")
+     * @Route("/feedback", name="feedback")
      */
     public function feedback()
     {

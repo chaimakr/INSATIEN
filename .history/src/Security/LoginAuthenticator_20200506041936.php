@@ -7,7 +7,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
@@ -80,7 +79,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']) && ($user->getConfirmationCode()=="confirmed");
     }
 
     /**
@@ -93,24 +92,16 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-//        dd($providerKey);
-
-        $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $request->getSession()->get(Security::LAST_USERNAME)]);
-        if ($user->getConfirmationCode() != 'confirmed') {
-            
-            return new RedirectResponse($this->urlGenerator->generate('comfirmation'));
-        }
-
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
-        //if ($user->getRoles()=="ROLE_STUDENT")
+
         return new RedirectResponse($this->urlGenerator->generate('main'));
-        throw new \Exception('TODO: provide a valid redirect inside ' . __FILE__);
+        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 
     protected function getLoginUrl()
     {
-        return $this->urlGenerator->generate('app_login');
+        return $this->urlGenerator->generate('comfirmation');
     }
 }

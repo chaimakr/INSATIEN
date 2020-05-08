@@ -79,6 +79,9 @@ class MailingController extends AbstractController
         ]);
     }
 
+
+
+
     /**
      * @Route("/anon/feedback", name="feedback")
      */
@@ -86,6 +89,9 @@ class MailingController extends AbstractController
     {
         return $this->render('mailing/feedback.html.twig');
     }
+
+
+
 
     /**
      * @Route("/confirmationMail", name="confirmationMail")
@@ -104,7 +110,6 @@ class MailingController extends AbstractController
         return new Response("done");
 
     }
-
 
 
 }

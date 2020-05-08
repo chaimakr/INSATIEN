@@ -28,14 +28,20 @@ class PreSignInController extends AbstractController
         return $this->render('pre_sign_in/event.html.twig');
     }
 
+
+
+
     /**
      * @Route("/anon", name="home")
      */
     public function home()
     {
-        //dd();
+        dd($this->getUser());
         return $this->render('pre_sign_in/home.html.twig');
     }
+
+
+
 
     /**
      * @Route("/anon/comfirmation", name="comfirmation")
@@ -57,12 +63,11 @@ class PreSignInController extends AbstractController
             $manager = $this->getDoctrine()->getManager();
             $user = $manager->getRepository("App:User")->findOneByEmail($request->getSession()->get(Security::LAST_USERNAME));
 
-            if(!$user){
+            if (!$user) {
                 return $this->render("pre_sign_in/message.html.twig", [
                     'message' => 'your email is not registred .'
                 ]);
-            }
-            else{
+            } else {
                 if ($form->get('confirmationCode')->getData() == $user->getConfirmationCode()) {
                     $user->setConfirmationCode('confirmed');
                     $manager->persist($user);
@@ -84,6 +89,9 @@ class PreSignInController extends AbstractController
             "form" => $form->createView()
         ]);
     }
+
+
+
 
     /**
      * @Route("/anon/register", name="register")
@@ -175,19 +183,22 @@ class PreSignInController extends AbstractController
                 'confirmationCode' => $compte->getConfirmationCode()
             ]);
             return $this->redirect('/comfirmation?username=' . $compte->getFirstName());
-           /*in case makhdemch arjaa chouf hkeyet return hedhi 
-           return $guardHandler->authenticateUserAndHandleSuccess(
-                $user,
-                $request,
-                $authenticator,
-                'main' // firewall name in security.yaml
-            );*/
+            /*in case makhdemch arjaa chouf hkeyet return hedhi
+            return $guardHandler->authenticateUserAndHandleSuccess(
+                 $user,
+                 $request,
+                 $authenticator,
+                 'main' // firewall name in security.yaml
+             );*/
         }
 
         return $this->render('pre_sign_in/register.html.twig', [
             "form" => $form->createView()
         ]);
     }
+
+
+
 
     /**
      * @Route("/anon/confirmWithoutRegister", name="confirmWithoutRegister")
@@ -199,12 +210,15 @@ class PreSignInController extends AbstractController
         return $this->redirect('/comfirmation');
     }
 
+
+
+
     /**
      * @Route("/anon/resendConfirmation", name="resendConfirmation")
      */
     public function resendConfirmation(Request $request)
     {
-        $manager=$this->getDoctrine()->getManager();
+        $manager = $this->getDoctrine()->getManager();
 
         $user = $manager->getRepository("App:User")->findOneByEmail($request->getSession()->get(Security::LAST_USERNAME));
 

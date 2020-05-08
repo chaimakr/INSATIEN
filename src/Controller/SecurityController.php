@@ -19,11 +19,10 @@ class SecurityController extends AbstractController
         //    if ($user()->getRegisterAs()=="student") {
         //    return $this->redirectToRoute('main');
         //}
-            //elseif ($this->getUser()->getRegisterAs() == 'teacher'){
-            //return $this->redirectToRoute('main2');
-            //}
-    //}
-
+        //elseif ($this->getUser()->getRegisterAs() == 'teacher'){
+        //return $this->redirectToRoute('main2');
+        //}
+        //}
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
@@ -32,18 +31,33 @@ class SecurityController extends AbstractController
         return $this->render('base.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
+
+
+
     /**
      * @Route("/logout", name="app_logout")
      */
     public function logout()
     {
-       // throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        // throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
-    /**
-     * @Route("/student/connected", name="main")
-     */
-    public function main()
-    {
-        return $this->render("StudentConnected.html.twig");
-    }
+
+//    /**
+//     * @Route("/student", name="test")
+//     */
+//    public function foo()
+//    {
+//        dd($this->get('security.context'));
+//
+//        return $this->render("StudentConnected.html.twig");
+//    }
+
+
+
+
+
+
+
+
+
 }

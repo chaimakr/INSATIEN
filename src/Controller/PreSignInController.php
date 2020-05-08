@@ -32,11 +32,10 @@ class PreSignInController extends AbstractController
 
 
     /**
-     * @Route("/anon", name="home")
+     * @Route("/", name="home")
      */
     public function home()
     {
-        dd($this->getUser());
         return $this->render('pre_sign_in/home.html.twig');
     }
 
@@ -182,7 +181,7 @@ class PreSignInController extends AbstractController
                 'email' => $compte->getEmail(),
                 'confirmationCode' => $compte->getConfirmationCode()
             ]);
-            return $this->redirect('/comfirmation?username=' . $compte->getFirstName());
+            return $this->redirect('/anon/comfirmation?username=' . $compte->getFirstName());
             /*in case makhdemch arjaa chouf hkeyet return hedhi
             return $guardHandler->authenticateUserAndHandleSuccess(
                  $user,
@@ -207,7 +206,7 @@ class PreSignInController extends AbstractController
     {
 
         $request->getSession()->set(Security::LAST_USERNAME, $request->get('email'));
-        return $this->redirect('/comfirmation');
+        return $this->redirect('/anon/comfirmation');
     }
 
 

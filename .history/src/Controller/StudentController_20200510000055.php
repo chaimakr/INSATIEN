@@ -21,7 +21,7 @@ class StudentController extends AbstractController
       /**
      * @Route("/profile", name="profile")
      */
-    public function StudentProfile()
+    public function main()
     {
 //        dd($this->getUser());
         return $this->render("userProfile.html.twig");

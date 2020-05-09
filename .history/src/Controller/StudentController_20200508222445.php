@@ -16,6 +16,6 @@ class StudentController extends AbstractController
     public function main()
     {
 //        dd($this->getUser());
-        return $this->render("student/StudentConnected.html.twig");
+        return $this->render("StudentConnected.html.twig");
     }
 }

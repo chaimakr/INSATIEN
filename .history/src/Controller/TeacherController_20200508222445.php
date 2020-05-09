@@ -5,17 +5,14 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class StudentController extends AbstractController
+class TeacherController extends AbstractController
 {
-
-
-
     /**
-     * @Route("/student", name="studentHome")
+     * @Route("/teacher", name="teacherHome")
      */
     public function main()
     {
 //        dd($this->getUser());
-        return $this->render("student/StudentConnected.html.twig");
+        return $this->render("StudentConnected.html.twig");
     }
 }

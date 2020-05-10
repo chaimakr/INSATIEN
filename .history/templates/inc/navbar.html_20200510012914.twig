@@ -24,14 +24,24 @@
       <button class="btn btn-secondary mr-sm-2" type="submit">
         Sign in
       </button>
-      <a class="btn btn-info mr-sm-2" href="{{ path('register')}}" role="button"> sign up </a>
     </form>
-</div>
+
+      <a class="btn btn-info mr-sm-2" href="{{ path('register')}}" role="button"> sign up </a>
+
+          {% if (app.user)is defined  and app.user %}
+              <form action="{{ path('app_logout') }}">
+                  <div class="mb-3">
+                      You are logged in as {{ app.user.email }} <input type="submit" class="btn btn-secondary mr-sm-2" value="logout">
+                      <a href="/student" class="btn btn-secondary mr-sm-2" > Proceed to account </a>
+                  </div>
+              </form>
+  </div>
 
   {% if (error) is defined and error %}
     <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
   {% endif %}
-       {% if (app.user)is defined  and app.user %}
+
+        {% if (app.user)is defined  and app.user %}
           <div class="mb-3">
             You are logged in as {{ app.user.email }}, <a href="{{ path('app_logout') }}">Logout</a>
           </div>

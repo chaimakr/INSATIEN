@@ -21,9 +21,27 @@ use Symfony\Component\Security\Core\Security;
 class PreSignInController extends AbstractController
 {
     /**
-     * @Route("/anon/event", name="event")
+     * @Route("/", name="index")
      */
     public function index()
+    {
+        if($this->getUser()){
+            $role=$this->getUser()->getRoles()[0];
+            if($role=='ROLE_STUDENT') return $this->redirect('/student');
+            elseif ($role=='ROLE_TEACHER') return $this->redirect('/teacher');
+        }
+        
+
+        return $this->redirect('/anon');
+    }
+
+
+
+
+    /**
+     * @Route("/anon/event", name="event")
+     */
+    public function event()
     {
         return $this->render('pre_sign_in/event.html.twig');
     }
@@ -32,7 +50,7 @@ class PreSignInController extends AbstractController
 
 
     /**
-     * @Route("/", name="home")
+     * @Route("/anon", name="home")
      */
     public function home()
     {

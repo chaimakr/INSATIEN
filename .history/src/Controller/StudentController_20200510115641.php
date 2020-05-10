@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Entity\User;
-use Doctrine\ORM\EntityManagerInterface;
 
 
 class StudentController extends AbstractController
@@ -30,7 +29,7 @@ class StudentController extends AbstractController
        // dd($this->getUser());
         $user=$this->getUser();
        if (isset($_POST["firstName"])){
-          $user->setFirstName($_POST["firstName"]);
+          $user->setFirstName($_POST["firstName"]) ;
        }
        if (isset($_POST["lastName"])){
         $user->setLastName($_POST["lastName"]) ;
@@ -51,7 +50,7 @@ class StudentController extends AbstractController
            $this->addFlash('error','you have to use an insat.u-carthage email : example@insat.u-carthage.tn');
        }
      }
-        $manager->persist($user);
+        $manager->persist($compte);
         $manager->flush();
         return $this->render("userProfile.html.twig");
     }

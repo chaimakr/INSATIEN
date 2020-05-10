@@ -30,7 +30,7 @@ class StudentController extends AbstractController
        // dd($this->getUser());
         $user=$this->getUser();
        if (isset($_POST["firstName"])){
-          $user->setFirstName($_POST["firstName"]);
+          $user->setFirstName($_POST["firstName"]) ;
        }
        if (isset($_POST["lastName"])){
         $user->setLastName($_POST["lastName"]) ;

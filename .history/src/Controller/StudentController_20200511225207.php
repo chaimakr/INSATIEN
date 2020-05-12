@@ -34,21 +34,23 @@ class StudentController extends AbstractController
       /**
      * @Route("/student/profile", name="profile")
      */
-    public function StudentProfile(Request $request, UserPasswordEncoderInterface $encoder , EntityManagerInterface $manager)
+    public function StudentProfile(UserPasswordEncoderInterface $encoder , EntityManagerInterface $manager)
     {
        // dd($this->getUser());
-        $user = $this->getUser();
+        $user = new User();
         $form = $this->createFormBuilder($user)
         ->add('firstName', TextType::class, [
             "attr" => [
                 "id" => "defaultRegisterFormFirstName",
-                "class" => "form-control"
+                "class" => "form-control",
+                "placeholder" => "First name"
             ]
         ])
         ->add('lastName', TextType::class, [
             "attr" => [
                 "id" => "defaultRegisterFormLastName",
-                "class" => "form-control"
+                "class" => "form-control",
+                "placeholder" => "Last name"
             ]
         ])
         ->add('email', TextType::class, [
@@ -58,7 +60,15 @@ class StudentController extends AbstractController
                 "placeholder" => "example@insat.u-carthage.tn"
             ]
         ])
-        ->add('password', PasswordType::class, [
+        /*->add('password', PasswordType::class, [
+            "attr" => [
+                "id" => "defaultRegisterFormPassword",
+                "class" => "form-control",
+                "placeholder" => "Current password",
+                "aria-describedby" => "defaultRegisterFormPasswordHelpBlock"
+            ]
+        ])*/
+        ->add('Password', PasswordType::class, [
             "attr" => [
                 "id" => "defaultRegisterFormPassword",
                 "class" => "form-control",
@@ -71,14 +81,6 @@ class StudentController extends AbstractController
             $form->handleRequest($request);
         } catch (\Exception $e) {
             echo "failed : " . $e->getMessage();
-        }
-        if ($form->isSubmitted() && $form->isValid()){
-           $currentPassword=$request->request->get('currentPassword');
-           $hash = $encoder->encodePassword($user,$currentPassword);
-           if($hash==$user->getPassword()){
-            $hash = $encoder->encodePassword($user,$request->request->get-('password'));
-            $user->setPassword($hash);
-           }
         }
 
        /*if (isset($_POST["firstName"])){
@@ -102,11 +104,9 @@ class StudentController extends AbstractController
        else{
            $this->addFlash('error','you have to use an insat.u-carthage email : example@insat.u-carthage.tn');
        }
-     }*/
+     }
         $manager->persist($user);
-        $manager->flush();
-        return $this->render("userProfile.html.twig", [
-            "form" => $form->createView()
-        ]);
+        $manager->flush();*/
+        return $this->render("userProfile.html.twig");
     }
 }

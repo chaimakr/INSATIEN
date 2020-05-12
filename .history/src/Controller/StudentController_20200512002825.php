@@ -72,14 +72,6 @@ class StudentController extends AbstractController
         } catch (\Exception $e) {
             echo "failed : " . $e->getMessage();
         }
-        if ($form->isSubmitted() && $form->isValid()){
-           $currentPassword=$request->request->get('currentPassword');
-           $hash = $encoder->encodePassword($user,$currentPassword);
-           if($hash==$user->getPassword()){
-            $hash = $encoder->encodePassword($user,$request->request->get-('password'));
-            $user->setPassword($hash);
-           }
-        }
 
        /*if (isset($_POST["firstName"])){
           $user->setFirstName($_POST["firstName"]);

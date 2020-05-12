@@ -62,7 +62,10 @@ class UserController extends AbstractController
             $user->setConfirmationCode($random_string);
             $manager->persist($user);
             $manager->flush();
-            $this->forward('App\Controller\MailingController::resendConfirmation');
+            $session = new Session();
+            $session->set(Security::LAST_USERNAME, $user->getEmail());
+            return $this->redirect('/anon/comfirmation');
+
         }
        else{
            $this->addFlash('error','you have to use an insat.u-carthage email : example@insat.u-carthage.tn');

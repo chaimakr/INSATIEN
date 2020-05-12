@@ -34,7 +34,7 @@ class StudentController extends AbstractController
       /**
      * @Route("/student/profile", name="profile")
      */
-    public function StudentProfile(Request $request, UserPasswordEncoderInterface $encoder , EntityManagerInterface $manager)
+    public function StudentProfile(UserPasswordEncoderInterface $encoder , EntityManagerInterface $manager)
     {
        // dd($this->getUser());
         $user = $this->getUser();
@@ -42,13 +42,15 @@ class StudentController extends AbstractController
         ->add('firstName', TextType::class, [
             "attr" => [
                 "id" => "defaultRegisterFormFirstName",
-                "class" => "form-control"
+                "class" => "form-control",
+                "placeholder" => "First name"
             ]
         ])
         ->add('lastName', TextType::class, [
             "attr" => [
                 "id" => "defaultRegisterFormLastName",
-                "class" => "form-control"
+                "class" => "form-control",
+                "placeholder" => "Last name"
             ]
         ])
         ->add('email', TextType::class, [
@@ -58,6 +60,14 @@ class StudentController extends AbstractController
                 "placeholder" => "example@insat.u-carthage.tn"
             ]
         ])
+        /*->add('password', PasswordType::class, [
+            "attr" => [
+                "id" => "defaultRegisterFormPassword",
+                "class" => "form-control",
+                "placeholder" => "Current password",
+                "aria-describedby" => "defaultRegisterFormPasswordHelpBlock"
+            ]
+        ])*/
         ->add('password', PasswordType::class, [
             "attr" => [
                 "id" => "defaultRegisterFormPassword",
@@ -66,19 +76,21 @@ class StudentController extends AbstractController
                 "aria-describedby" => "defaultRegisterFormPasswordHelpBlock"
             ]
         ])
+        ->add('Save changes', SubmitType::class, [
+            "attr" => [
+                "class" => "btn btn-success my-4 btn-block"
+            ]
+        ])
+        ->add('Cancel', ResetType::class, [
+            "attr" => [
+                "class" => "btn btn-warning my-4 btn-block"
+            ]
+        ])
         ->getForm();
         try {
             $form->handleRequest($request);
         } catch (\Exception $e) {
             echo "failed : " . $e->getMessage();
-        }
-        if ($form->isSubmitted() && $form->isValid()){
-           $currentPassword=$request->request->get('currentPassword');
-           $hash = $encoder->encodePassword($user,$currentPassword);
-           if($hash==$user->getPassword()){
-            $hash = $encoder->encodePassword($user,$request->request->get-('password'));
-            $user->setPassword($hash);
-           }
         }
 
        /*if (isset($_POST["firstName"])){

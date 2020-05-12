@@ -2,20 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\ResetType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\Security;
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 
 
 class StudentController extends AbstractController
@@ -34,21 +25,23 @@ class StudentController extends AbstractController
       /**
      * @Route("/student/profile", name="profile")
      */
-    public function StudentProfile(Request $request, UserPasswordEncoderInterface $encoder , EntityManagerInterface $manager)
+    public function StudentProfile(UserPasswordEncoderInterface $encoder , EntityManagerInterface $manager)
     {
        // dd($this->getUser());
-        $user = $this->getUser();
-        $form = $this->createFormBuilder($user)
+        $user = new User();
+        $form = $this->createFormBuilder($user);
         ->add('firstName', TextType::class, [
             "attr" => [
                 "id" => "defaultRegisterFormFirstName",
-                "class" => "form-control"
+                "class" => "form-control",
+                "placeholder" => "First name"
             ]
         ])
         ->add('lastName', TextType::class, [
             "attr" => [
                 "id" => "defaultRegisterFormLastName",
-                "class" => "form-control"
+                "class" => "form-control",
+                "placeholder" => "Last name"
             ]
         ])
         ->add('email', TextType::class, [
@@ -58,28 +51,22 @@ class StudentController extends AbstractController
                 "placeholder" => "example@insat.u-carthage.tn"
             ]
         ])
-        ->add('password', PasswordType::class, [
+        ->add('currentpassword', PasswordType::class, [
             "attr" => [
                 "id" => "defaultRegisterFormPassword",
                 "class" => "form-control",
-                "placeholder" => "New password",
+                "placeholder" => "Password",
                 "aria-describedby" => "defaultRegisterFormPasswordHelpBlock"
             ]
         ])
-        ->getForm();
-        try {
-            $form->handleRequest($request);
-        } catch (\Exception $e) {
-            echo "failed : " . $e->getMessage();
-        }
-        if ($form->isSubmitted() && $form->isValid()){
-           $currentPassword=$request->request->get('currentPassword');
-           $hash = $encoder->encodePassword($user,$currentPassword);
-           if($hash==$user->getPassword()){
-            $hash = $encoder->encodePassword($user,$request->request->get-('password'));
-            $user->setPassword($hash);
-           }
-        }
+        ->add('newPassword', PasswordType::class, [
+            "attr" => [
+                "id" => "defaultRegisterFormPassword",
+                "class" => "form-control",
+                "placeholder" => "Confirm Password",
+                "aria-describedby" => "defaultRegisterFormPasswordHelpBlock"
+            ]
+        ])
 
        /*if (isset($_POST["firstName"])){
           $user->setFirstName($_POST["firstName"]);
@@ -105,8 +92,6 @@ class StudentController extends AbstractController
      }*/
         $manager->persist($user);
         $manager->flush();
-        return $this->render("userProfile.html.twig", [
-            "form" => $form->createView()
-        ]);
+        return $this->render("userProfile.html.twig");
     }
 }

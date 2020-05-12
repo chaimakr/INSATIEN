@@ -58,6 +58,14 @@ class StudentController extends AbstractController
                 "placeholder" => "example@insat.u-carthage.tn"
             ]
         ])
+        /*->add('password', PasswordType::class, [
+            "attr" => [
+                "id" => "defaultRegisterFormPassword",
+                "class" => "form-control",
+                "placeholder" => "Current password",
+                "aria-describedby" => "defaultRegisterFormPasswordHelpBlock"
+            ]
+        ])*/
         ->add('password', PasswordType::class, [
             "attr" => [
                 "id" => "defaultRegisterFormPassword",
@@ -66,19 +74,22 @@ class StudentController extends AbstractController
                 "aria-describedby" => "defaultRegisterFormPasswordHelpBlock"
             ]
         ])
+        ->add('save', SubmitType::class, [
+            "attr" => [
+                "class" => "btn btn-success"
+            ],
+            'label' => 'Save changes'
+        ])
+        ->add('Cancel', ResetType::class, [
+            "attr" => [
+                "class" => "btn btn-default"
+            ]
+        ])
         ->getForm();
         try {
             $form->handleRequest($request);
         } catch (\Exception $e) {
             echo "failed : " . $e->getMessage();
-        }
-        if ($form->isSubmitted() && $form->isValid()){
-           $currentPassword=$request->request->get('currentPassword');
-           $hash = $encoder->encodePassword($user,$currentPassword);
-           if($hash==$user->getPassword()){
-            $hash = $encoder->encodePassword($user,$request->request->get-('password'));
-            $user->setPassword($hash);
-           }
         }
 
        /*if (isset($_POST["firstName"])){

@@ -80,16 +80,18 @@ class StudentController extends AbstractController
             $user->setPassword($hash);
            }
         }*/
-
-       if (isset($_POST["firstName"])&&$_POST["firstName"]){
+        echo "<pre>";
+        print_r($_POST);
+        echo "</pre>";
+       if ($_POST["firstName"]){
             $user->setFirstName($_POST["firstName"]);
        }
-       if (isset($_POST["lastName"])&&$_POST["lastName"]){
+       if ($_POST["lastName"]){
             $user->setLastName($_POST["lastName"]) ;
        }
-       if(isset($_POST["newPassword"])&&$_POST["newPassword"]){
+       if($_POST["newPassword"]){
             if((strlen($_POST["newPassword"])>7)){  
-                if(isset($_POST["currentPassword"])&&$_POST["currentPassword"]){
+                if($_POST["currentPassword"]){
                         $hash = $encoder->encodePassword($user, $_POST["currentPassword"]);
                         if($user->getPassword()==$hash){
                                 $hash = $encoder->encodePassword($user, $_POST["newPassword"]);
@@ -104,7 +106,7 @@ class StudentController extends AbstractController
                 $this->addFlash('error','your new password must contain at least 8 characters !');
             }
         }
-       if (isset($_POST["email"])&&$_POST["email"]){
+       if ($_POST["email"]){
         if (preg_match("#@insat.u-carthage.tn#",$_POST["email"])){
             $user->setEmail($_POST["email"]) ;
             $input = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';

@@ -4,11 +4,12 @@ namespace App\Entity;
 
 use App\Repository\MapPointRepository;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 /**
  * @ORM\Entity(repositoryClass=MapPointRepository::class)
  */
-class MapPoint
+class MapPoint implements JsonSerializable
 {
     /**
      * @ORM\Id()
@@ -72,5 +73,20 @@ class MapPoint
         $this->y = $y;
 
         return $this;
+    }
+
+
+
+
+    /**
+     * @inheritDoc
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'x'=>$this->getX(),
+            'y'=>$this->getY(),
+            'covoiturageId'=>$this->getCovoiturage()->getId()
+        ];
     }
 }

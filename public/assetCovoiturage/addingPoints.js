@@ -49,7 +49,7 @@ map.addLayer(pointsLayer);
 countMarkers = 0;
 
 
-pointDiv = document.querySelector('#pointDiv');
+pointDiv = $('#pointDiv')[0];
 
 
 map.on('click', (event) => {
@@ -59,10 +59,9 @@ map.on('click', (event) => {
         geometry: new ol.geom.Point(event.coordinate),
     });
     marker.id_ = countMarkers;
-    console.log(marker);
+
     pointsLayer.getSource().addFeatures([marker]);
 
-    console.log(marker.getGeometry());
     newPointDiv = "<div id=\"point" + countMarkers + "\" class=\"card text-white bg-dark mb-3\" style=\"width: 100%;\">" +
 
         "                <div class=\"card-body\">" +
@@ -96,7 +95,7 @@ function searchMarker(id) {
 
 function remove(id) {
     pointsLayer.getSource().removeFeature(searchMarker(id));
-    document.querySelector('#point' + id).remove();
+   $('#point' + id)[0].remove();
 
 };
 
@@ -132,3 +131,19 @@ map.on('pointermove', (event) => {
         return 1;
     })
 });
+
+function jsonPoints(){
+    let json=[];
+    let point;
+    pointsLayer.getSource().getFeatures().forEach((feature)=>{
+        // json+=('{"x":"'+point.getGeometry().flatCoordinates[0]+'",'+'{"y":"'+point.getGeometry().flatCoordinates[1]+'"');
+        point=new Object();
+        point.x=feature.getGeometry().flatCoordinates[0];
+        point.y=feature.getGeometry().flatCoordinates[1];
+        json.push(point);
+    });
+
+
+    $('#form_points')[0].value=JSON.stringify(json);
+
+}

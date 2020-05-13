@@ -30,6 +30,11 @@ class Covoiturage
      */
     private $mapPoints;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $moreDetails;
+
     public function __construct()
     {
         $this->mapPoints = new ArrayCollection();
@@ -79,6 +84,18 @@ class Covoiturage
                 $mapPoint->setCovoiturage(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMoreDetails(): ?string
+    {
+        return $this->moreDetails;
+    }
+
+    public function setMoreDetails(?string $moreDetails): self
+    {
+        $this->moreDetails = $moreDetails;
 
         return $this;
     }

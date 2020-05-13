@@ -62,11 +62,12 @@ map.on('click', (event) => {
     console.log(marker);
     pointsLayer.getSource().addFeatures([marker]);
 
-    newPointDiv = "<div id=\"point" + countMarkers + "\" class=\"card text-white bg-dark mb-3\" style=\"width: 18rem;\">" +
+    console.log(marker.getGeometry());
+    newPointDiv = "<div id=\"point" + countMarkers + "\" class=\"card text-white bg-dark mb-3\" style=\"width: 100%;\">" +
 
         "                <div class=\"card-body\">" +
         "                    <h5 class=\"card-title\"> Point" + countMarkers + "</h5>" +
-        "                    <p class=\"card-text\"> text content.</p>" +
+        "                    <p class=\"card-text\"> ["+ marker.getGeometry().flatCoordinates +"]</p>" +
         "                    <button onclick=\"remove(" + countMarkers + ")\" class=\"btn btn-primary\">remove point</button>" +
         "                </div>" +
         "            </div>"
@@ -127,6 +128,7 @@ map.on('pointermove', (event) => {
         card.classList.add("bg-info");
         selectedPoints.push(feature);
         feature.setStyle(yellowStyle);
+        $('#pointDiv')[0].scrollTop=130*Array.prototype.indexOf.call($('#pointDiv')[0].children,$('#point'+feature.id_)[0]);
         return 1;
     })
 });

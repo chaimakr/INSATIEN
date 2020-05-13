@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -65,6 +67,16 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=20)
      */
     private $registerAs;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Covoiturage::class, mappedBy="owner", orphanRemoval=true)
+     */
+    private $covoiturages;
+
+    public function __construct()
+    {
+        $this->covoiturages = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -166,5 +178,36 @@ class User implements UserInterface
 
         else
             return['IS_AUTHENTICATED_ANONYMOUSLY'];
+    }
+
+    /**
+     * @return Collection|Covoiturage[]
+     */
+    public function getCovoiturages(): Collection
+    {
+        return $this->covoiturages;
+    }
+
+    public function addCovoiturage(Covoiturage $covoiturage): self
+    {
+        if (!$this->covoiturages->contains($covoiturage)) {
+            $this->covoiturages[] = $covoiturage;
+            $covoiturage->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCovoiturage(Covoiturage $covoiturage): self
+    {
+        if ($this->covoiturages->contains($covoiturage)) {
+            $this->covoiturages->removeElement($covoiturage);
+            // set the owning side to null (unless already changed)
+            if ($covoiturage->getOwner() === $this) {
+                $covoiturage->setOwner(null);
+            }
+        }
+
+        return $this;
     }
 }

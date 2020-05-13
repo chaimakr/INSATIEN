@@ -128,7 +128,7 @@ map.on('pointermove', (event) => {
         card.classList.add("bg-info");
         selectedPoints.push(feature);
         feature.setStyle(yellowStyle);
-        $('#pointDiv')[0].scrollTop=130*Array.prototype.indexOf.call($('#pointDiv')[0].children,$('#point'+feature.id_)[0]);
+        $('#pointDiv')[0].scrollTop=-160+160*Array.prototype.indexOf.call($('#pointDiv')[0].children,$('#point'+feature.id_)[0]);
         return 1;
     })
 });

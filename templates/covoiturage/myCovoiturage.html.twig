@@ -9,6 +9,8 @@
             <th scope="col">Departure Point</th>
             <th scope="col">Arrival Point</th>
             <th scope="col">Type</th>
+            <th scope="col">Departure Time</th>
+            <th scope="col">Return Time</th>
             <th scope="col">More Details</th>
 
         </tr>
@@ -20,6 +22,8 @@
                 <td>{{ covoiturage.departurePoint }}</td>
                 <td>{{ covoiturage.arrivalPoint }}</td>
                 <td>{{ covoiturage.type }}</td>
+                <td>{{ covoiturage.departureTime|date('H:i') }}</td>
+                <td>{{ covoiturage.returnTime|date('H:i') }}</td>
                 <td>{{covoiturage.moreDetails }}</td>
                 <td><a href="/covoiturage/delete/{{covoiturage.id }}">
                         <i class="far fa-trash-alt"></i>

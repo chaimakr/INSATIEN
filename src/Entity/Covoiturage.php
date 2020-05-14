@@ -31,9 +31,36 @@ class Covoiturage
     private $mapPoints;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="string",length=65532, nullable=true)
      */
     private $moreDetails;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $departurePoint;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $arrivalPoint;
+
+    /**
+     * @ORM\Column(type="string", length=20)
+     */
+    private $type;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $departureTime;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $returnTime;
+
+
 
     public function __construct()
     {
@@ -99,4 +126,66 @@ class Covoiturage
 
         return $this;
     }
+
+    public function getDeparturePoint(): ?string
+    {
+        return $this->departurePoint;
+    }
+
+    public function setDeparturePoint(string $departurePoint): self
+    {
+        $this->departurePoint = $departurePoint;
+
+        return $this;
+    }
+
+    public function getArrivalPoint(): ?string
+    {
+        return $this->arrivalPoint;
+    }
+
+    public function setArrivalPoint(string $arrivalPoint): self
+    {
+        $this->arrivalPoint = $arrivalPoint;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getDepartureTime(): ?int
+    {
+        return $this->departureTime;
+    }
+
+    public function setDepartureTime(?int $departureTime): self
+    {
+        $this->departureTime = $departureTime;
+
+        return $this;
+    }
+
+    public function getReturnTime(): ?int
+    {
+        return $this->returnTime;
+    }
+
+    public function setReturnTime(?int $returnTime): self
+    {
+        $this->returnTime = $returnTime;
+
+        return $this;
+    }
+
+
 }

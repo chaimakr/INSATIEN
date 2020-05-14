@@ -101,15 +101,16 @@ var selectedPoints=[];
 
 
 
-let owner=null;
+let covoiturage=null;
 
 
 map.on('click', (event) => {
     map.forEachFeatureAtPixel(event.pixel, (feature) => {
         $.ajax({
-            url:'/covoiturage/getOwner?covoiturageId='+feature.values_.covoiturageId,
+            url:'/covoiturage/getCovoiturage?covoiturageId='+feature.values_.covoiturageId,
             success:function (data) {
-                owner=JSON.parse(data);
+                console.log(data);
+                covoiturage=JSON.parse(data);
             }
         });
         addCard(feature.values_covoiturageId);
@@ -121,14 +122,30 @@ map.on('click', (event) => {
 });
 function addCard(covoiturageId){
 
-    if(owner) {
-        $('#card')[0].innerHTML="<div class=\"card text-white bg-dark mb-3\" style=\"max-width: 100%;\">" +
-            "  <div class=\"card-header\">"+ "Offre de "+ owner.firstName+" "+ owner.lastName+"</div>" +
+    if(covoiturage) {
+
+        html="<div class=\"card text-white bg-dark mb-3\" style=\"max-width: 100%;\">" +
+            "  <div class=\"card-header\">"+ "Offre de "+ covoiturage.firstName+" "+ covoiturage.lastName+"</div>" +
             "  <div class=\"card-body\">" +
-            "    <h5 class=\"card-title\">"+ "email : "+owner.email +"</h5>" +
-            "    <p class=\"card-text\">"+"details : "+owner.moreDetails +"</p>" +
+            "    <h5 class=\"card-title\">"+ "email : "+covoiturage.email +"</h5>" +
+
+            "    <p class=\"card-text\">"+"departure point : "+covoiturage.departurePoint +"</p>" +
+            "    <p class=\"card-text\">"+"arrival point : "+covoiturage.arrivalPoint +"</p>" +
+            "    <p class=\"card-text\">"+"type : "+covoiturage.type +"</p>"+
+            "    <p class=\"card-text\">"+"departure time : "+
+            (new Date(covoiturage.departureTime*1000-3600*1000)).toString().substring(16,21) +"</p>" ;
+
+
+        if(covoiturage.type=='twoWay') html+="    <p class=\"card-text\">"+"return time : "+
+            (new Date(covoiturage.returnTime*1000-3600*1000)).toString().substring(16,21)+"</p>" ;
+
+
+
+            html+="    <p class=\"card-text\">"+"details : "+covoiturage.moreDetails +"</p>" +
             "  </div>" +
             "</div>";
+
+        $('#card')[0].innerHTML=html;
         owner=null;
 
     }else setTimeout(addCard,300,covoiturageId);

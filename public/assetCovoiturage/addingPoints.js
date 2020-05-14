@@ -147,3 +147,10 @@ function jsonPoints(){
     $('#form_points')[0].value=JSON.stringify(json);
 
 }
+function checkType() {
+
+    if($('#form_type')[0].value==='oneWay')
+        $('#form_returnTime')[0].parentNode.style.display = 'none';
+    else $('#form_returnTime')[0].parentNode.style.display = 'block';
+
+}

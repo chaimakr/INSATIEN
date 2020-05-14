@@ -125,7 +125,7 @@ function addCard(covoiturageId){
     if(covoiturage) {
 
         html="<div class=\"card text-white bg-dark mb-3\" style=\"max-width: 100%;\">" +
-            "  <div class=\"card-header\">"+ "Offre de "+ covoiturage.firstName+" "+ covoiturage.lastName+"</div>" +
+            "  <div class=\"card-header\"><h2>"+ "Offre de "+ covoiturage.firstName+" "+ covoiturage.lastName+"</h2></div>" +
             "  <div class=\"card-body\">" +
             "    <h5 class=\"card-title\">"+ "email : "+covoiturage.email +"</h5>" +
 
@@ -140,15 +140,19 @@ function addCard(covoiturageId){
             (new Date(covoiturage.returnTime*1000-3600*1000)).toString().substring(16,21)+"</p>" ;
 
 
+        if(covoiturage.moreDetails)
+            html+="    <p class=\"card-text\">"+"details : "+covoiturage.moreDetails +"</p>"
 
-            html+="    <p class=\"card-text\">"+"details : "+covoiturage.moreDetails +"</p>" +
-            "  </div>" +
-            "</div>";
+
+        html+="  </div>" +"</div>";
 
         $('#card')[0].innerHTML=html;
-        owner=null;
+        covoiturage=null;
 
-    }else setTimeout(addCard,300,covoiturageId);
+    }else {
+        $('#card')[0].innerHTML='';
+        setTimeout(addCard,200,covoiturageId);
+    }
 
 
 }

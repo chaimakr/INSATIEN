@@ -160,5 +160,48 @@ class CovoiturageController extends AbstractController
 
 
     }
+    /**
+     * @Route("/covoiturage/myCovoiturage", name="myCovoiturage")
+     */
+    public function myCovoiturage(Request $request)
+    {
+
+        $manager=$this->getDoctrine()->getManager();
+        $covoiturages=$manager->getRepository('App:Covoiturage')->findByOwner($this->getUser()->getId());
+
+
+        return $this->render('covoiturage/myCovoiturage.html.twig',[
+            "covoiturages"=>$covoiturages
+        ]);
+
+
+
+
+    }
+    /**
+     * @Route("/covoiturage/delete/{covoiturageId}", name="deleteCovoiturage")
+     */
+    public function deleteCovoiturage($covoiturageId)
+    {
+
+
+        $manager=$this->getDoctrine()->getManager();
+        $covoiturage=$manager->getRepository('App:Covoiturage')->findOneById($covoiturageId);
+        if($covoiturage->getOwner()->getId()!=$this->getUser()->getId())
+            $this->addFlash('error', "deletion failed !!");
+
+        else{
+            $manager->remove($covoiturage);
+            $manager->flush();
+
+        }
+
+        return $this->redirect('/covoiturage/myCovoiturage');
+
+
+
+
+
+    }
 
 }

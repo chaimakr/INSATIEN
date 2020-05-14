@@ -1,0 +1,36 @@
+{% extends 'StudentBase.html.twig' %}
+{% block body %}
+
+    <table class="table table-dark">
+        <thead>
+        <tr>
+
+            <th scope="col">ID</th>
+            <th scope="col">Departure Point</th>
+            <th scope="col">Arrival Point</th>
+            <th scope="col">Type</th>
+            <th scope="col">More Details</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for covoiturage in covoiturages %}
+            <tr>
+                <th scope="row">{{ covoiturage.id }}</th>
+                <td>{{ covoiturage.departurePoint }}</td>
+                <td>{{ covoiturage.arrivalPoint }}</td>
+                <td>{{ covoiturage.type }}</td>
+                <td>{{covoiturage.moreDetails }}</td>
+                <td><a href="/covoiturage/delete/{{covoiturage.id }}">
+                        <i class="far fa-trash-alt"></i>
+                    </a></td>
+
+
+
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+{% endblock %}

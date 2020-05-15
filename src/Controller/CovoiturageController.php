@@ -28,72 +28,104 @@ class CovoiturageController extends AbstractController
         ]);
     }
 
+
+
+
     /**
      * @Route("/covoiturage/add", name="AddCovoiturage")
      */
-        public function add(Request $request)
+    public function add(Request $request)
     {
 //        dd(json_decode('{"xxx":"yyy"}',true));
-        $covoiturage=new Covoiturage();
-        $manager=$this->getDoctrine()->getManager();
-        $user=$manager->getRepository('App:User')->findOneById($this->getUser()->getId());
+
+        $covoiturage = new Covoiturage();
+        $manager = $this->getDoctrine()->getManager();
+        $user = $manager->getRepository('App:User')->findOneById($this->getUser()->getId());
         $covoiturage->setOwner($user);
 
-        $form=$this->createFormBuilder($covoiturage)
-            ->add('departurePoint',TextType::class, [
+        if (($request->get('modifyId'))) {
+            $covoiturage = $manager->getRepository('App:Covoiturage')->findOneById($request->get('modifyId'));
+            if ($covoiturage && $covoiturage->getOwner() == $this->getUser()) {
+                $points = [];
+                foreach ($covoiturage->getMapPoints() as $point) {
+                    array_push($points, $point);
+
+                }
+
+                $jsonPoints = json_encode($points);
+                foreach ($covoiturage->getMapPoints() as $point) {
+                    $covoiturage->removeMapPoint($point);
+
+                }
+
+            } else {
+                $this->addFlash('error', 'you don\'t own this covoiturage !');
+                return $this->redirect('/covoiturage/show');
+            }
+        };
+
+
+        $form = $this->createFormBuilder($covoiturage)
+            ->add('departurePoint', TextType::class, [
                 "attr" => [
                     "placeholder" => "Location name",
                 ]
             ])
-            ->add('arrivalPoint',TextType::class, [
+            ->add('arrivalPoint', TextType::class, [
                 "attr" => [
                     "placeholder" => "location name",
                 ]
             ])
-            ->add('type',ChoiceType::class, [
+            ->add('type', ChoiceType::class, [
                 "choices" => [
                     "one way" => "oneWay",
                     "two way" => "twoWay"
                 ],
-                "attr"=>[
-                    "onclick"=>"checkType()"
+                "attr" => [
+                    "onclick" => "checkType()"
                 ]
-                ])
+            ])
             ->add('departureTime', TimeType::class, [
-                'input'  => 'timestamp',
+                'input' => 'timestamp',
                 'widget' => 'choice',
             ])
             ->add('returnTime', TimeType::class, [
-                'input'  => 'timestamp',
+                'input' => 'timestamp',
                 'widget' => 'choice',
 
             ])
+            ->add('moreDetails', TextareaType::class, [
+                "required" => false
+            ]);
+        if (($request->get('modifyId')))
+            $form=$form->add('modify offer', SubmitType::class, [
+                "attr" => [
+                    "onclick" => 'jsonPoints()'
 
-            ->add('moreDetails',TextareaType::class,[
-                "required"=>false
-            ])
-
-            ->add('add offer',SubmitType::class,[
-                "attr"=>[
-                    "onclick"=>'jsonPoints()'
+                ]
+            ])->getForm();
+        else
+            $form=$form->add('add offer', SubmitType::class, [
+                "attr" => [
+                    "onclick" => 'jsonPoints()'
 
                 ]
             ])
-
             ->getForm();
+
 
         $form->handleRequest($request);
 
 
-        if ($form->isSubmitted() && $form->isValid()){
-            if($form->get('type')->getViewData()=='oneWay')
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('type')->getViewData() == 'oneWay')
                 $covoiturage->setReturnTime(null);
 
 
 //            dd($covoiturage->getMoreDetails());
-            $points=json_decode($_POST['points'],true);
-            foreach ($points as $element){
-                $point=new MapPoint();
+            $points = json_decode($_POST['points'], true);
+            foreach ($points as $element) {
+                $point = new MapPoint();
                 $point->setX($element['x']);
                 $point->setY($element['y']);
                 $point->setCovoiturage($covoiturage);
@@ -101,17 +133,31 @@ class CovoiturageController extends AbstractController
 
             }
 
-           $manager->persist($covoiturage);
-            $this->addFlash('success','offre covoiturage ajouté avec succés');
+            $manager->persist($covoiturage);
             $manager->flush();
+            if (isset($jsonPoints)) {
+                $this->addFlash('success', 'offre covoiturage modifié avec succés');
+                return $this->redirect('/covoiturage/myCovoiturage');
+            }
+            $this->addFlash('success', 'offre covoiturage ajouté avec succés');
+
             return $this->redirect('/covoiturage/add');
         }
 
+        if (isset($jsonPoints))
 
             return $this->render('covoiturage/addCovoiturage.html.twig', [
-            'form'=>$form->createView()
+                'form' => $form->createView(),
+                'jsonPoints' => $jsonPoints
+            ]);
+        else  return $this->render('covoiturage/addCovoiturage.html.twig', [
+            'form' => $form->createView()
+
         ]);
     }
+
+
+
 
     /**
      * @Route("/covoiturage/show", name="showCovoiturage")
@@ -121,18 +167,25 @@ class CovoiturageController extends AbstractController
         return $this->render('covoiturage/showCovoiturage.html.twig');
     }
 
+
+
+
     /**
      * @Route("/covoiturage/getPoints", name="json points")
      */
     public function Points()
     {
 
-        $manager=$this->getDoctrine()->getManager();
-        $mapPoints=$manager->getRepository('App:MapPoint')->findAll();
+
+        $manager = $this->getDoctrine()->getManager();
+        $mapPoints = $manager->getRepository('App:MapPoint')->findAll();
         return new Response(json_encode($mapPoints));
 
 
     }
+
+
+
 
     /**
      * @Route("/covoiturage/getCovoiturage", name="get covoiturage")
@@ -141,43 +194,46 @@ class CovoiturageController extends AbstractController
     {
 
 
-        if($request->get('covoiturageId')!=null){
-            $manager=$this->getDoctrine()->getManager();
-            $covoiturage=$manager->getRepository('App:Covoiturage')->findOneById($request->get('covoiturageId'));
-            $owner=$manager->getRepository('App:User')->findOneById($covoiturage->getOwner()->getId());
+        if ($request->get('covoiturageId') != null) {
+            $manager = $this->getDoctrine()->getManager();
+            $covoiturage = $manager->getRepository('App:Covoiturage')->findOneById($request->get('covoiturageId'));
+            $owner = $manager->getRepository('App:User')->findOneById($covoiturage->getOwner()->getId());
 
-            return new Response('{"firstName":"'.$owner->getFirstName().'","lastName":"'.$owner->getLastName().
-                '","email":"'.$owner->getEmail().'","moreDetails":"'.$covoiturage->getMoreDetails().'","departurePoint":"'.
-                $covoiturage->getDeparturePoint().'",'.'"arrivalPoint":"'.$covoiturage->getArrivalPoint().'",'
-                .'"type":"'.$covoiturage->getType().'",'.'"departureTime":"'.$covoiturage->getDepartureTime().'",'
-                .'"returnTime":"'.$covoiturage->getReturnTime().
+            return new Response('{"firstName":"' . $owner->getFirstName() . '","lastName":"' . $owner->getLastName() .
+                '","email":"' . $owner->getEmail() . '","moreDetails":"' . $covoiturage->getMoreDetails() . '","departurePoint":"' .
+                $covoiturage->getDeparturePoint() . '",' . '"arrivalPoint":"' . $covoiturage->getArrivalPoint() . '",'
+                . '"type":"' . $covoiturage->getType() . '",' . '"departureTime":"' . $covoiturage->getDepartureTime() . '",'
+                . '"returnTime":"' . $covoiturage->getReturnTime() .
                 '"}'
             );
-        }
-        else return new Response('{}');
-
-
+        } else return new Response('{}');
 
 
     }
+
+
+
+
     /**
      * @Route("/covoiturage/myCovoiturage", name="myCovoiturage")
      */
     public function myCovoiturage(Request $request)
     {
 
-        $manager=$this->getDoctrine()->getManager();
-        $covoiturages=$manager->getRepository('App:Covoiturage')->findByOwner($this->getUser()->getId());
+        $manager = $this->getDoctrine()->getManager();
+        $covoiturages = $manager->getRepository('App:Covoiturage')->findByOwner($this->getUser()->getId());
 
 
-        return $this->render('covoiturage/myCovoiturage.html.twig',[
-            "covoiturages"=>$covoiturages
+        return $this->render('covoiturage/myCovoiturage.html.twig', [
+            "covoiturages" => $covoiturages
         ]);
 
 
-
-
     }
+
+
+
+
     /**
      * @Route("/covoiturage/delete/{covoiturageId}", name="deleteCovoiturage")
      */
@@ -185,21 +241,18 @@ class CovoiturageController extends AbstractController
     {
 
 
-        $manager=$this->getDoctrine()->getManager();
-        $covoiturage=$manager->getRepository('App:Covoiturage')->findOneById($covoiturageId);
-        if($covoiturage->getOwner()->getId()!=$this->getUser()->getId())
+        $manager = $this->getDoctrine()->getManager();
+        $covoiturage = $manager->getRepository('App:Covoiturage')->findOneById($covoiturageId);
+        if ($covoiturage->getOwner()->getId() != $this->getUser()->getId())
             $this->addFlash('error', "deletion failed !!");
 
-        else{
+        else {
             $manager->remove($covoiturage);
             $manager->flush();
 
         }
 
         return $this->redirect('/covoiturage/myCovoiturage');
-
-
-
 
 
     }

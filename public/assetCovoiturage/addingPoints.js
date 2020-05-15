@@ -47,7 +47,7 @@ map.addLayer(pointsLayer);
 
 
 countMarkers = 0;
-
+initialPoints();
 
 pointDiv = $('#pointDiv')[0];
 
@@ -65,8 +65,8 @@ map.on('click', (event) => {
     newPointDiv = "<div id=\"point" + countMarkers + "\" class=\"card text-white bg-dark mb-3\" style=\"width: 100%;\">" +
 
         "                <div class=\"card-body\">" +
-        "                    <h5 class=\"card-title\"> Point" + countMarkers + "</h5>" +
-        "                    <p class=\"card-text\"> ["+ marker.getGeometry().flatCoordinates +"]</p>" +
+        "                    <h5 class=\"card-title\"> Point :" + "</h5>" +
+        "                    <p class=\"card-text\"> [" + marker.getGeometry().flatCoordinates + "]</p>" +
         "                    <button onclick=\"remove(" + countMarkers + ")\" class=\"btn btn-primary\">remove point</button>" +
         "                </div>" +
         "            </div>"
@@ -75,6 +75,35 @@ map.on('click', (event) => {
 
     countMarkers++;
 });
+
+
+
+function initialPoints() {
+
+    points =JSON.parse( $('#form_points')[0].value);
+    points.forEach((point) => {
+        var marker = new ol.Feature({
+            geometry: new ol.geom.Point([point.x, point.y]),
+        });
+        marker.id_ = countMarkers;
+
+        pointsLayer.getSource().addFeatures([marker]);
+
+        newPointDiv = "<div id=\"point" + countMarkers + "\" class=\"card text-white bg-dark mb-3\" style=\"width: 100%;\">" +
+
+            "                <div class=\"card-body\">" +
+            "                    <h5 class=\"card-title\"> Point :" + "</h5>" +
+            "                    <p class=\"card-text\"> [" + marker.getGeometry().flatCoordinates + "]</p>" +
+            "                    <button onclick=\"remove(" + countMarkers + ")\" class=\"btn btn-primary\">remove point</button>" +
+            "                </div>" +
+            "            </div>"
+
+        pointDiv.appendChild(document.createRange().createContextualFragment(newPointDiv));
+
+        countMarkers++;
+    });
+
+}
 
 
 
@@ -95,7 +124,7 @@ function searchMarker(id) {
 
 function remove(id) {
     pointsLayer.getSource().removeFeature(searchMarker(id));
-   $('#point' + id)[0].remove();
+    $('#point' + id)[0].remove();
 
 };
 
@@ -103,7 +132,7 @@ selectedPoints = [];
 selectedCards = [];
 
 map.on('pointermove', (event) => {
-    if (selectedPoints.length > 0 && selectedCards.length>0) {
+    if (selectedPoints.length > 0 && selectedCards.length > 0) {
         selectedPoints.forEach((point) => {
             point.setStyle(redStyle);
 
@@ -127,29 +156,34 @@ map.on('pointermove', (event) => {
         card.classList.add("bg-info");
         selectedPoints.push(feature);
         feature.setStyle(yellowStyle);
-        $('#pointDiv')[0].scrollTop=-160+160*Array.prototype.indexOf.call($('#pointDiv')[0].children,$('#point'+feature.id_)[0]);
+        $('#pointDiv')[0].scrollTop = -160 + 160 * Array.prototype.indexOf.call($('#pointDiv')[0].children, $('#point' + feature.id_)[0]);
         return 1;
     })
 });
 
-function jsonPoints(){
-    let json=[];
+
+
+function jsonPoints() {
+    let json = [];
     let point;
-    pointsLayer.getSource().getFeatures().forEach((feature)=>{
+    pointsLayer.getSource().getFeatures().forEach((feature) => {
         // json+=('{"x":"'+point.getGeometry().flatCoordinates[0]+'",'+'{"y":"'+point.getGeometry().flatCoordinates[1]+'"');
-        point=new Object();
-        point.x=feature.getGeometry().flatCoordinates[0];
-        point.y=feature.getGeometry().flatCoordinates[1];
+        point = new Object();
+        point.x = feature.getGeometry().flatCoordinates[0];
+        point.y = feature.getGeometry().flatCoordinates[1];
         json.push(point);
     });
 
 
-    $('#form_points')[0].value=JSON.stringify(json);
+    $('#form_points')[0].value = JSON.stringify(json);
 
 }
+
+
+
 function checkType() {
 
-    if($('#form_type')[0].value==='oneWay')
+    if ($('#form_type')[0].value === 'oneWay')
         $('#form_returnTime')[0].parentNode.style.display = 'none';
     else $('#form_returnTime')[0].parentNode.style.display = 'block';
 

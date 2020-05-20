@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -15,12 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(
  * fields = {"email"},
  * message = "the email you typed is already in use"
- * ) 
- * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({
- * "user" = "User", "student" = "Student","teacher" = "Teacher"
- * })
+ * )
  */
 class User implements UserInterface
 {
@@ -72,22 +65,6 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=20)
      */
     private $registerAs;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Covoiturage::class, mappedBy="owner", orphanRemoval=true)
-     */
-    private $covoiturages;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Question::class, mappedBy="owner", orphanRemoval=true)
-     */
-    private $questions;
-
-    public function __construct()
-    {
-        $this->covoiturages = new ArrayCollection();
-        $this->questions = new ArrayCollection();
-    }
 
 
     public function getId(): ?int
@@ -189,67 +166,5 @@ class User implements UserInterface
 
         else
             return['IS_AUTHENTICATED_ANONYMOUSLY'];
-    }
-
-    /**
-     * @return Collection|Covoiturage[]
-     */
-    public function getCovoiturages(): Collection
-    {
-        return $this->covoiturages;
-    }
-
-    public function addCovoiturage(Covoiturage $covoiturage): self
-    {
-        if (!$this->covoiturages->contains($covoiturage)) {
-            $this->covoiturages[] = $covoiturage;
-            $covoiturage->setOwner($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCovoiturage(Covoiturage $covoiturage): self
-    {
-        if ($this->covoiturages->contains($covoiturage)) {
-            $this->covoiturages->removeElement($covoiturage);
-            // set the owning side to null (unless already changed)
-            if ($covoiturage->getOwner() === $this) {
-                $covoiturage->setOwner(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Question[]
-     */
-    public function getQuestions(): Collection
-    {
-        return $this->questions;
-    }
-
-    public function addQuestion(Question $question): self
-    {
-        if (!$this->questions->contains($question)) {
-            $this->questions[] = $question;
-            $question->setOwner($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQuestion(Question $question): self
-    {
-        if ($this->questions->contains($question)) {
-            $this->questions->removeElement($question);
-            // set the owning side to null (unless already changed)
-            if ($question->getOwner() === $this) {
-                $question->setOwner(null);
-            }
-        }
-
-        return $this;
     }
 }

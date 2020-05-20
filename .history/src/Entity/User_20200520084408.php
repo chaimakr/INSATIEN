@@ -78,15 +78,9 @@ class User implements UserInterface
      */
     private $covoiturages;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Question::class, mappedBy="owner", orphanRemoval=true)
-     */
-    private $questions;
-
     public function __construct()
     {
         $this->covoiturages = new ArrayCollection();
-        $this->questions = new ArrayCollection();
     }
 
 
@@ -216,37 +210,6 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($covoiturage->getOwner() === $this) {
                 $covoiturage->setOwner(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Question[]
-     */
-    public function getQuestions(): Collection
-    {
-        return $this->questions;
-    }
-
-    public function addQuestion(Question $question): self
-    {
-        if (!$this->questions->contains($question)) {
-            $this->questions[] = $question;
-            $question->setOwner($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQuestion(Question $question): self
-    {
-        if ($this->questions->contains($question)) {
-            $this->questions->removeElement($question);
-            // set the owning side to null (unless already changed)
-            if ($question->getOwner() === $this) {
-                $question->setOwner(null);
             }
         }
 

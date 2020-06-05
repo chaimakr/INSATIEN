@@ -14,12 +14,13 @@
   
       <!-- Registeration Form -->
       <div class="col-md-7 col-lg-6 ml-auto">
-        {{ form_start(form, {'attr' : {'novalidate' : 'novalidate' , 'autocomplete' : 'off'}}) }}
-        <div class="row">
+        <form method="POST">
+          <div class="row">
+            {{ form_start(form) }}
             <!-- First Name -->
-            {{ form_errors(form.firstName) }}
             <div class="input-group col-lg-6 mb-4">
               <div class="input-group-prepend">
+                <div>{{ form_errors(form.firstName) }}</div>
                 <span class="input-group-text bg-white px-4 border-md border-right-0">
                   <i class="fa fa-user text-muted"></i>
                 </span>
@@ -28,9 +29,9 @@
             </div>
   
             <!-- Last Name -->
-            {{ form_errors(form.lastName) }}
             <div class="input-group col-lg-6 mb-4">
               <div class="input-group-prepend">
+                <div>{{ form_errors(form.lastName) }}</div>
                 <span class="input-group-text bg-white px-4 border-md border-right-0">
                   <i class="fa fa-user text-muted"></i>
                 </span>
@@ -84,11 +85,12 @@
             </div>
             <!-- Already Registered -->
             <div class="text-center w-100">
-              <p class="text-muted font-weight-bold">Already Registered? <a href="/anon/confirmWithoutRegister" class="text-primary ml-2">comfirmation</a></p>
+              <p class="text-muted font-weight-bold">Already Registered? <a href="/app_login" class="text-primary ml-2">Login</a></p>
             </div>
   
           </div>
           {{ form_end(form) }}
+        </form>
       </div>
     </div>
   </div>

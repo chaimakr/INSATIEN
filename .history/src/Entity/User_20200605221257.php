@@ -45,8 +45,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
-     * @Assert\Regex(
+     *  @Assert\Regex(
      * pattern="#@insat.u-carthage.tn#",
      * message="use your insat.u-carthage mail ya haj")
      */
@@ -55,7 +54,6 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
      *  @Assert\Length(min="8",minMessage="your password should contain at least 8 characters !")
      */
 
@@ -63,7 +61,6 @@ class User implements UserInterface
     private $password;
     
     /**
-     * @Assert\NotBlank
      * @Assert\EqualTo(propertyPath="password" , message="Passwords do no match")
      */
     private $confirmPassword;

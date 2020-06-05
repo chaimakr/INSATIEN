@@ -90,7 +90,10 @@ class PreSignInController extends AbstractController
                     $this->addFlash('succes','your email is confirmed .');
                     return $this->render("user/userProfile.html.twig");
                 } else
-                $this->addFlash('info','wrong confirmation code .');
+                $this->addFlash('succes','wrong confirmation code .');
+                 return $this->render("pre_sign_in/message.html.twig", [
+                    'message' => 'wrong confirmation code .'
+                ]);
             }
 
 

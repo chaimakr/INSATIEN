@@ -88,24 +88,11 @@ class User implements UserInterface
      */
     private $studentClassGroups;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Question::class, mappedBy="owner")
-     */
-    private $questions;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Response::class, mappedBy="owner", orphanRemoval=true)
-     */
-    private $responses;
-
     public function __construct()
     {
         $this->covoiturages = new ArrayCollection();
         $this->TeacherclassGroups = new ArrayCollection();
         $this->studentClassGroups = new ArrayCollection();
-        $this->questions = new ArrayCollection();
-        $this->responses = new ArrayCollection();
-        $this->TeacherClassGroups = new ArrayCollection();
     }
 
 
@@ -259,10 +246,10 @@ class User implements UserInterface
         return $this;
     }
 
-    public function removeTeacherClassGroup(ClassGroup $classGroup): self
+    public function removeClassGroup(ClassGroup $classGroup): self
     {
-        if ($this->TeacherClassGroups->contains($classGroup)) {
-            $this->TeacherClassGroups->removeElement($classGroup);
+        if ($this->classGroups->contains($classGroup)) {
+            $this->classGroups->removeElement($classGroup);
             // set the owning side to null (unless already changed)
             if ($classGroup->getOwner() === $this) {
                 $classGroup->setOwner(null);
@@ -295,68 +282,6 @@ class User implements UserInterface
         if ($this->studentClassGroups->contains($studentClassGroup)) {
             $this->studentClassGroups->removeElement($studentClassGroup);
             $studentClassGroup->removeStudentsMember($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Question[]
-     */
-    public function getQuestions(): Collection
-    {
-        return $this->questions;
-    }
-
-    public function addQuestion(Question $question): self
-    {
-        if (!$this->questions->contains($question)) {
-            $this->questions[] = $question;
-            $question->setOwner($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQuestion(Question $question): self
-    {
-        if ($this->questions->contains($question)) {
-            $this->questions->removeElement($question);
-            // set the owning side to null (unless already changed)
-            if ($question->getOwner() === $this) {
-                $question->setOwner(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Response[]
-     */
-    public function getResponses(): Collection
-    {
-        return $this->responses;
-    }
-
-    public function addResponse(Response $response): self
-    {
-        if (!$this->responses->contains($response)) {
-            $this->responses[] = $response;
-            $response->setOwner($this);
-        }
-
-        return $this;
-    }
-
-    public function removeResponse(Response $response): self
-    {
-        if ($this->responses->contains($response)) {
-            $this->responses->removeElement($response);
-            // set the owning side to null (unless already changed)
-            if ($response->getOwner() === $this) {
-                $response->setOwner(null);
-            }
         }
 
         return $this;

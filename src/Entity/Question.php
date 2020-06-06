@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\QuestionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -43,6 +45,16 @@ class Question
      * @ORM\JoinColumn(nullable=false)
      */
     private $classGroup;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Response::class, mappedBy="answerTo", orphanRemoval=true)
+     */
+    private $responses;
+
+    public function __construct()
+    {
+        $this->responses = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -105,6 +117,37 @@ class Question
     public function setClassGroup(?ClassGroup $classGroup): self
     {
         $this->classGroup = $classGroup;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Response[]
+     */
+    public function getResponses(): Collection
+    {
+        return $this->responses;
+    }
+
+    public function addResponse(Response $response): self
+    {
+        if (!$this->responses->contains($response)) {
+            $this->responses[] = $response;
+            $response->setAnswerTo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResponse(Response $response): self
+    {
+        if ($this->responses->contains($response)) {
+            $this->responses->removeElement($response);
+            // set the owning side to null (unless already changed)
+            if ($response->getAnswerTo() === $this) {
+                $response->setAnswerTo(null);
+            }
+        }
 
         return $this;
     }

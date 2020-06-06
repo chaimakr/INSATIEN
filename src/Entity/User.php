@@ -79,6 +79,7 @@ class User implements UserInterface
     private $covoiturages;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     /**
      * @ORM\OneToMany(targetEntity=Question::class, mappedBy="owner", orphanRemoval=true)
      */
@@ -94,6 +95,11 @@ class User implements UserInterface
         $this->covoiturages = new ArrayCollection();
         $this->questions = new ArrayCollection();
         $this->responses = new ArrayCollection();
+=======
+    public function __construct()
+    {
+        $this->covoiturages = new ArrayCollection();
+>>>>>>> parent of 4498007... entitiesArchitecture
 =======
     public function __construct()
     {
@@ -234,6 +240,7 @@ class User implements UserInterface
         return $this;
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     /**
      * @return Collection|Question[]
@@ -296,6 +303,8 @@ class User implements UserInterface
 
         return $this;
     }
+=======
+>>>>>>> parent of 4498007... entitiesArchitecture
 =======
 >>>>>>> parent of 4498007... entitiesArchitecture
 }

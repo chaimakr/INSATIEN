@@ -15,7 +15,12 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(
  * fields = {"email"},
  * message = "the email you typed is already in use"
- * )
+ * ) 
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="type", type="string")
+ * @ORM\DiscriminatorMap({
+ * "user" = "User", "student" = "Student","teacher" = "Teacher"
+ * })
  */
 class User implements UserInterface
 {
@@ -28,17 +33,20 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\NotBlank
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\NotBlank
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
-     *  @Assert\Regex(
+     * @Assert\NotBlank
+     * @Assert\Regex(
      * pattern="#@insat.u-carthage.tn#",
      * message="use your insat.u-carthage mail ya haj")
      */
@@ -47,6 +55,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      *  @Assert\Length(min="8",minMessage="your password should contain at least 8 characters !")
      */
 
@@ -54,6 +63,7 @@ class User implements UserInterface
     private $password;
     
     /**
+     * @Assert\NotBlank
      * @Assert\EqualTo(propertyPath="password" , message="Passwords do no match")
      */
     private $confirmPassword;
@@ -73,9 +83,27 @@ class User implements UserInterface
      */
     private $covoiturages;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Question::class, mappedBy="owner", orphanRemoval=true)
+     */
+    private $questions;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Response::class, mappedBy="owner", orphanRemoval=true)
+     */
+    private $responses;
+        
+    /**
+     * @ORM\ManyToMany(targetEntity=ClassGroup::class, mappedBy="members")
+     */
+    private $classGroups;
+
     public function __construct()
     {
         $this->covoiturages = new ArrayCollection();
+        $this->questions = new ArrayCollection();
+        $this->responses = new ArrayCollection();
+        $this->classGroups = new ArrayCollection();
     }
 
 
@@ -206,6 +234,95 @@ class User implements UserInterface
             if ($covoiturage->getOwner() === $this) {
                 $covoiturage->setOwner(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Question[]
+     */
+    public function getQuestions(): Collection
+    {
+        return $this->questions;
+    }
+
+    public function addQuestion(Question $question): self
+    {
+        if (!$this->questions->contains($question)) {
+            $this->questions[] = $question;
+            $question->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Question $question): self
+    {
+        if ($this->questions->contains($question)) {
+            $this->questions->removeElement($question);
+            // set the owning side to null (unless already changed)
+            if ($question->getOwner() === $this) {
+                $question->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Response[]
+     */
+    public function getResponses(): Collection
+    {
+        return $this->responses;
+    }
+
+    public function addResponse(Response $response): self
+    {
+        if (!$this->responses->contains($response)) {
+            $this->responses[] = $response;
+            $response->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResponse(Response $response): self
+    {
+        if ($this->responses->contains($response)) {
+            $this->responses->removeElement($response);
+            // set the owning side to null (unless already changed)
+            if ($response->getOwner() === $this) {
+                $response->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+    /**
+     * @return Collection|ClassGroup[]
+     */
+    public function getClassGroups(): Collection
+    {
+        return $this->classGroups;
+    }
+
+    public function addClassGroup(ClassGroup $classGroup): self
+    {
+        if (!$this->classGroups->contains($classGroup)) {
+            $this->classGroups[] = $classGroup;
+            $classGroup->addMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClassGroup(ClassGroup $classGroup): self
+    {
+        if ($this->classGroups->contains($classGroup)) {
+            $this->classGroups->removeElement($classGroup);
+            $classGroup->removeMember($this);
         }
 
         return $this;

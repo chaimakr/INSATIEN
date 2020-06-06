@@ -2,18 +2,23 @@
 
 namespace App\Entity;
 
-use App\Repository\TeacherRepository;
+use App\Repository\StudentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=TeacherRepository::class)
+ * @ORM\Entity(repositoryClass=StudentRepository::class)
  */
-class Teacher extends User
+class Student extends User
 {
     /**
-     * @ORM\OneToMany(targetEntity=ClassGroup::class, mappedBy="owner", orphanRemoval=true)
+     * @ORM\Column(type="string", length=70, nullable=true)
+     */
+    private $grade;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=ClassGroup::class, mappedBy="members")
      */
     private $classGroups;
 
@@ -35,7 +40,7 @@ class Teacher extends User
     {
         if (!$this->classGroups->contains($classGroup)) {
             $this->classGroups[] = $classGroup;
-            $classGroup->setOwner($this);
+            $classGroup->addMember($this);
         }
 
         return $this;
@@ -45,10 +50,7 @@ class Teacher extends User
     {
         if ($this->classGroups->contains($classGroup)) {
             $this->classGroups->removeElement($classGroup);
-            // set the owning side to null (unless already changed)
-            if ($classGroup->getOwner() === $this) {
-                $classGroup->setOwner(null);
-            }
+            $classGroup->removeMember($this);
         }
 
         return $this;

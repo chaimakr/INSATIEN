@@ -15,12 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(
  * fields = {"email"},
  * message = "the email you typed is already in use"
- * ) 
- * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({
- * "user" = "User", "student" = "Student","teacher" = "Teacher"
- * })
+ * )
  */
 class User implements UserInterface
 {
@@ -83,6 +78,7 @@ class User implements UserInterface
      */
     private $covoiturages;
 
+<<<<<<< HEAD
     /**
      * @ORM\OneToMany(targetEntity=Question::class, mappedBy="owner", orphanRemoval=true)
      */
@@ -98,6 +94,11 @@ class User implements UserInterface
         $this->covoiturages = new ArrayCollection();
         $this->questions = new ArrayCollection();
         $this->responses = new ArrayCollection();
+=======
+    public function __construct()
+    {
+        $this->covoiturages = new ArrayCollection();
+>>>>>>> parent of 4498007... entitiesArchitecture
     }
 
 
@@ -232,6 +233,7 @@ class User implements UserInterface
 
         return $this;
     }
+<<<<<<< HEAD
 
     /**
      * @return Collection|Question[]
@@ -294,4 +296,6 @@ class User implements UserInterface
 
         return $this;
     }
+=======
+>>>>>>> parent of 4498007... entitiesArchitecture
 }

@@ -115,57 +115,57 @@ class PreSignInController extends AbstractController
 
         $compte = new User();
         $form = $this->createFormBuilder($compte)
-        ->add('firstName', TextType::class, [
-            "attr" => [
-                "id" => "defaultRegisterFormFirstName",
-                "class" => "form-control bg-white border-left-0 border-md",
-                "placeholder" => "First name"
-            ]
-        ])
-        ->add('lastName', TextType::class, [
-            "attr" => [
-                "id" => "defaultRegisterFormLastName",
-                "class" => "form-control bg-white border-left-0 border-md",
-                "placeholder" => "Last name"
-            ]
-        ])
-        ->add('password', PasswordType::class, [
-            "attr" => [
-                "id" => "defaultRegisterFormPassword",
-                "class" => "form-control bg-white border-left-0 border-md",
-                "placeholder" => "Password",
-                "aria-describedby" => "defaultRegisterFormPasswordHelpBlock"
-            ]
-        ])
-        ->add('confirmPassword', PasswordType::class, [
-            "attr" => [
-                "id" => "defaultRegisterFormPassword",
-                "class" => "form-control bg-white border-left-0 border-md",
-                "placeholder" => "Confirm Password",
-                "aria-describedby" => "defaultRegisterFormPasswordHelpBlock"
-            ]
-        ])
-        ->add('email', TextType::class, [
-            "attr" => [
-                "id" => "defaultRegisterFormEmail",
-                "class" => "form-control bg-white border-left-0 border-md",
-                "placeholder" => "example@insat.u-carthage.tn"
-            ]
-        ])
-        ->add('RegisterAs', ChoiceType::class, [
-            "choices" => [
-                "teacher" => "teacher",
-                "student" => "student"
-            ], "attr" => [
-                "class" => "form-control custom-select bg-white border-left-0 border-md"
-            ]
-        ])
-        ->add('register', SubmitType::class, [
-            "attr" => [
-                "class" => "btn btn-success my-4 btn-block"
-            ]
-        ])
-        ->getForm();
+            ->add('firstName', TextType::class, [
+                "attr" => [
+                    "id" => "defaultRegisterFormFirstName",
+                    "class" => "form-control",
+                    "placeholder" => "First name"
+                ]
+            ])
+            ->add('lastName', TextType::class, [
+                "attr" => [
+                    "id" => "defaultRegisterFormLastName",
+                    "class" => "form-control",
+                    "placeholder" => "Last name"
+                ]
+            ])
+            ->add('password', PasswordType::class, [
+                "attr" => [
+                    "id" => "defaultRegisterFormPassword",
+                    "class" => "form-control",
+                    "placeholder" => "Password",
+                    "aria-describedby" => "defaultRegisterFormPasswordHelpBlock"
+                ]
+            ])
+            ->add('confirmPassword', PasswordType::class, [
+                "attr" => [
+                    "id" => "defaultRegisterFormPassword",
+                    "class" => "form-control",
+                    "placeholder" => "Confirm Password",
+                    "aria-describedby" => "defaultRegisterFormPasswordHelpBlock"
+                ]
+            ])
+            ->add('email', TextType::class, [
+                "attr" => [
+                    "id" => "defaultRegisterFormEmail",
+                    "class" => "form-control mb-4",
+                    "placeholder" => "example@insat.u-carthage.tn"
+                ]
+            ])
+            ->add('RegisterAs', ChoiceType::class, [
+                "choices" => [
+                    "teacher" => "teacher",
+                    "student" => "student"
+                ], "attr" => [
+                    "class" => "browser-default custom-select mb-4"
+                ]
+            ])
+            ->add('sign up', SubmitType::class, [
+                "attr" => [
+                    "class" => "btn btn-success my-4 btn-block"
+                ]
+            ])
+            ->getForm();
         try {
             $form->handleRequest($request);
         } catch (\Exception $e) {

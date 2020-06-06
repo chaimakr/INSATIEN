@@ -25,13 +25,13 @@ class ClassGroup
     private $title;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Teacher::class, inversedBy="classGroups")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="classGroups")
      * @ORM\JoinColumn(nullable=false)
      */
     private $owner;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Student::class, inversedBy="classGroups")
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="classGroups")
      */
     private $members;
 
@@ -63,12 +63,12 @@ class ClassGroup
         return $this;
     }
 
-    public function getOwner(): ?Teacher
+    public function getOwner(): ?User
     {
         return $this->owner;
     }
 
-    public function setOwner(?Teacher $owner): self
+    public function setOwner(?User $owner): self
     {
         $this->owner = $owner;
 
@@ -76,14 +76,14 @@ class ClassGroup
     }
 
     /**
-     * @return Collection|Student[]
+     * @return Collection|User[]
      */
     public function getMembers(): Collection
     {
         return $this->members;
     }
 
-    public function addMember(Student $member): self
+    public function addMember(User $member): self
     {
         if (!$this->members->contains($member)) {
             $this->members[] = $member;
@@ -92,7 +92,7 @@ class ClassGroup
         return $this;
     }
 
-    public function removeMember(Student $member): self
+    public function removeMember(User $member): self
     {
         if ($this->members->contains($member)) {
             $this->members->removeElement($member);

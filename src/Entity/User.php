@@ -89,12 +89,18 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity=Response::class, mappedBy="owner", orphanRemoval=true)
      */
     private $responses;
+        
+    /**
+     * @ORM\ManyToMany(targetEntity=ClassGroup::class, mappedBy="members")
+     */
+    private $classGroups;
 
     public function __construct()
     {
         $this->covoiturages = new ArrayCollection();
         $this->questions = new ArrayCollection();
         $this->responses = new ArrayCollection();
+<<<<<<< Updated upstream
 =======
     public function __construct()
     {
@@ -105,6 +111,9 @@ class User implements UserInterface
     {
         $this->covoiturages = new ArrayCollection();
 >>>>>>> parent of 4498007... entitiesArchitecture
+=======
+        $this->classGroups = new ArrayCollection();
+>>>>>>> Stashed changes
     }
 
 
@@ -303,8 +312,38 @@ class User implements UserInterface
 
         return $this;
     }
+<<<<<<< Updated upstream
 =======
 >>>>>>> parent of 4498007... entitiesArchitecture
 =======
 >>>>>>> parent of 4498007... entitiesArchitecture
+=======
+    /**
+     * @return Collection|ClassGroup[]
+     */
+    public function getClassGroups(): Collection
+    {
+        return $this->classGroups;
+    }
+
+    public function addClassGroup(ClassGroup $classGroup): self
+    {
+        if (!$this->classGroups->contains($classGroup)) {
+            $this->classGroups[] = $classGroup;
+            $classGroup->addMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClassGroup(ClassGroup $classGroup): self
+    {
+        if ($this->classGroups->contains($classGroup)) {
+            $this->classGroups->removeElement($classGroup);
+            $classGroup->removeMember($this);
+        }
+
+        return $this;
+    }
+>>>>>>> Stashed changes
 }

@@ -1,11 +1,12 @@
 {% extends "base.html.twig" %}
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('forms/registrationFormStylesheet.css') }}" >
+    <link rel="stylesheet" href="{{ asset('forms/style.css') }}" >
 {% endblock %}
 {% block body %}
     
   <div class="container">
     <div class="row py-5 mt-4 align-items-center">
+      <!-- For Demo Purpose -->
       <div class="col-md-5 pr-lg-5 mb-5 mb-md-0">
         <img src="https://res.cloudinary.com/mhmd/image/upload/v1569543678/form_d9sh6m.svg" alt="" class="img-fluid mb-3 d-none d-md-block">
         <h1>Create an Account</h1>
@@ -14,12 +15,13 @@
   
       <!-- Registeration Form -->
       <div class="col-md-7 col-lg-6 ml-auto">
-        {{ form_start(form, {'attr' : {'novalidate' : 'novalidate' , 'autocomplete' : 'off'}}) }}
-        <div class="row">
+        <form method="POST">
+          <div class="row">
+            {{ form_start(form) }}
             <!-- First Name -->
-            {{ form_errors(form.firstName) }}
             <div class="input-group col-lg-6 mb-4">
               <div class="input-group-prepend">
+                <div>{{ form_errors(form.firstName) }}</div>
                 <span class="input-group-text bg-white px-4 border-md border-right-0">
                   <i class="fa fa-user text-muted"></i>
                 </span>
@@ -28,9 +30,9 @@
             </div>
   
             <!-- Last Name -->
-            {{ form_errors(form.lastName) }}
             <div class="input-group col-lg-6 mb-4">
               <div class="input-group-prepend">
+                <div>{{ form_errors(form.lastName) }}</div>
                 <span class="input-group-text bg-white px-4 border-md border-right-0">
                   <i class="fa fa-user text-muted"></i>
                 </span>
@@ -39,15 +41,16 @@
             </div>
   
             <!-- Email Address -->
-            {{ form_errors(form.email) }}
             <div class="input-group col-lg-12 mb-4">
               <div class="input-group-prepend">
+                <div>{{ form_errors(form.email) }}</div>
                 <span class="input-group-text bg-white px-4 border-md border-right-0">
                   <i class="fa fa-envelope text-muted"></i>
                 </span>
               </div>
               {{ form_widget(form.email) }}           
              </div>
+            <!-- Job -->
 
             <!-- Password -->
             {{ form_errors(form.password) }}
@@ -84,11 +87,12 @@
             </div>
             <!-- Already Registered -->
             <div class="text-center w-100">
-              <p class="text-muted font-weight-bold">Already Registered? <a href="/anon/confirmWithoutRegister" class="text-primary ml-2">comfirmation</a></p>
+              <p class="text-muted font-weight-bold">Already Registered? <a href="/app_login" class="text-primary ml-2">Login</a></p>
             </div>
   
           </div>
           {{ form_end(form) }}
+        </form>
       </div>
     </div>
   </div>

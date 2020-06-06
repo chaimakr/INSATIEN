@@ -81,16 +81,20 @@ class PreSignInController extends AbstractController
             $user = $manager->getRepository("App:User")->findOneByEmail($request->getSession()->get(Security::LAST_USERNAME));
 
             if (!$user) {
-                $this->addFlash('error','your email is not registred .');
+                return $this->render("pre_sign_in/message.html.twig", [
+                    'message' => 'your email is not registred .'
+                ]);
             } else {
                 if ($form->get('confirmationCode')->getData() == $user->getConfirmationCode()) {
                     $user->setConfirmationCode('confirmed');
                     $manager->persist($user);
                     $manager->flush();
-                    $this->addFlash('succes','your email is confirmed .');
-                    return $this->render("user/userProfile.html.twig");
-                } else
-                $this->addFlash('info','wrong confirmation code .');
+                    return $this->render("pre_sign_in/message.html.twig", [
+                        'message' => 'your email is confirmed .'
+                    ]);
+                } else return $this->render("pre_sign_in/message.html.twig", [
+                    'message' => 'wrong confirmation code .'
+                ]);
             }
 
 

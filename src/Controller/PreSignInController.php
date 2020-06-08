@@ -60,33 +60,16 @@ class PreSignInController extends AbstractController
 
         $message = new ContactMail();
         $mailform = $this->createFormBuilder($message)
-            ->add('fullName', TextType::class, [
-                "attr" => [
-                    "placeholder" => " add your full name",
-
-                ]
-            ])
-            ->add('email', TextType::class, [
-                "attr" => [
-                    "placeholder" => "example@insat.u-carthage.tn",
-                ]
-            ])
-            ->add('Subject', ChoiceType::class, [
-                "attr" => [
-                    "label" => "Choose One:"
-                ],
-                "choices" => [
-                    "service" => "General Customer Service",
-                    "Suggestions" => "Suggestions",
+            ->add('fullName', TextType::class)
+            ->add('email', TextType::class)
+            ->add('Subject', ChoiceType::class,[
+                'choices'=>[
+                    "Service" => "General Customer Service",
+                    "Suggestions" =>"Suggestions",
                     "Feedbacks" => "Feedbacks"
                 ]
-
             ])
-            ->add('Message', TextareaType::class, [
-                "attr" => [
-                    "placeholder" => "Message ",
-                ]
-            ])
+            ->add('Message', TextareaType::class)
             ->add('send', SubmitType::class)
             ->add('reset', ResetType::class)
             ->getForm();

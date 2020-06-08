@@ -43,9 +43,21 @@
     </div>
 
 
-    <footer class="page-footer font-small blue pt-4" id="contactUs">
+    <footer class="page-footer unique-color-dark mt-4" id="contactUs">
 
-        <div class="container text-center text-md-left">
+        <div class="info-color-dark text-center py-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-12">
+                        <h1 class="h1">
+                            <small>Feel free to contact us</small></h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container text-center text-md-left mt-5">
             <div class="row">
                 <div class="col-md-8">
                     <div class="well well-sm">
@@ -54,17 +66,17 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        {{ form_row(form.fullName) }}
+                                        {{ form_row(form.fullName,{'attr':{'placeholder':' add your full name'}}) }}
                                     </div>
                                     <div class="form-group">
-                                        {{ form_row(form.email) }}
+                                        {{ form_row(form.email,{'attr':{'placeholder':'example@insat.u-carthage.tn'}}) }}
                                         <div class="input-group">
                                             {#<span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span>#}
                                             {#</span>#}
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        {{ form_row(form.Subject) }}
+                                        {{ form_row(form.Subject,{'attr':{'label':'Choose One:'}}) }}
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
@@ -77,7 +89,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        {{ form_row(form.Message) }}
+                                        {{ form_row(form.Message,{'attr':{'placeholder':'Message '}}) }}
                                     </div>
                                 </div>
                             </div>

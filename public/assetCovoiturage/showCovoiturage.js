@@ -14,8 +14,7 @@ var map = new ol.Map({
 });
 var points=null;
 
-
-greenStyle = new ol.style.Style({
+var greenStyle = new ol.style.Style({
     image: new ol.style.Circle({
         radius: 7,
         fill: new ol.style.Fill({color: 'rgba(0,255,0,0.4)'}),
@@ -36,11 +35,32 @@ var pinStyle = new ol.style.Style({
 });
 
 
+var insatStyle = new ol.style.Style({
+    image: new ol.style.Icon({
+        src: '/assetCovoiturage/insat.png',
+        size: [1000, 1000],
+        scale: 0.2,
+        anchor: [0.15, 0.2]
+
+    }),
+    zIndex:2
+});
+
 var pointsLayer = new ol.layer.VectorImage({
     source: new ol.source.Vector(),
     visibility: true,
     style:greenStyle
 });
+
+
+var insat = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.transform([10.195966872553878, 36.84317149268317], 'EPSG:4326', 'EPSG:3857')),
+});
+
+
+
+pointsLayer.getSource().addFeatures([insat]);
+
 
 map.addLayer(pointsLayer);
 
@@ -68,6 +88,8 @@ function addingPoints(){
 
     }
 }
+
+
 var selectedPoints=[];
 
 
@@ -83,8 +105,14 @@ var selectedPoints=[];
                 selectedPoints.splice(selectedPoints.indexOf(point), 1);
 
             });
+        insat.setStyle(greenStyle);
         map.forEachFeatureAtPixel(event.pixel, (feature) => {
 
+            if(feature==insat) {
+                console.log('insat');
+                insat.setStyle(insatStyle);
+                return 0;
+            }
             ensemblePoint=sameCovoiturageId(feature.values_.covoiturageId);
             ensemblePoint.forEach((point)=>{
 
@@ -106,6 +134,7 @@ let covoiturage=null;
 
 map.on('click', (event) => {
     map.forEachFeatureAtPixel(event.pixel, (feature) => {
+        if(feature==insat) return 0;
         $.ajax({
             url:'/covoiturage/getCovoiturage?covoiturageId='+feature.values_.covoiturageId,
             success:function (data) {

@@ -13,12 +13,11 @@ var map = new ol.Map({
 
 });
 
-
 /*
 styles for map points
  */
 
-redStyle = new ol.style.Style({
+var redStyle = new ol.style.Style({
     image: new ol.style.Circle({
         radius: 7,
         fill: new ol.style.Fill({color: 'rgba(255,0,0,0.4)'}),
@@ -29,7 +28,7 @@ redStyle = new ol.style.Style({
 });
 
 
-yellowStyle = new ol.style.Style({
+var yellowStyle = new ol.style.Style({
     image: new ol.style.Circle({
         radius: 7,
         fill: new ol.style.Fill({color: 'rgba(255,255,0,0.4)'}),
@@ -39,6 +38,16 @@ yellowStyle = new ol.style.Style({
     })
 });
 
+var insatStyle = new ol.style.Style({
+    image: new ol.style.Icon({
+        src: '/assetCovoiturage/insat.png',
+        size: [1000, 1000],
+        scale: 0.2,
+        anchor: [0.15, 0.2]
+
+    }),
+    zIndex:2
+});
 
 
 var pointsLayer = new ol.layer.VectorImage({
@@ -47,6 +56,14 @@ var pointsLayer = new ol.layer.VectorImage({
     style: redStyle,
 });
 
+
+
+var insat = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.transform([10.195966872553878, 36.84317149268317], 'EPSG:4326', 'EPSG:3857')),
+});
+
+
+pointsLayer.getSource().addFeatures([insat]);
 
 map.addLayer(pointsLayer);
 
@@ -72,7 +89,7 @@ map.on('click', (event) => {
 
         "                <div class=\"card-body\">" +
         "                    <h5 class=\"card-title\"> Point :" + "</h5>" +
-        "                    <p class=\"card-text\"> [" + marker.getGeometry().flatCoordinates + "]</p>" +
+        "                    <small class=\"card-text\"> [" + marker.getGeometry().flatCoordinates + "]</small>" +
         "                    <button onclick=\"remove(" + countMarkers + ")\" class=\"btn btn-primary\">remove point</button>" +
         "                </div>" +
         "            </div>"
@@ -91,12 +108,18 @@ selectedCards = [];
 
 map.on('pointermove', (event) => {
     if (selectedPoints.length > 0 && selectedCards.length > 0) {
+
+
+
+
         selectedPoints.forEach((point) => {
             point.setStyle(redStyle);
-
             selectedPoints.splice(selectedPoints.indexOf(point), 1);
 
         });
+
+
+
         selectedCards.forEach((card) => {
             card.classList.add("bg-dark");
             card.classList.remove("bg-info");
@@ -107,7 +130,14 @@ map.on('pointermove', (event) => {
 
 
     }
+
+    insat.setStyle(redStyle);
     map.forEachFeatureAtPixel(event.pixel, (feature) => {
+        if(feature==insat) {
+            console.log('insat');
+            insat.setStyle(insatStyle);
+            return 0;
+        }
         card = document.querySelector('#point' + feature.id_);
         selectedCards.push(card);
         card.classList.remove("bg-dark");
@@ -197,7 +227,7 @@ function initialPoints() {
 
             "                <div class=\"card-body\">" +
             "                    <h5 class=\"card-title\"> Point :" + "</h5>" +
-            "                    <p class=\"card-text\"> [" + marker.getGeometry().flatCoordinates + "]</p>" +
+            "                    <small class=\"card-text\"> [" + marker.getGeometry().flatCoordinates + "]</small>" +
             "                    <button onclick=\"remove(" + countMarkers + ")\" class=\"btn btn-primary\">remove point</button>" +
             "                </div>" +
             "            </div>"

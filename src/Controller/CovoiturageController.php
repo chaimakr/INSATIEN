@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Covoiturage;
 use App\Entity\MapPoint;
 use App\Entity\User;
+use Doctrine\DBAL\Types\IntegerType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -36,8 +37,6 @@ class CovoiturageController extends AbstractController
      */
     public function add(Request $request)
     {
-//        dd(json_decode('{"xxx":"yyy"}',true));
-
         $covoiturage = new Covoiturage();
         $manager = $this->getDoctrine()->getManager();
         $user = $manager->getRepository('App:User')->findOneById($this->getUser()->getId());
@@ -80,6 +79,7 @@ class CovoiturageController extends AbstractController
             ])
             ->add('returnTime', TimeType::class, [
                 'input' => 'timestamp',
+
             ])
             ->add('moreDetails', TextareaType::class);
 
@@ -99,7 +99,6 @@ class CovoiturageController extends AbstractController
                 $covoiturage->setReturnTime(null);
 
 
-//            dd($covoiturage->getMoreDetails());
             $points = json_decode($_POST['points'], true);
             foreach ($points as $element) {
                 $point = new MapPoint();

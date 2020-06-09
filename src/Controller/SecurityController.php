@@ -14,7 +14,7 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        //$user=$this->getUser();
+       //$user=$this->getUser();
         //if($user){
         //    if ($user()->getRegisterAs()=="student") {
         //    return $this->redirectToRoute('main');
@@ -26,9 +26,18 @@ class SecurityController extends AbstractController
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
+
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('base.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+//        dd($lastUsername);
+//        return $this->render('base.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+//        dd($error);
+
+
+
+        if($error)
+        $this->addFlash('loginError','Invalid Credentials');
+        return $this->redirect("/anon");
     }
 
 

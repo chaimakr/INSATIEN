@@ -14,6 +14,10 @@ var map = new ol.Map({
 });
 
 
+/*
+styles for map points
+ */
+
 redStyle = new ol.style.Style({
     image: new ol.style.Circle({
         radius: 7,
@@ -36,6 +40,7 @@ yellowStyle = new ol.style.Style({
 });
 
 
+
 var pointsLayer = new ol.layer.VectorImage({
     source: new ol.source.Vector(),
     visibility: true,
@@ -50,6 +55,7 @@ countMarkers = 0;
 initialPoints();
 
 pointDiv = $('#pointDiv')[0];
+
 
 
 map.on('click', (event) => {
@@ -78,58 +84,10 @@ map.on('click', (event) => {
 
 
 
-function initialPoints() {
-
-    points =JSON.parse( $('#form_points')[0].value);
-    points.forEach((point) => {
-        var marker = new ol.Feature({
-            geometry: new ol.geom.Point([point.x, point.y]),
-        });
-        marker.id_ = countMarkers;
-
-        pointsLayer.getSource().addFeatures([marker]);
-
-        newPointDiv = "<div id=\"point" + countMarkers + "\" class=\"card text-white bg-dark mb-3\" style=\"width: 100%;\">" +
-
-            "                <div class=\"card-body\">" +
-            "                    <h5 class=\"card-title\"> Point :" + "</h5>" +
-            "                    <p class=\"card-text\"> [" + marker.getGeometry().flatCoordinates + "]</p>" +
-            "                    <button onclick=\"remove(" + countMarkers + ")\" class=\"btn btn-primary\">remove point</button>" +
-            "                </div>" +
-            "            </div>"
-
-        pointDiv.appendChild(document.createRange().createContextualFragment(newPointDiv));
-
-        countMarkers++;
-    });
-
-}
-
-
-
-function searchMarker(id) {
-    let point;
-
-    pointsLayer.getSource().getFeatures().forEach((feature) => {
-        if (id == feature.id_) {
-            point = feature;
-            return true;
-        }
-    });
-    return point;
-
-};
-
-
-
-function remove(id) {
-    pointsLayer.getSource().removeFeature(searchMarker(id));
-    $('#point' + id)[0].remove();
-
-};
 
 selectedPoints = [];
 selectedCards = [];
+
 
 map.on('pointermove', (event) => {
     if (selectedPoints.length > 0 && selectedCards.length > 0) {
@@ -163,6 +121,10 @@ map.on('pointermove', (event) => {
 
 
 
+
+/*
+add coordinates of points to the hidden input  on form submit
+ */
 function jsonPoints() {
     let json = [];
     let point;
@@ -181,6 +143,7 @@ function jsonPoints() {
 
 
 
+
 function checkType() {
 
     if ($('#form_type')[0].value === 'oneWay')
@@ -188,3 +151,62 @@ function checkType() {
     else $('#form_returnTime')[0].parentNode.style.display = 'block';
 
 }
+
+
+
+function remove(id) {
+    pointsLayer.getSource().removeFeature(searchMarker(id));
+    $('#point' + id)[0].remove();
+
+};
+
+
+
+function searchMarker(id) {
+    let point;
+
+    pointsLayer.getSource().getFeatures().forEach((feature) => {
+        if (id == feature.id_) {
+            point = feature;
+            return true;
+        }
+    });
+    return point;
+
+};
+
+
+
+
+/*
+utiliser si un covoiturage est modifié alors on charge ses points initiales
+ */
+
+function initialPoints() {
+
+    points = JSON.parse($('#form_points')[0].value);
+    points.forEach((point) => {
+        var marker = new ol.Feature({
+            geometry: new ol.geom.Point([point.x, point.y]),
+        });
+        marker.id_ = countMarkers;
+
+        pointsLayer.getSource().addFeatures([marker]);
+
+        newPointDiv = "<div id=\"point" + countMarkers + "\" class=\"card text-white bg-dark mb-3\" style=\"width: 100%;\">" +
+
+            "                <div class=\"card-body\">" +
+            "                    <h5 class=\"card-title\"> Point :" + "</h5>" +
+            "                    <p class=\"card-text\"> [" + marker.getGeometry().flatCoordinates + "]</p>" +
+            "                    <button onclick=\"remove(" + countMarkers + ")\" class=\"btn btn-primary\">remove point</button>" +
+            "                </div>" +
+            "            </div>"
+
+        pointDiv.appendChild(document.createRange().createContextualFragment(newPointDiv));
+
+        countMarkers++;
+    });
+
+}
+
+

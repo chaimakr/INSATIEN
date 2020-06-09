@@ -66,51 +66,28 @@ class CovoiturageController extends AbstractController
 
 
         $form = $this->createFormBuilder($covoiturage)
-            ->add('departurePoint', TextType::class, [
-                "attr" => [
-                    "placeholder" => "Location name",
-                ]
-            ])
-            ->add('arrivalPoint', TextType::class, [
-                "attr" => [
-                    "placeholder" => "location name",
-                ]
-            ])
+            ->add('departurePoint', TextType::class)
+            ->add('arrivalPoint', TextType::class)
             ->add('type', ChoiceType::class, [
                 "choices" => [
                     "one way" => "oneWay",
                     "two way" => "twoWay"
-                ],
-                "attr" => [
-                    "onclick" => "checkType()"
-                ]
-            ])
+                ]]
+            )
             ->add('departureTime', TimeType::class, [
                 'input' => 'timestamp',
-                'widget' => 'choice',
+
             ])
             ->add('returnTime', TimeType::class, [
                 'input' => 'timestamp',
-                'widget' => 'choice',
-
             ])
-            ->add('moreDetails', TextareaType::class, [
-                "required" => false
-            ]);
+            ->add('moreDetails', TextareaType::class);
+
+
         if (($request->get('modifyId')))
-            $form=$form->add('modify offer', SubmitType::class, [
-                "attr" => [
-                    "onclick" => 'jsonPoints()'
-
-                ]
-            ])->getForm();
+            $form=$form->add('modifyOffer', SubmitType::class)->getForm();
         else
-            $form=$form->add('add offer', SubmitType::class, [
-                "attr" => [
-                    "onclick" => 'jsonPoints()'
-
-                ]
-            ])
+            $form=$form->add('addOffer', SubmitType::class)
             ->getForm();
 
 

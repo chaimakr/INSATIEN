@@ -31,7 +31,20 @@
             {% else %}
                 <input type="hidden" id="form_points" name="points" value="[]">
             {% endif %}
-            {{ form_rest(form) }}
+            {{ form_row(form.departurePoint,{'attr':{'placeholder':'location name'}}) }}
+            {{ form_row(form.arrivalPoint,{'attr':{'placeholder':'location name'}}) }}
+            {{ form_row(form.type,{'attr':{'onclick':'checkType()'}}) }}
+            {{ form_row(form.departureTime,{'widget' :'choice'}) }}
+            {{ form_row(form.returnTime,{'widget' :'choice'}) }}
+            {{ form_row(form.moreDetails,{ "required" : false}) }}
+
+            {% if form.modifyOffer is defined %}
+            {{ form_row(form.modifyOffer,{'attr':{'onclick':'jsonPoints()'}}) }}
+
+            {% else %}
+            {{ form_row(form.addOffer,{ 'attr':{'onclick':'jsonPoints()'}}) }}
+
+            {% endif %}
             {{ form_end(form) }}
         </div>
         <div class="col-sm-3">

@@ -207,7 +207,7 @@ class User implements UserInterface
     }
 
         else
-            return['IS_AUTHENTICATED_ANONYMOUSLY'];
+            return['ROLE_UNCONFIRMED'];
     }
 
     /**

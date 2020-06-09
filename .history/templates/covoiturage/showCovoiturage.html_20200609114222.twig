@@ -1,0 +1,47 @@
+{% extends 'StudentBase.html.twig' %}
+
+  {% block stylesheets %}
+      <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/css/ol.css">
+      <style>
+          .map {
+              height: 650px;
+              width: 100%;
+          }
+      </style>
+
+  {% endblock %}
+
+
+
+{% block body %}
+
+
+
+    <div class="row">
+
+        <div class="col-sm-4">
+            <h3>click on point to get more details:</h3>
+            <div id="card" >
+
+            </div>
+        </div>
+
+        <div class="col-sm-8 ">
+            <div id="map" class="map "></div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+
+
+
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>
+
+    <script src="{{ asset('assetCovoiturage/showCovoiturage.js') }}"></script>
+{% endblock %}
+

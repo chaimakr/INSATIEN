@@ -213,12 +213,16 @@ class PreSignInController extends AbstractController
             if (!$user) {
                 $this->addFlash('error', 'your email is not registred .');
             } else {
+                if($user->getConfirmationCode()=="confirmed"){
+                    $this->addFlash('error', 'your email is already confirmed  .');
+                    return $this->redirect('/');
+                }
                 if ($form->get('confirmationCode')->getData() == $user->getConfirmationCode()) {
                     $user->setConfirmationCode('confirmed');
                     $manager->persist($user);
                     $manager->flush();
-                    $this->addFlash('succes', 'your email is confirmed .');
-                    return $this->render("user/userProfile.html.twig");
+                    $this->addFlash('success', 'your email is confirmed , you can sign in now .');
+                    return $this->redirect('/');
                 } else
                     $this->addFlash('info', 'wrong confirmation code .');
             }
@@ -359,12 +363,16 @@ class PreSignInController extends AbstractController
 
         $user = $this->getDoctrine()->getManager()->getRepository('App:User')->findByEmail($request->get('email'));
         if ($user) {
+            if($user[0]->getConfirmationCode()=='confirmed'){
+                $this->addFlash('error',"your email is already confirmed .");
+                return $this->redirect('/');
+            }
             $request->getSession()->set(Security::LAST_USERNAME, $request->get('email'));
 
             return $this->redirect('/anon/comfirmation');
         }
 
-        $this->addFlash('error',"your email is not registred or already confirmed .");
+        $this->addFlash('error',"your email is not registred .");
         return $this->redirect('/');
 
 

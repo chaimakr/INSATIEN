@@ -23,7 +23,12 @@
                 <td>{{ covoiturage.arrivalPoint }}</td>
                 <td>{{ covoiturage.type }}</td>
                 <td>{{ covoiturage.departureTime|date('H:i') }}</td>
+
+                {% if covoiturage.returnTime != null %}
                 <td>{{ covoiturage.returnTime|date('H:i') }}</td>
+                {% else %}
+                    <td></td>
+                    {% endif %}
                 <td>{{covoiturage.moreDetails }}</td>
                 <td><a href="/covoiturage/add?modifyId={{covoiturage.id }}">
                         <i class="fas fa-cog"></i>

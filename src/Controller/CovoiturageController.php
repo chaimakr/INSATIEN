@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Covoiturage;
 use App\Entity\MapPoint;
 use App\Entity\User;
+use Doctrine\DBAL\Types\IntegerType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -36,8 +37,6 @@ class CovoiturageController extends AbstractController
      */
     public function add(Request $request)
     {
-//        dd(json_decode('{"xxx":"yyy"}',true));
-
         $covoiturage = new Covoiturage();
         $manager = $this->getDoctrine()->getManager();
         $user = $manager->getRepository('App:User')->findOneById($this->getUser()->getId());
@@ -66,51 +65,29 @@ class CovoiturageController extends AbstractController
 
 
         $form = $this->createFormBuilder($covoiturage)
-            ->add('departurePoint', TextType::class, [
-                "attr" => [
-                    "placeholder" => "Location name",
-                ]
-            ])
-            ->add('arrivalPoint', TextType::class, [
-                "attr" => [
-                    "placeholder" => "location name",
-                ]
-            ])
+            ->add('departurePoint', TextType::class)
+            ->add('arrivalPoint', TextType::class)
             ->add('type', ChoiceType::class, [
                 "choices" => [
                     "one way" => "oneWay",
                     "two way" => "twoWay"
-                ],
-                "attr" => [
-                    "onclick" => "checkType()"
-                ]
-            ])
+                ]]
+            )
             ->add('departureTime', TimeType::class, [
                 'input' => 'timestamp',
-                'widget' => 'choice',
+
             ])
             ->add('returnTime', TimeType::class, [
                 'input' => 'timestamp',
-                'widget' => 'choice',
 
             ])
-            ->add('moreDetails', TextareaType::class, [
-                "required" => false
-            ]);
+            ->add('moreDetails', TextareaType::class);
+
+
         if (($request->get('modifyId')))
-            $form=$form->add('modify offer', SubmitType::class, [
-                "attr" => [
-                    "onclick" => 'jsonPoints()'
-
-                ]
-            ])->getForm();
+            $form=$form->add('modifyOffer', SubmitType::class)->getForm();
         else
-            $form=$form->add('add offer', SubmitType::class, [
-                "attr" => [
-                    "onclick" => 'jsonPoints()'
-
-                ]
-            ])
+            $form=$form->add('addOffer', SubmitType::class)
             ->getForm();
 
 
@@ -122,7 +99,6 @@ class CovoiturageController extends AbstractController
                 $covoiturage->setReturnTime(null);
 
 
-//            dd($covoiturage->getMoreDetails());
             $points = json_decode($_POST['points'], true);
             foreach ($points as $element) {
                 $point = new MapPoint();

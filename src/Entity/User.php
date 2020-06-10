@@ -98,6 +98,11 @@ class User implements UserInterface
      */
     private $responses;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $pdpPath;
+
     public function __construct()
     {
         $this->covoiturages = new ArrayCollection();
@@ -358,6 +363,18 @@ class User implements UserInterface
                 $response->setOwner(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPdpPath(): ?string
+    {
+        return $this->pdpPath;
+    }
+
+    public function setPdpPath(string $pdpPath): self
+    {
+        $this->pdpPath = $pdpPath;
 
         return $this;
     }

@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\User;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Validator\Constraints\File;
 
 
 class UserController extends AbstractController
@@ -21,8 +24,42 @@ class UserController extends AbstractController
      */
     public function Profile(Request $request, UserPasswordEncoderInterface $encoder , EntityManagerInterface $manager)
     {
-       // dd($this->getUser());
+
         $user = $this->getUser();
+
+
+        $formUploadPic=$this->createFormBuilder()
+            ->add('picture', FileType::class, [
+                'mapped' => false,
+                'required' => true,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '6000k',
+                        'mimeTypes' => [
+                            'image/*',
+
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid image',
+                    ])
+                ],
+            ])
+            ->add('changePicture',SubmitType::class)
+            ->getForm();
+
+        $formUploadPic->handleRequest($request);
+        if($formUploadPic->isSubmitted() && $formUploadPic->isValid()){
+            $uploadedFile = $formUploadPic['picture']->getData();
+            $destination = $this->getParameter('kernel.project_dir').'/public/uploads';
+//            dd($uploadedFile);
+
+            $uploadedFile->move($destination,'picture'.$user->getId().'.jpg');
+            $manager->getRepository('App:User')->findOneById($user->getId());
+            $user->setPdpPath($destination.'/picture'.$user->getId().'.jpg');
+            $manager->persist($user);
+            $manager->flush();
+            $this->addFlash('success','your profile picture has changed .');
+            return $this->redirect('/user/profile');
+        }
         
        if (isset($_POST["firstName"])&&$_POST["firstName"]){
             $user->setFirstName($_POST["firstName"]);
@@ -73,6 +110,8 @@ class UserController extends AbstractController
      }
         $manager->persist($user);
         $manager->flush();
-        return $this->render("user/userProfile.html.twig");
+        return $this->render("user/userProfile.html.twig",[
+            'formUploadPic'=>$formUploadPic->createView()
+        ]);
     }
 }

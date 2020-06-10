@@ -8,13 +8,25 @@
   	<hr>
 	<div class="row">
       <!-- left column -->
+{#      <div class="col-md-3">#}
+{#        <div class="text-center">#}
+{#          <img src="//placehold.it/100" class="img-thumbnail" alt="avatar">#}
+{#          <h6></h6>#}
+{#          <a class="btn btn-outline-success" href="javascript:void(0);">#}
+{#            <i class="fa fa-cloud-upload"></i>Upload</a>#}
+{#        </div>#}
+{#      </div>#}
+
       <div class="col-md-3">
-        <div class="text-center">
-          <img src="//placehold.it/100" class="img-thumbnail" alt="avatar">
-          <h6></h6> 
-          <a class="btn btn-outline-success" href="javascript:void(0);">
-            <i class="fa fa-cloud-upload"></i>Upload</a>
-        </div>
+        <img src="{% if app.user.pdpPath!="" %} /uploads/picture{{ app.user.id }}.jpg {% else %} //placehold.it/100 {% endif %} " alt="" height="100" width="100">
+        {{ form_start(formUploadPic) }}
+
+        {{ form_row(formUploadPic.picture,{
+          'label' :'choose your profile picture',
+        }) }}
+
+        {{ form_row(formUploadPic.changePicture,{'attr':{'class':'btn btn-outline-success'}}) }}
+        {{ form_end(formUploadPic) }}
       </div>
       
       <!-- edit form column -->
@@ -71,4 +83,12 @@
   </div>
 </div>
 <hr>
+{% endblock %}
+{% block javascripts %}
+  <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      bsCustomFileInput.init()
+    })
+  </script>
 {% endblock %}

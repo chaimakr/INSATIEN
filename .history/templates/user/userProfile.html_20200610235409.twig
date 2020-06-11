@@ -1,0 +1,97 @@
+{%extends 'StudentBase.html.twig'%} {% block navbar %} {{ include('inc/userNavbar.html.twig')}} {% endblock %} {% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('assetStudent\css\userProfile.css') }}"> {% endblock %} {% block body %}
+<div class="container">
+    <h1 class="display-4">Edit Profile</h1>
+    <hr>
+    <div class="row">
+        <!-- left column -->
+        {#
+        <div class="col-md-3">#} {#
+            <div class="text-center">#} {# <img src="//placehold.it/100" class="img-thumbnail" alt="avatar">#} {#
+                <h6></h6>#} {# <a class="btn btn-outline-success" href="javascript:void(0);">#}
+{#            <i class="fa fa-cloud-upload"></i>Upload</a>#} {# </div>#} {# </div>#} {#
+
+        <div class="col-md-3">
+            <img src="{% if app.user.pdpPath!=" " %} /uploads/picture{{ app.user.id }}.jpg {% else %} //placehold.it/100 {% endif %} " alt="" height="100" width="100"> {{ form_start(formUploadPic) }} {{ form_row(formUploadPic.picture,{ 'label' :'choose
+            your profile picture', }) }} {{ form_row(formUploadPic.changePicture,{'attr':{'class':'btn btn-outline-success'}}) }} {{ form_end(formUploadPic) }}
+        </div>#}
+
+        <div class="col-md-3">
+            <div class="container">
+                </h1>
+                <div class="avatar-upload">
+                    <div class="avatar-edit">
+                        <img src="{% if app.user.pdpPath!=" " %} /uploads/picture{{ app.user.id }}.jpg {% else %} //placehold.it/100 {% endif %} " alt="" height="100" width="100"> {{ form_start(formUploadPic) }}
+                        <label for="imageUpload"></label>
+                    </div>
+                    <div class="avatar-preview">
+                        <div id="imagePreview" style="background-image: url(http://i.pravatar.cc/500?img=7);">
+                            {{ form_row(formUploadPic.picture,{ 'label' :'choose your profile picture', }) }} {{ form_row(formUploadPic.changePicture,{'attr':{'class':'btn btn-outline-success'}}) }} {{ form_end(formUploadPic) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- edit form column -->
+        <div class="col-md-9 personal-info">
+            <div class="alert alert-info alert-dismissable">
+                <a class="panel-close close" data-dismiss="alert">×</a>
+                <i class="fa fa-coffee"></i>
+                <strong>ATTENTION</strong>. once you change your email you'll lose access to your account until comfirmation .
+            </div>
+            <h3 class="display-5">Personal info :</h3>
+
+
+            <form class="form-horizontal" role="form" method="POST" action="/student/profile">
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">First name:</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" type="text" name="firstName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Last name:</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" type="text" name="lastName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Email:</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" type="text" placeholder="example@insat.u-carthage.tn" name="email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Current password:</label>
+                    <div class="col-md-8">
+                        <input class="form-control" type="password" name="currentPassword">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">New password:</label>
+                    <div class="col-md-8">
+                        <input class="form-control" type="password" name="newPassword">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label"></label>
+                    <div class="col-md-8">
+                        <button type="submit" class="btn btn-primary" formaction="/user/profile">Save Changes</button>
+                        <span></span>
+                        <button type="reset" class="btn btn-default">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<hr> {% endblock %} {% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+<script>
+    $(document).ready(function() {
+        bsCustomFileInput.init()
+    })
+</script>
+{% endblock %} {% block javascript %}
+<script src="{{ asset('assetStudent\js\userProfile.js') }}"></script>
+{% endblock %}

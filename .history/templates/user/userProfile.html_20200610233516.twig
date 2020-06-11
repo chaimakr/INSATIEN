@@ -1,8 +1,9 @@
-
-{% extends (app.user.getRoles()==['ROLE_STUDENT']) ? ("StudentBase.html.twig") : ("TeacherBase.html.twig") %}
-
+{%extends 'StudentBase.html.twig'%}
 {% block navbar %}
 {{ include('inc/userNavbar.html.twig')}}  
+{% endblock %}
+{% block stylesheets %}
+  <link rel="stylesheet" href="{{ asset('assetStudent\css\userProfile.css') }}">
 {% endblock %}
 {% block body %}
 <div class="container">
@@ -19,7 +20,7 @@
 {#        </div>#}
 {#      </div>#}
 
-      <div class="col-md-3">
+     {#<div class="col-md-3">
         <img src="{% if app.user.pdpPath!="" %} /uploads/picture{{ app.user.id }}.jpg {% else %} //placehold.it/100 {% endif %} " alt="" height="100" width="100">
         {{ form_start(formUploadPic) }}
 
@@ -29,7 +30,23 @@
 
         {{ form_row(formUploadPic.changePicture,{'attr':{'class':'btn btn-outline-success'}}) }}
         {{ form_end(formUploadPic) }}
-      </div>
+      </div>#}
+      <div class="container">
+        <h1>jQuery Image Upload 
+            <small>with preview</small>
+        </h1>
+        <div class="avatar-upload">
+            <div class="avatar-edit">
+                <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />
+                <label for="imageUpload"></label>
+            </div>
+            <div class="avatar-preview">
+                <div id="imagePreview" style="background-image: url(http://i.pravatar.cc/500?img=7);">
+                </div>
+            </div>
+        </div>
+    </div>
+      
       
       <!-- edit form column -->
       <div class="col-md-9 personal-info">
@@ -93,4 +110,7 @@
       bsCustomFileInput.init()
     })
   </script>
+{% endblock %}
+{% block javascript %}
+  <script src="{{ asset('assetStudent\js\userProfile.js') }}"></script>
 {% endblock %}

@@ -77,6 +77,7 @@ class UserController extends AbstractController
                                 $hash = $encoder->encodePassword($user, $_POST["newPassword"]);
                                 $user->setPassword($hash);
                                 $this->addFlash('success','your profile is up to date');
+
                         }else{
                             $this->addFlash('error','that\'s not your current password. try again !');
                         }

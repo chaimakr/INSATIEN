@@ -1,5 +1,5 @@
 
-{% extends (app.user.getRoles()==['ROLE_STUDENT']) ? ("StudentBase.html.twig") : ("TeacherBase.html.twig") %}
+{% extends (app.user.getRole()==['ROLE_STUDENT']) ? ("StudentBase.html.twig") : ("TeacherBase.html.twig") %}
 
 {% block navbar %}
 {{ include('inc/userNavbar.html.twig')}}  

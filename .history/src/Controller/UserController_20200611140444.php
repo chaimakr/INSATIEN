@@ -64,6 +64,7 @@ class UserController extends AbstractController
        if (isset($_POST["firstName"])&&$_POST["firstName"]){
             $user->setFirstName($_POST["firstName"]);
             $this->addFlash('success','your profile is up to date');
+
        }
        if (isset($_POST["lastName"])&&$_POST["lastName"]){
             $user->setLastName($_POST["lastName"]) ;
@@ -76,7 +77,6 @@ class UserController extends AbstractController
                         if($user->getPassword()==$hash){
                                 $hash = $encoder->encodePassword($user, $_POST["newPassword"]);
                                 $user->setPassword($hash);
-                                $this->addFlash('success','your profile is up to date');
                         }else{
                             $this->addFlash('error','that\'s not your current password. try again !');
                         }

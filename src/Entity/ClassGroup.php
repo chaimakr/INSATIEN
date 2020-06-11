@@ -40,6 +40,11 @@ class ClassGroup
      */
     private $questions;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $description;
+
     public function __construct()
     {
         $this->studentsMembers = new ArrayCollection();
@@ -128,6 +133,18 @@ class ClassGroup
                 $question->setClass(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

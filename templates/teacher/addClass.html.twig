@@ -1,0 +1,106 @@
+{%extends 'TeacherBase.html.twig'%}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assetTeacher/addClass/multiStepForm.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+
+{% endblock %}
+{% block body %}
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- MultiStep Form -->
+    <div class="row ">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 col-md-offset-3">
+            {{ form_start(formAddClass,{'attr':{'id':'msform'}}) }}
+
+
+
+
+
+                <!-- progressbar -->
+                <ul id="progressbar">
+                    <li class="active">Class Details</li>
+                    <li>Invite your Students</li>
+                    <li>Finish </li>
+                </ul>
+                <!-- fieldsets -->
+                <fieldset>
+                    <h2 class="fs-title"> Create your class </h2>
+
+
+                    {{ form_widget(formAddClass.title,{'attr':{'placeholder':'title'}}) }}
+                    {{ form_widget(formAddClass.description,{'attr':{'placeholder':'description'}}) }}
+                    <input type="button" name="next" class="next action-button" value="Next"/>
+                </fieldset>
+                <fieldset>
+                    <h2 class="fs-title">add your students mails </h2>
+                    <h3 class="fs-subtitle">we will send them emails to join your class <class></class></h3>
+
+                    <div class="ui fluid multiple search selection dropdown" id="selectStudents">
+
+
+                        {{ form_widget(formAddClass.students) }}
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Select your students</div>
+                        <div class="menu">
+                            {% for student in students  %}
+
+                                <div class="item" data-value="{{ student.id }}">
+                                    <img class="img-profile rounded-circle" src="/uploads/picture{{ student.id }}.jpg">
+                                    {{ student.firstName }} {{ student.lastName }}
+                                </div>
+
+
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                    <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
+
+                    <input type="button" name="next" class="next action-button" value="Next"/>
+
+                </fieldset>
+                <fieldset>
+
+                    <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
+
+
+                    {{ form_widget(formAddClass.submit,{"attr":{'class':'action-button'}}) }}
+                </fieldset>
+            {{ form_end(formAddClass) }}
+
+        </div>
+    </div>
+    <!-- /.MultiStep Form -->
+
+
+
+{% endblock %}
+
+
+{% block javascripts %}
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+    <script src="{{ asset('assetTeacher/addClass/multiStepForm.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+    <script type="text/javascript">
+
+            $('#selectStudents').dropdown()
+            ;
+
+
+    </script>
+
+    {% endblock %}

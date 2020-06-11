@@ -103,6 +103,11 @@ class User implements UserInterface
      */
     private $pdpPath='';
 
+    /**
+     * @ORM\OneToMany(targetEntity=Note::class, mappedBy="owner")
+     */
+    private $notes;
+
     public function __construct()
     {
         $this->covoiturages = new ArrayCollection();
@@ -111,6 +116,7 @@ class User implements UserInterface
         $this->questions = new ArrayCollection();
         $this->responses = new ArrayCollection();
         $this->TeacherClassGroups = new ArrayCollection();
+        $this->notes = new ArrayCollection();
     }
 
 
@@ -375,6 +381,37 @@ class User implements UserInterface
     public function setPdpPath(string $pdpPath): self
     {
         $this->pdpPath = $pdpPath;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Note[]
+     */
+    public function getNotes(): Collection
+    {
+        return $this->notes;
+    }
+
+    public function addNote(Note $note): self
+    {
+        if (!$this->notes->contains($note)) {
+            $this->notes[] = $note;
+            $note->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNote(Note $note): self
+    {
+        if ($this->notes->contains($note)) {
+            $this->notes->removeElement($note);
+            // set the owning side to null (unless already changed)
+            if ($note->getOwner() === $this) {
+                $note->setOwner(null);
+            }
+        }
 
         return $this;
     }

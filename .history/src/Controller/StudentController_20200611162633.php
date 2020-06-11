@@ -31,4 +31,14 @@ class StudentController extends AbstractController
 //        dd($this->getUser());
         return $this->render("student/StudentConnected.html.twig");
     }
+    /**
+     * @Route("/student/note", name="note")
+     */
+    public function note()
+    {
+        $manager = $this->getDoctrine()->getManager();        
+        
+        return $this->render("student/note.html.twig");
+    }
+
 }

@@ -103,6 +103,11 @@ class User implements UserInterface
      */
     private $pdpPath='';
 
+    /**
+     * @ORM\OneToMany(targetEntity=Request::class, mappedBy="student")
+     */
+    private $requests;
+
     public function __construct()
     {
         $this->covoiturages = new ArrayCollection();
@@ -111,6 +116,7 @@ class User implements UserInterface
         $this->questions = new ArrayCollection();
         $this->responses = new ArrayCollection();
         $this->TeacherClassGroups = new ArrayCollection();
+        $this->requests = new ArrayCollection();
     }
 
 
@@ -375,6 +381,37 @@ class User implements UserInterface
     public function setPdpPath(string $pdpPath): self
     {
         $this->pdpPath = $pdpPath;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Request[]
+     */
+    public function getRequests(): Collection
+    {
+        return $this->requests;
+    }
+
+    public function addRequest(Request $request): self
+    {
+        if (!$this->requests->contains($request)) {
+            $this->requests[] = $request;
+            $request->setStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRequest(Request $request): self
+    {
+        if ($this->requests->contains($request)) {
+            $this->requests->removeElement($request);
+            // set the owning side to null (unless already changed)
+            if ($request->getStudent() === $this) {
+                $request->setStudent(null);
+            }
+        }
 
         return $this;
     }

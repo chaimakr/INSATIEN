@@ -1,0 +1,60 @@
+{%extends 'TeacherBase.html.twig'%}
+
+{% block stylesheets %}
+    <!-- Custom styles for this page -->
+    <link href="{{ asset('assetStudent/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+
+{% endblock %}
+
+{% block body %}
+
+
+<div class="card-body">
+    <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+            <tr>
+
+                <th>Title</th>
+                <th>Description</th>
+                <th style="width: 20%"></th>
+
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for class in classes %}
+            <tr>
+
+                <td>{{ class.title }}</td>
+                <td>{{ class.description }}</td>
+                <td style="width: 20%" ><a href="/teacher/modifyClass/{{ class.id }}"><i class="fas fa-cog"></i></a> </td>
+
+
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <!-- Page level plugins -->
+    <script src="{{ asset('assetStudent/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assetStudent/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
+
+    <script src="{{ asset('assetStudent/js/demo/datatables-demo.js') }}"></script>
+
+
+{% endblock %}
+
+
+
+

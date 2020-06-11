@@ -20,59 +20,56 @@ class TeacherController extends AbstractController
     public function main()
     {
 
+
+
         return $this->render("teacher/TeacherConnected.html.twig");
     }
+
+
+
+
+
+
+
+
+
 
     /**
      * @Route("/teacher/addClass", name="addClass")
      */
-    public function addClass(Request $request,EntityManagerInterface $manager,\Swift_Mailer $mailer)
+    public function addClass(Request $request, EntityManagerInterface $manager, \Swift_Mailer $mailer)
     {
 
 
-        $class=new ClassGroup();
+        $class = new ClassGroup();
         $class->setOwner($this->getUser());
 
-        $modifyId=$request->get('modifyId');
 
-        if($modifyId){
-
-            $tempClass=$manager->getRepository('App:ClassGroup')->findOneById($modifyId);
-            if($tempClass->getOwner()==$this->getUser()){
-                $class=$tempClass;
-            }
-            else{
-                $this->addFlash('you don\' t own this class');
-            }
-        }
-
-        $formAddClass=$this->createFormBuilder($class)
+        $formAddClass = $this->createFormBuilder($class)
             ->add('title')
             ->add('description')
-            ->add('students',HiddenType::class,[
-                'mapped'=>false,
-                'required'=>false
+            ->add('students', HiddenType::class, [
+                'mapped' => false,
+                'required' => false
             ])
-            ->add('submit',SubmitType::class)
-
-            ->getForm()
-            ;
+            ->add('submit', SubmitType::class)
+            ->getForm();
 
         $formAddClass->handleRequest($request);
-        if($formAddClass->isSubmitted() && $formAddClass->isValid()){
+        if ($formAddClass->isSubmitted() && $formAddClass->isValid()) {
 
-            $studentsIds=explode(',',$formAddClass->get('students')->getData());
+            $studentsIds = explode(',', $formAddClass->get('students')->getData());
 
-            $studentsIds=array_filter($studentsIds,"ctype_digit");
+            $studentsIds = array_filter($studentsIds, "ctype_digit");
 
-            foreach ($studentsIds as $studentId){
-                $student=$manager->getRepository('App:User')->findOneById($studentId);
-                if($student){
+            foreach ($studentsIds as $studentId) {
+                $student = $manager->getRepository('App:User')->findOneById($studentId);
+                if ($student) {
                     $invitation = (new \Swift_Message('invitation'))
                         ->setFrom('insatien.help@gmail.com')
                         ->setTo($student->getEmail())
                         ->setBody(
-                           'invitation to class',
+                            'invitation to class',
                             'text/html'
                         );
                     $mailer->send($invitation);
@@ -87,9 +84,113 @@ class TeacherController extends AbstractController
 
         }
 
-        return $this->render("teacher/addClass.html.twig",[
-            'formAddClass'=>$formAddClass->createView(),
-            'students'=>$manager->getRepository('App:User')->findByRegisterAs("student")
+        return $this->render("teacher/addClass.html.twig", [
+            'formAddClass' => $formAddClass->createView(),
+            'students' => $manager->getRepository('App:User')->findByRegisterAs("student")
         ]);
     }
+
+
+
+
+
+
+
+
+
+
+    /**
+     * @Route("/teacher/showClasses", name="TeacherShowClasses")
+     */
+    public function showClasses(EntityManagerInterface $manager)
+    {
+
+
+
+        $classes = $manager->getRepository('App:ClassGroup')->findByOwner($this->getUser());
+
+
+//        $classes[0]->addStudentsMember($manager->getRepository('App:User')->findOneById(4));
+//        $manager->persist($classes[0]);
+//        $manager->flush();
+//        dd();
+
+        return $this->render("teacher/showClasses.html.twig", [
+            'classes' => $classes
+        ]);
+    }
+
+
+
+
+
+
+
+
+
+
+    /**
+     * @Route("/teacher/modifyClass/{classId}", name="TeacherModifyClasse")
+     */
+    public function modifyClass(Request $request,EntityManagerInterface $manager, $classId = null)
+    {
+
+        $class = $manager->getRepository('App:ClassGroup')->findOneById($classId);
+
+
+        if (!($class && $class->getOwner() == $this->getUser())) {
+            $this->addFlash("error","you don't own this class");
+            return $this->redirect('/teacher/showClasses');
+        }
+
+        $formModifyClass = $this->createFormBuilder($class)
+            ->add('title')
+            ->add('description')
+            ->add('students', HiddenType::class, [
+                'mapped' => false,
+                'required' => false
+            ])
+            ->add('submit', SubmitType::class)
+            ->getForm();
+
+        $formModifyClass->handleRequest($request);
+
+        $students=$manager->getRepository('App:ClassGroup')->findOneById($classId)->getStudentsMembers();
+
+        if($formModifyClass->isSubmitted()&& $formModifyClass->isValid()){
+
+
+            foreach ($students as $student){
+                $class->removeStudentsMember($student);
+            }
+
+
+            $studentsIds = explode(',', $formModifyClass->get('students')->getData());
+
+            $studentsIds = array_filter($studentsIds, "ctype_digit");
+
+            foreach ($studentsIds as $studentId) {
+                $student = $manager->getRepository('App:User')->findOneById($studentId);
+
+                $class->addStudentsMember($student);
+
+            }
+
+            $manager->persist($class);
+            $manager->flush();
+
+
+
+
+                return $this->redirect('/teacher/showClasses');
+        }
+
+        return $this->render('teacher/modifyClass.html.twig', [
+            'formModifyClass' => $formModifyClass->createView(),
+            'students' => $students
+        ]);
+
+    }
+
+
 }

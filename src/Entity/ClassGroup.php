@@ -45,10 +45,16 @@ class ClassGroup
      */
     private $description;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Request::class, mappedBy="class")
+     */
+    private $requests;
+
     public function __construct()
     {
         $this->studentsMembers = new ArrayCollection();
         $this->questions = new ArrayCollection();
+        $this->requests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -145,6 +151,37 @@ class ClassGroup
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Request[]
+     */
+    public function getRequests(): Collection
+    {
+        return $this->requests;
+    }
+
+    public function addRequest(Request $request): self
+    {
+        if (!$this->requests->contains($request)) {
+            $this->requests[] = $request;
+            $request->setClass($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRequest(Request $request): self
+    {
+        if ($this->requests->contains($request)) {
+            $this->requests->removeElement($request);
+            // set the owning side to null (unless already changed)
+            if ($request->getClass() === $this) {
+                $request->setClass(null);
+            }
+        }
 
         return $this;
     }

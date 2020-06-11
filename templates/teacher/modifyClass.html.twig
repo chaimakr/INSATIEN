@@ -1,0 +1,95 @@
+{%extends 'TeacherBase.html.twig'%}
+
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+
+{% endblock %}
+
+
+
+
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 col-md-offset-3">
+            {{ form_start(formModifyClass) }}
+
+
+
+            {{ form_row(formModifyClass.title,{'attr':{'placeholder':'title'}}) }}
+            {{ form_row(formModifyClass.description,{'attr':{'placeholder':'description'}}) }}
+            <label for="form_students">Your students : </label>
+            <div class="ui fluid multiple search selection dropdown" id="selectStudents">
+
+
+
+                <i class="dropdown icon"></i>
+
+                {% set stringStudents='' %}
+
+                {% for student in students  %}
+
+                    <a class="ui label transition visible" data-value="4" style="display: inline-block !important;">
+                        <img class="img-profile rounded-circle" src="/uploads/picture{{ student.id }}.jpg">
+                        {{ student.firstName }} {{ student.lastName }}<i class="delete icon"></i></a>
+
+{# stringStudents is used for dropdown multiselect list to initialise it's value                   #}
+                    {% if loop.first %}
+                    {% set stringStudents=student.id  %}
+                    {% else %}
+                    {% set stringStudents=stringStudents~','~student.id %}
+                    {% endif %}
+
+                {% endfor %}
+
+
+
+                {{ form_row(formModifyClass.students,{'attr':{'value': stringStudents }}) }}
+
+                <div class="default text">Select your students</div>
+                <div class="menu">
+                    {% for student in students  %}
+
+                        <div class="item active filtered" data-value="{{ student.id }}">
+                            <img class="img-profile rounded-circle" src="/uploads/picture{{ student.id }}.jpg">
+                            {{ student.firstName }} {{ student.lastName }}
+                        </div>
+
+
+                    {% endfor %}
+
+
+                </div>
+            </div>
+
+            {{ form_row(formModifyClass.submit) }}
+
+            {{ form_end(formModifyClass) }}
+        </div>
+    </div>
+
+
+
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+    <script type="text/javascript">
+
+        $('#selectStudents').dropdown()
+        ;
+
+
+    </script>
+
+{% endblock %}
+

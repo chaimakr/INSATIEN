@@ -18,14 +18,15 @@
     </ul>
   <form method="post" action="/anon/login" class="form-inline my-2 my-lg-0">
     <input type="email"  name="email" id="inputEmail" class="form-control mr-sm-2" placeholder="email">
-    <input type="password" name="password" id="inputPassword" class="form-control mr-sm-2" placeholder="password" >
+      <input type="password" name="password" id="inputPassword" class="form-control mr-sm-2" placeholder="password" >
         <input type="hidden" name="_csrf_token"
              value="{{ csrf_token('authenticate') }}">
       <button class="btn btn-primary mr-sm-2" type="submit">
         Sign in
       </button>
+      <a class="small" href="/reset-password/forgottenPassword">Forgot Password?</a>
+
     </form>
-    <small><a class="small" href="/reset-password/forgottenPassword">Forgot Password?</a></small>
 </div>
   {% for message in app.session.flashBag.get('loginError') %}
     <div class="alert alert-danger">

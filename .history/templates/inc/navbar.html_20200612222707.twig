@@ -25,8 +25,9 @@
         Sign in
       </button>
     </form>
-    <small><a class="small" href="/reset-password/forgottenPassword">Forgot Password?</a></small>
 </div>
+<small><a class="small" href="/reset-password/forgottenPassword">Forgot Password?</a></small>
+
   {% for message in app.session.flashBag.get('loginError') %}
     <div class="alert alert-danger">
       {{ message }}</div>

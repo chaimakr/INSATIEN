@@ -46,10 +46,10 @@ security:
   access_control:
     #        - {path: ^/anon, allow_if: "is_anonymous() and !is_authenticated()" }
     - {path: ^/anon, allow_if: "is_anonymous()" ,roles: ROLE_UNCONFIRMED  }
-    - {path: ^/reset-password, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    #    - {path: ^/anon, roles: IS_AUTHENTICATED_ANONYMOUSLY }
     - {path: ^/student, roles: ROLE_STUDENT }
     - {path: ^/teacher, roles: ROLE_TEACHER }
     - {path: ^/covoiturage, roles: ROLE_STUDENT }
     - {path: ^/user, allow_if: "is_authenticated()"}
-
+    - { path: ^/forgot_password, role: IS_AUTHENTICATED_ANONYMOUSLY }
   #access_denied_url: /login

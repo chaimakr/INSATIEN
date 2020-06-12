@@ -132,14 +132,14 @@ class TeacherController extends AbstractController
     /**
      * @Route("/teacher/modifyClass/{classId}", name="TeacherModifyClasse")
      */
-    public function modifyClass(Request $request,EntityManagerInterface $manager, $classId = null)
+    public function modifyClass(Request $request, EntityManagerInterface $manager, $classId = null)
     {
 
         $class = $manager->getRepository('App:ClassGroup')->findOneById($classId);
 
 
         if (!($class && $class->getOwner() == $this->getUser())) {
-            $this->addFlash("error","you don't own this class");
+            $this->addFlash("error", "you don't own this class");
             return $this->redirect('/teacher/showClasses');
         }
 
@@ -155,12 +155,12 @@ class TeacherController extends AbstractController
 
         $formModifyClass->handleRequest($request);
 
-        $students=$manager->getRepository('App:ClassGroup')->findOneById($classId)->getStudentsMembers();
+        $students = $manager->getRepository('App:ClassGroup')->findOneById($classId)->getStudentsMembers();
 
-        if($formModifyClass->isSubmitted()&& $formModifyClass->isValid()){
+        if ($formModifyClass->isSubmitted() && $formModifyClass->isValid()) {
 
 
-            foreach ($students as $student){
+            foreach ($students as $student) {
                 $class->removeStudentsMember($student);
             }
 
@@ -180,9 +180,7 @@ class TeacherController extends AbstractController
             $manager->flush();
 
 
-
-
-                return $this->redirect('/teacher/showClasses');
+            return $this->redirect('/teacher/showClasses');
         }
 
         return $this->render('teacher/modifyClass.html.twig', [
@@ -191,6 +189,72 @@ class TeacherController extends AbstractController
         ]);
 
     }
+
+
+
+
+
+
+
+
+
+
+    /**
+     * @Route("/teacher/showRequests", name="showRequests")
+     */
+    public function showRequests(EntityManagerInterface $manager)
+    {
+        $requests = $manager->getRepository('App:Request')->findByClass(
+            $manager->getRepository('App:ClassGroup')->findByOwner($this->getUser())
+        );
+
+
+        return $this->render("teacher/showRequests.html.twig", [
+            'requests' => $requests
+        ]);
+    }
+
+
+
+
+
+
+
+
+
+
+    /**
+     * @Route("/teacher/request/{action}/{id}", name="manageRequests")
+     */
+    public function manageRequests(EntityManagerInterface $manager,$id,$action)
+    {
+        $request = $manager->getRepository('App:Request')->findOneById($id);
+
+
+        if($request &&$request->getClass()->getOwner()==$this->getUser() && in_array($action,['accept','deny'])){
+            if($action=='accept'){
+                $class=$request->getClass();
+                $class->addStudentsMember($request->getStudent());
+                $manager->persist($class);
+            }
+            $manager->remove($request);
+            $manager->flush();
+
+            if($action=='deny')
+                $this->addFlash('info','request removed !');
+            else
+                $this->addFlash('info','request accepted !');
+
+            return $this->redirect('/teacher/showRequests');
+
+        }
+
+        $this->addFlash('error','connot access request ');
+        return $this->redirect('/teacher/showRequests');
+
+    }
+
+
 
 
 }

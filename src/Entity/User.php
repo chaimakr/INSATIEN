@@ -108,6 +108,11 @@ class User implements UserInterface
      */
     private $requests;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Note::class, mappedBy="owner")
+     */
+    private $notes;
+
     public function __construct()
     {
         $this->covoiturages = new ArrayCollection();
@@ -117,6 +122,7 @@ class User implements UserInterface
         $this->responses = new ArrayCollection();
         $this->TeacherClassGroups = new ArrayCollection();
         $this->requests = new ArrayCollection();
+        $this->notes = new ArrayCollection();
     }
 
 
@@ -386,6 +392,7 @@ class User implements UserInterface
     }
 
     /**
+<<<<<<< HEAD
      * @return Collection|Request[]
      */
     public function getRequests(): Collection
@@ -402,6 +409,24 @@ class User implements UserInterface
 
         return $this;
     }
+    /**
+     * @return Collection|Note[]
+     */
+    public function getNotes(): Collection
+    {
+        return $this->notes;
+    }
+
+    public function addNote(Note $note): self
+    {
+        if (!$this->notes->contains($note)) {
+            $this->notes[] = $note;
+            $note->setOwner($this);
+        }
+
+        return $this;
+    }
+
 
     public function removeRequest(Request $request): self
     {
@@ -410,6 +435,18 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($request->getStudent() === $this) {
                 $request->setStudent(null);
+                }
+        }
+
+        return $this;
+    }
+    public function removeNote(Note $note): self
+    {
+        if ($this->notes->contains($note)) {
+            $this->notes->removeElement($note);
+            // set the owning side to null (unless already changed)
+            if ($note->getOwner() === $this) {
+                $note->setOwner(null);
             }
         }
 

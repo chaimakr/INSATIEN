@@ -51,6 +51,7 @@
                         </div>
                       </div>
                       {% endfor %}
+                      {{ knp_pagination_render(notes) }}
                 {% endif %}
             </div>
         </section>
@@ -69,11 +70,9 @@
                 </div>
                 </div>
             </div>
-        {% endif %}  
+        {% endif %}    
         </div>
-        {{ knp_pagination_render(notes) }}  
     </div>
-
 {% endblock %}
 {% block javascript %}
 <script src="{{ asset('assetStudent/js/note.js') }}"></script>

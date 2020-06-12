@@ -27,7 +27,7 @@ class NotesController extends AbstractController
         $notes = $paginator->paginate(
             $donnees, 
             $request->query->getInt('page', 1),
-            5 
+            6 
         );
         return $this->render('notes/note.html.twig', [
             "notes" => $notes
@@ -37,15 +37,10 @@ class NotesController extends AbstractController
     /**
      * @Route("/student/note/{noteId}", name="displayNote",requirements={"noteId"="\d+"})
      */
-     public function DisplayNote($noteId , Request $request, PaginatorInterface $paginator)
+     public function DisplayNote($noteId)
     {
         $manager = $this->getDoctrine()->getManager();
-        $donnees = $manager->getRepository('App:Note')->findByOwner($this->getUser()->getId());
-        $notes = $paginator->paginate(
-            $donnees, 
-            $request->query->getInt('page', 1),
-            5 
-        );
+        $notes = $manager->getRepository('App:Note')->findByOwner($this->getUser()->getId());
         $NOTE = $manager->getRepository('App:Note')->findOneById($noteId);
         return $this->render('notes/note.html.twig', [
             "notes" => $notes,

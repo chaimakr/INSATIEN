@@ -29,11 +29,10 @@
             </div>
             <div>
                 {% if form is defined %}
-                {{ form_start(form,{'attr' : {'novalidate' : 'novalidate' , 'autocomplete' : 'off'}}) }}
+                {{ form_start(form)}}
                 {{ form_row(form.title,{'attr':{'placeholder':'add a title..'}}) }}
-                {{ form_row(form.content,{'attr':{'placeholder':'add content..'}}) }}
-                {{ form_end(form) }}
-                {% endif %}  
+                {{ form_row(form.content,{'attr':{'placeholder':'add content'}}) }}
+
                 {% if notes is defined %}
                     {% for note in notes %}
                       <div class="card border-left-info shadow h-100 py-2 mb-4">
@@ -51,6 +50,7 @@
                         </div>
                       </div>
                       {% endfor %}
+                    {% endif %}  
                 {% endif %}
             </div>
         </section>

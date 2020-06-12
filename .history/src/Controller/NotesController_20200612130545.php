@@ -52,7 +52,7 @@ class NotesController extends AbstractController
         $manager = $this->getDoctrine()->getManager();
         $user = $manager->getRepository('App:User')->findOneById($this->getUser()->getId());
         $note->setOwner($user);
-        if (($request->get('id'))) 
+        if (($request->get('id'))) {
             $note = $manager->getRepository('App:Note')->findOneById($request->get('id'));
         $form = $this->createFormBuilder($note)
             ->add('title', TextType::class)
@@ -75,11 +75,8 @@ class NotesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->persist($note);
             $manager->flush();
-            if (($request->get('id'))) 
-            $this->addFlash('success','note updated ! ');
-            else
             $this->addFlash('success','a new note has been added ! ');
-            return $this->redirect('/student/note');
+
         }
         
         return $this->render('notes/note.html.twig', [

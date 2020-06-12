@@ -79,7 +79,7 @@ class NotesController extends AbstractController
             $this->addFlash('success','note updated ! ');
             else
             $this->addFlash('success','a new note has been added ! ');
-            return $this->redirect('/student/note');
+
         }
         
         return $this->render('notes/note.html.twig', [

@@ -75,11 +75,8 @@ class NotesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->persist($note);
             $manager->flush();
-            if (($request->get('id'))) 
-            $this->addFlash('success','note updated ! ');
-            else
             $this->addFlash('success','a new note has been added ! ');
-            return $this->redirect('/student/note');
+
         }
         
         return $this->render('notes/note.html.twig', [

@@ -1,0 +1,96 @@
+{% extends "base.html.twig" %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('forms/registrationFormStylesheet.css') }}" >
+{% endblock %}
+{% block body %}
+    
+  <div class="container">
+    <div class="row py-5 mt-4 align-items-center">
+      <div class="col-md-5 pr-lg-5 mb-5 mb-md-0">
+        <img src="https://res.cloudinary.com/mhmd/image/upload/v1569543678/form_d9sh6m.svg" alt="" class="img-fluid mb-3 d-none d-md-block">
+        <h1>Create an Account</h1>
+        <p class="font-italic text-muted mb-0">hurry up and join us !</p>
+      </div>
+  
+      <!-- Registeration Form -->
+      <div class="col-md-7 col-lg-6 ml-auto">
+        {{ form_start(form, {'attr' : {'novalidate' : 'novalidate' , 'autocomplete' : 'off'}}) }}
+        <div class="row">
+            <!-- First Name -->
+            {{ form_errors(form.firstName) }}
+            <div class="input-group col-lg-6 mb-4">
+              <div class="input-group-prepend">
+                <span class="input-group-text bg-white px-4 border-md border-right-0">
+                  <i class="fa fa-user text-muted"></i>
+                </span>
+              </div>
+              {{ form_widget(form.firstName) }}
+            </div>
+  
+            <!-- Last Name -->
+            {{ form_errors(form.lastName) }}
+            <div class="input-group col-lg-6 mb-4">
+              <div class="input-group-prepend">
+                <span class="input-group-text bg-white px-4 border-md border-right-0">
+                  <i class="fa fa-user text-muted"></i>
+                </span>
+              </div>
+              {{ form_widget(form.lastName) }}
+            </div>
+  
+            <!-- Email Address -->
+            {{ form_errors(form.email) }}
+            <div class="input-group col-lg-12 mb-4">
+              <div class="input-group-prepend">
+                <span class="input-group-text bg-white px-4 border-md border-right-0">
+                  <i class="fa fa-envelope text-muted"></i>
+                </span>
+              </div>
+              {{ form_widget(form.email) }}           
+             </div>
+
+            <!-- Password -->
+            {{ form_errors(form.password) }}
+            <div class="input-group col-lg-12 mb-4">
+              <div class="input-group-prepend">
+                <span class="input-group-text bg-white px-4 border-md border-right-0">
+                  <i class="fa fa-lock text-muted"></i>
+                </span>
+              </div>
+              {{ form_widget(form.password) }}           
+            </div>
+  
+            <!-- Password Confirmation -->
+            {{ form_errors(form.confirmPassword) }}
+            <div class="input-group col-lg-12 mb-4">
+              <div class="input-group-prepend">
+                <span class="input-group-text bg-white px-4 border-md border-right-0">
+                  <i class="fa fa-lock text-muted"></i>
+                </span>
+              </div>
+              {{ form_widget(form.confirmPassword) }}           
+            </div>
+            <div class="input-group col-lg-12 mb-4">
+                <div class="input-group-prepend">
+                    <i class="fa fa-black-tie"></i>
+                </div>
+              {{form_widget(form.RegisterAs)}}
+            </div>
+            <!-- Submit Button -->
+            <div class="form-group col-lg-12 mx-auto mb-0">
+                {{ form_row(form.register , { 'label': 'Create your account' })}}
+            </div>
+            <!-- Already Registered -->
+            <div class="text-center w-100">
+              <p class="text-muted font-weight-bold">Already Registered? <a href="/anon/confirmWithoutRegister" class="text-primary ml-2">comfirmation</a></p>
+            </div>
+  
+          </div>
+          {{ form_end(form) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block javascript %}
+    
+{% endblock %}  

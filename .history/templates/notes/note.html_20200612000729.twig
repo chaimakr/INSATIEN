@@ -5,7 +5,7 @@
 
 {% block body %}
     <div class="row mb-4">
-    <div class="col-md-4">
+    <div class="col-md-3">
         <section>
             <div class="row mb-4">
                 <div class="col-md-8">
@@ -29,13 +29,22 @@
             </div>
             <div>
                 {% if form is defined %}
-                {{ form_start(form,{'attr' : {'novalidate' : 'novalidate' , 'autocomplete' : 'off'}}) }}
-                {{ form_row(form.title,{'attr':{'placeholder':'add a title..'}}) }}
-                {{ form_row(form.content,{'attr':{'placeholder':'add content..'}}) }}
-                {{ form_end(form) }}
-                {% endif %}  
+                {{form(form)}}
+                {% endif %}
                 {% if notes is defined %}
                     {% for note in notes %}
+                    {#<div class="card shadow mb-4">
+                        <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                          <h6 class="m-0 font-weight-bold text-primary">{{ note.title }}</h6>
+                        </a>
+                        <!-- Card Content - Collapse -->
+                        <div class="collapse show" id="collapseCardExample" style="">
+                          <div class="card-body">
+                            {{ note.content }}
+                          </div>
+                        </div>
+                      </div>#}
+
                       <div class="card border-left-info shadow h-100 py-2 mb-4">
                         <div class="card-body">
                           <div class="row no-gutters align-items-center">
@@ -43,8 +52,7 @@
                               <div class="text-xs font-weight-bold text-info text-uppercase mb-1">{{ note.title }}</div>  
                             </div>
                             <div class="col-auto">
-                              <a href="/student/note/add?id={{ note.id }}"><i class="fa fa-pencil-alt fa-2x text-gray-300"></i></a>
-                              <a href="/student/note/{{ note.id }}" alt="show"><i class="fas fa-clipboard-list fa-2x text-gray-300"></i></a>
+                              <a href="/student/note/{{ note.id }}"><i class="fas fa-clipboard-list fa-2x text-gray-300"></i></a>
                               <a href="/student/note/delete/{{ note.id }}"><i class="fa fa-trash fa-2x text-gray-300"></i></a>
                             </div>
                           </div>
@@ -56,7 +64,7 @@
         </section>
     </div>
         
-        <div class="col-md-8">
+        <div class="col-md-9">
        {% if NOTE is defined %}
             <div class="card shadow mb-4">
                 <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
@@ -65,7 +73,7 @@
                 <!-- Card Content - Collapse -->
                 <div class="collapse show" id="collapseCardExample" style="">
                 <div class="card-body">
-                    {{ NOTE.content }}
+                    <textarea name="" id="" cols="30" rows="10">{{ NOTE.content }} </textarea> 
                 </div>
                 </div>
             </div>

@@ -28,6 +28,7 @@ class Note
     /**
      * @ORM\Column(type="datetime")
      * * @Assert\DateTime
+     * @var string A "Y-m-d H:i:s" formatted value
      */
     private $date;
 

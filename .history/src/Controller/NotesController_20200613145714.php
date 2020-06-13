@@ -84,7 +84,6 @@ class NotesController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $note->setDate(new \DateTime());
             $manager->persist($note);
             $manager->flush();
             if (($request->get('id'))) 

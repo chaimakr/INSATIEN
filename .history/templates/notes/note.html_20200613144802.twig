@@ -9,13 +9,12 @@
         <section>
             <div class="row mb-4">
                 <div class="col-md-8">
-                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" action="{{ path('Search') }}" method="POST">
+                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" action="{{ path('Search') }}">
                         <div class="input-group">
-                          <input type="search" class="form-control bg-light border-0 small" placeholder="Search in notes..." aria-label="Search" aria-describedby="basic-addon2" name='recherche'>
+                          <input type="search" class="form-control bg-light border-0 small" placeholder="Search in notes..." aria-label="Search" aria-describedby="basic-addon2">
                           <div class="input-group-append">
-                            <button class="btn btn-info" type="submit">
+                            <input class="btn btn-info" type="submit">
                               <i class="fas fa-search fa-sm"></i>
-                            </button>
                           </div>
                         </div>
                       </form>
@@ -40,8 +39,7 @@
                         <div class="card-body">
                           <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                              <div class="font-weight-bold text-info text-uppercase mb-1">{{ note.title }}</div>
-                              <small class="mb-0 font-weight-bold text-gray-800">{{ note.date|date('Y-m-d H:i:s') }}</small>  
+                              <div class="text-xs font-weight-bold text-info text-uppercase mb-1">{{ note.title }}</div>  
                             </div>
                             <div class="col-auto">
                               <a href="/student/note/add?id={{ note.id }}"><i class="fa fa-pencil-alt fa-2x text-gray-300"></i></a>

@@ -84,7 +84,6 @@ class NotesController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $note->setDate(new \DateTime());
             $manager->persist($note);
             $manager->flush();
             if (($request->get('id'))) 
@@ -128,14 +127,11 @@ class NotesController extends AbstractController
        
     public function search(Request $request)
     {
-        if(isset($_POST["recherche"])){
             $em = $this->container->get('doctrine')->getManager();
-            $notes = $em->getRepository('App\Entity\Note')->search($_POST["recherche"]);
+            $notes = $em->getRepository('App\Entity\Note')->search($_POST['recherche']);
             return $this->render('note/note.html.twig', [
                 'notes' => $notes
             ]); 
-        }
-         
     }
 
 

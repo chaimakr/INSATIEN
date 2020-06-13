@@ -10,12 +10,7 @@
     <section class="about_area section_gap">
       
         <div class="row justify-content-start align-items-center">
-            <div class="col-lg-6">
-                <div class="about_img">
-                    <img class="" src="{{ asset('img/request2.png') }}" alt="">
-                </div>
-            </div>  
-            <div class="col-lg-6">
+            <div class="offset-lg-1 col-lg-5">
                 <div class="main_title text-left">
                     {{ form_start(requestForm) }}
                     {{ form_row(requestForm.email) }}
@@ -26,10 +21,15 @@
                         </small>
                     </div>
 
-                    <button class="btn btn-primary">Send email</button>
+                    <button class="btn btn-primary">Send password reset email</button>
                     {{ form_end(requestForm) }}
                 </div>
             </div> 
+            <div class="col-lg-5">
+                <div class="about_img">
+                    <img class="" src="{{ asset('img/newPassword.svg') }}" alt="">
+                </div>
+            </div>  
         </div>
         
 </section>

@@ -27,10 +27,9 @@ class Note
 
     /**
      * @ORM\Column(type="datetime")
-     * * @Assert\DateTime
      */
     private $date;
-
+    
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank
@@ -79,18 +78,6 @@ class Note
     public function setOwner(?User $owner): self
     {
         $this->owner = $owner;
-
-        return $this;
-    }
-
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeInterface $date): self
-    {
-        $this->date = $date;
 
         return $this;
     }

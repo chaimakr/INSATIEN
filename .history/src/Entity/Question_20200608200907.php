@@ -25,11 +25,6 @@ class Question
     private $title;
 
     /**
-     * @ORM\Column(type="datetime")
-     */
-    private $date;
-    
-    /**
      * @ORM\Column(type="text")
      */
     private $content;
@@ -152,18 +147,6 @@ class Question
                 $response->setQuesion(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeInterface $date): self
-    {
-        $this->date = $date;
 
         return $this;
     }

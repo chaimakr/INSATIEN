@@ -17,7 +17,7 @@ class TeacherController extends AbstractController
     /**
      * @Route("/teacher", name="teacherHome")
      */
-    public function main()
+    public function main(Request $request)
     {
 
 
@@ -67,9 +67,15 @@ class TeacherController extends AbstractController
                 if ($student) {
                     $invitation = (new \Swift_Message('invitation'))
                         ->setFrom('insatien.help@gmail.com')
+                        ->setSubject('INSATIEN invitation to join class')
                         ->setTo($student->getEmail())
                         ->setBody(
-                            'invitation to class',
+                            $this->getUser()->getFirstName().' '.$this->getUser()->getlastName().
+                            ' invited you to join his/her class '.$class->getTitle().
+                            ' <a href="'.$request->getSchemeAndHttpHost().'/student/joinClass/.'.$class->getId()
+                            .'">click here to join</a>   .'
+
+                            ,
                             'text/html'
                         );
                     $mailer->send($invitation);

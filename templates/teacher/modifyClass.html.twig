@@ -26,13 +26,14 @@
 
 
 
+
                 <i class="dropdown icon"></i>
 
                 {% set stringStudents='' %}
 
                 {% for student in students  %}
 
-                    <a class="ui label transition visible" data-value="4" style="display: inline-block !important;">
+                    <a class="ui label transition visible" data-value="{{ student.id }}" style="display: inline-block !important;">
                         <img class="img-profile rounded-circle" src="/uploads/picture{{ student.id }}.jpg">
                         {{ student.firstName }} {{ student.lastName }}<i class="delete icon"></i></a>
 
@@ -46,8 +47,8 @@
                 {% endfor %}
 
 
-
                 {{ form_row(formModifyClass.students,{'attr':{'value': stringStudents }}) }}
+
 
                 <div class="default text">Select your students</div>
                 <div class="menu">

@@ -48,7 +48,8 @@ class StudentController extends AbstractController
         $otherClasses=$manager->getRepository('App:ClassGroup')->findAll();
 
         foreach ($otherClasses as $key=>$class){
-            if(in_array($this->getUser(),(array)$class->getStudentsMembers())){
+
+            if($class->getStudentsMembers()->contains($this->getUser())){
                 unset($otherClasses[$key]);
             }
         }
@@ -68,7 +69,8 @@ class StudentController extends AbstractController
     {
         $class=$manager->getRepository('App:ClassGroup')->findOneById($id);
 
-        if($class){
+        if(($class) && !($class->getStudentsMembers()->contains($this->getUser()))){
+
 
             $allRequests=$manager->getRepository('App:Request')->findAll();
             foreach ($allRequests as $request){
@@ -93,6 +95,23 @@ class StudentController extends AbstractController
         }
 
 
+    }
+
+
+    /**
+     * @Route("/student/myClasses", name="myClasses")
+     */
+    public function myClasses(EntityManagerInterface $manager)
+    {
+
+        $classes=$manager->getRepository('App:User')->findOneById($this->getUser()->getId())->getStudentClassGroups();
+
+
+
+
+        return $this->render("student/myClasses.html.twig",[
+            'classes'=>$classes
+        ]);
     }
 
 

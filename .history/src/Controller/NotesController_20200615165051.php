@@ -132,14 +132,6 @@ class NotesController extends AbstractController
         $manager = $this->getDoctrine()->getManager();
         $donnees = $manager->getRepository('App:Note')->findAllByTitleAndContent($query);
         //dump($donnees);die;
-        $notes = $paginator->paginate(
-            $donnees, 
-            $request->query->getInt('page', 1),
-            5 
-        );
-        return $this->render('notes/note.html.twig', [
-            "notes" => $notes
-        ]);
 
          
     }

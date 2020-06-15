@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\RequestRepository;
+use App\Repository\RequestFromStudentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=RequestRepository::class)
+ * @ORM\Entity(repositoryClass=RequestFromStudentRepository::class)
  */
-class Request
+class RequestFromStudent
 {
     /**
      * @ORM\Id()
@@ -18,14 +18,14 @@ class Request
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="requests")
+     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="requestFromStudents")
      */
     private $student;
 
     /**
-     * @ORM\ManyToOne(targetEntity=ClassGroup::class, inversedBy="requests")
+     * @ORM\ManyToOne(targetEntity=classGroup::class, inversedBy="requestFromStudents")
      */
-    private $class;
+    private $classGroup;
 
     public function getId(): ?int
     {
@@ -44,14 +44,14 @@ class Request
         return $this;
     }
 
-    public function getClass(): ?ClassGroup
+    public function getClassGroup(): ?classGroup
     {
-        return $this->class;
+        return $this->classGroup;
     }
 
-    public function setClass(?ClassGroup $class): self
+    public function setClassGroup(?classGroup $classGroup): self
     {
-        $this->class = $class;
+        $this->classGroup = $classGroup;
 
         return $this;
     }

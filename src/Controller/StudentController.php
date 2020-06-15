@@ -72,17 +72,17 @@ class StudentController extends AbstractController
         if(($class) && !($class->getStudentsMembers()->contains($this->getUser()))){
 
 
-            $allRequests=$manager->getRepository('App:Request')->findAll();
+            $allRequests=$manager->getRepository('App:RequestFromStudent')->findAll();
             foreach ($allRequests as $request){
-                if($request->getStudent()==$this->getUser()&& $request->getClass()==$class){
+                if($request->getStudent()==$this->getUser()&& $request->getClassGroup()==$class){
                     $this->addFlash('info','You already sent a request to join '.$class->getTitle() );
                     return $this->redirect('/student/showClasses');
                 }
             }
 
-            $requestJoin=new \App\Entity\Request();
+            $requestJoin=new \App\Entity\RequestFromStudent();
             $requestJoin->setStudent($this->getUser());
-            $requestJoin->setClass($class);
+            $requestJoin->setClassGroup($class);
             $manager->persist($requestJoin);
             $manager->flush();
             $this->addFlash('success','Your request to join '.$class->getTitle().' has been send successfully.' );

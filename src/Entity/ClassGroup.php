@@ -46,15 +46,23 @@ class ClassGroup
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=Request::class, mappedBy="class")
+     * @ORM\OneToMany(targetEntity=RequestFromStudent::class, mappedBy="classGroup")
      */
-    private $requests;
+    private $requestFromStudents;
+
+    /**
+     * @ORM\OneToMany(targetEntity=RequestFromTeacher::class, mappedBy="classGroup")
+     */
+    private $requestFromTeachers;
+
 
     public function __construct()
     {
         $this->studentsMembers = new ArrayCollection();
         $this->questions = new ArrayCollection();
-        $this->requests = new ArrayCollection();
+        $this->requestFromStudents = new ArrayCollection();
+        $this->requestFromTeachers = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -156,33 +164,66 @@ class ClassGroup
     }
 
     /**
-     * @return Collection|Request[]
+     * @return Collection|RequestFromStudent[]
      */
-    public function getRequests(): Collection
+    public function getRequestFromStudents(): Collection
     {
-        return $this->requests;
+        return $this->requestFromStudents;
     }
 
-    public function addRequest(Request $request): self
+    public function addRequestFromStudent(RequestFromStudent $requestFromStudent): self
     {
-        if (!$this->requests->contains($request)) {
-            $this->requests[] = $request;
-            $request->setClass($this);
+        if (!$this->requestFromStudents->contains($requestFromStudent)) {
+            $this->requestFromStudents[] = $requestFromStudent;
+            $requestFromStudent->setClassGroup($this);
         }
 
         return $this;
     }
 
-    public function removeRequest(Request $request): self
+    public function removeRequestFromStudent(RequestFromStudent $requestFromStudent): self
     {
-        if ($this->requests->contains($request)) {
-            $this->requests->removeElement($request);
+        if ($this->requestFromStudents->contains($requestFromStudent)) {
+            $this->requestFromStudents->removeElement($requestFromStudent);
             // set the owning side to null (unless already changed)
-            if ($request->getClass() === $this) {
-                $request->setClass(null);
+            if ($requestFromStudent->getClassGroup() === $this) {
+                $requestFromStudent->setClassGroup(null);
             }
         }
 
         return $this;
     }
+
+    /**
+     * @return Collection|RequestFromTeacher[]
+     */
+    public function getRequestFromTeachers(): Collection
+    {
+        return $this->requestFromTeachers;
+    }
+
+    public function addRequestFromTeacher(RequestFromTeacher $requestFromTeacher): self
+    {
+        if (!$this->requestFromTeachers->contains($requestFromTeacher)) {
+            $this->requestFromTeachers[] = $requestFromTeacher;
+            $requestFromTeacher->setClassGroup($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRequestFromTeacher(RequestFromTeacher $requestFromTeacher): self
+    {
+        if ($this->requestFromTeachers->contains($requestFromTeacher)) {
+            $this->requestFromTeachers->removeElement($requestFromTeacher);
+            // set the owning side to null (unless already changed)
+            if ($requestFromTeacher->getClassGroup() === $this) {
+                $requestFromTeacher->setClassGroup(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }

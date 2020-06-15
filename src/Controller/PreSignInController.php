@@ -251,7 +251,7 @@ class PreSignInController extends AbstractController
 //    /**
 //     * @Route("/anon/register", name="register")
 //     */
-//    public function register(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
+//    public function register(RequestFromStudent $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
 //    {
 ////        $request->getSession()->clear();
 //

@@ -86,7 +86,8 @@ class TeacherController extends AbstractController
             $manager->flush();
 
 
-            return $this->redirect('/teacher/addClass');
+            $this->addFlash('success','class added successfully');
+            return $this->redirect('/teacher/showClasses');
 
         }
 
@@ -210,7 +211,7 @@ class TeacherController extends AbstractController
      */
     public function showRequests(EntityManagerInterface $manager)
     {
-        $requests = $manager->getRepository('App:Request')->findByClass(
+        $requests = $manager->getRepository('App:RequestFromStudent')->findByClassGroup(
             $manager->getRepository('App:ClassGroup')->findByOwner($this->getUser())
         );
 
@@ -234,12 +235,12 @@ class TeacherController extends AbstractController
      */
     public function manageRequests(EntityManagerInterface $manager,$id,$action)
     {
-        $request = $manager->getRepository('App:Request')->findOneById($id);
+        $request = $manager->getRepository('App:RequestFromStudent')->findOneById($id);
 
 
-        if($request &&$request->getClass()->getOwner()==$this->getUser() && in_array($action,['accept','deny'])){
+        if($request &&$request->getClassGroup()->getOwner()==$this->getUser() && in_array($action,['accept','deny'])){
             if($action=='accept'){
-                $class=$request->getClass();
+                $class=$request->getClassGroup();
                 $class->addStudentsMember($request->getStudent());
                 $manager->persist($class);
             }

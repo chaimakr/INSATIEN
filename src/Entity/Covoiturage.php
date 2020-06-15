@@ -31,7 +31,7 @@ class Covoiturage
     private $mapPoints;
 
     /**
-     * @ORM\Column(type="string",length=65532, nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $moreDetails;
 

@@ -103,15 +103,21 @@ class User implements UserInterface
      */
     private $pdpPath='';
 
-    /**
-     * @ORM\OneToMany(targetEntity=Request::class, mappedBy="student")
-     */
-    private $requests;
 
     /**
      * @ORM\OneToMany(targetEntity=Note::class, mappedBy="owner")
      */
     private $notes;
+
+    /**
+     * @ORM\OneToMany(targetEntity=RequestFromStudent::class, mappedBy="student")
+     */
+    private $requestFromStudents;
+
+    /**
+     * @ORM\OneToMany(targetEntity=RequestFromTeacher::class, mappedBy="teacher")
+     */
+    private $requestFromTeachers;
 
     public function __construct()
     {
@@ -121,8 +127,10 @@ class User implements UserInterface
         $this->questions = new ArrayCollection();
         $this->responses = new ArrayCollection();
         $this->TeacherClassGroups = new ArrayCollection();
-        $this->requests = new ArrayCollection();
+
         $this->notes = new ArrayCollection();
+        $this->requestFromStudents = new ArrayCollection();
+        $this->requestFromTeachers = new ArrayCollection();
     }
 
 
@@ -391,24 +399,7 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-<<<<<<< HEAD
-     * @return Collection|Request[]
-     */
-    public function getRequests(): Collection
-    {
-        return $this->requests;
-    }
 
-    public function addRequest(Request $request): self
-    {
-        if (!$this->requests->contains($request)) {
-            $this->requests[] = $request;
-            $request->setStudent($this);
-        }
-
-        return $this;
-    }
     /**
      * @return Collection|Note[]
      */
@@ -428,18 +419,7 @@ class User implements UserInterface
     }
 
 
-    public function removeRequest(Request $request): self
-    {
-        if ($this->requests->contains($request)) {
-            $this->requests->removeElement($request);
-            // set the owning side to null (unless already changed)
-            if ($request->getStudent() === $this) {
-                $request->setStudent(null);
-                }
-        }
 
-        return $this;
-    }
     public function removeNote(Note $note): self
     {
         if ($this->notes->contains($note)) {
@@ -447,6 +427,68 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($note->getOwner() === $this) {
                 $note->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RequestFromStudent[]
+     */
+    public function getRequestFromStudents(): Collection
+    {
+        return $this->requestFromStudents;
+    }
+
+    public function addRequestFromStudent(RequestFromStudent $requestFromStudent): self
+    {
+        if (!$this->requestFromStudents->contains($requestFromStudent)) {
+            $this->requestFromStudents[] = $requestFromStudent;
+            $requestFromStudent->setStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRequestFromStudent(RequestFromStudent $requestFromStudent): self
+    {
+        if ($this->requestFromStudents->contains($requestFromStudent)) {
+            $this->requestFromStudents->removeElement($requestFromStudent);
+            // set the owning side to null (unless already changed)
+            if ($requestFromStudent->getStudent() === $this) {
+                $requestFromStudent->setStudent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RequestFromTeacher[]
+     */
+    public function getRequestFromTeachers(): Collection
+    {
+        return $this->requestFromTeachers;
+    }
+
+    public function addRequestFromTeacher(RequestFromTeacher $requestFromTeacher): self
+    {
+        if (!$this->requestFromTeachers->contains($requestFromTeacher)) {
+            $this->requestFromTeachers[] = $requestFromTeacher;
+            $requestFromTeacher->setTeacher($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRequestFromTeacher(RequestFromTeacher $requestFromTeacher): self
+    {
+        if ($this->requestFromTeachers->contains($requestFromTeacher)) {
+            $this->requestFromTeachers->removeElement($requestFromTeacher);
+            // set the owning side to null (unless already changed)
+            if ($requestFromTeacher->getTeacher() === $this) {
+                $requestFromTeacher->setTeacher(null);
             }
         }
 

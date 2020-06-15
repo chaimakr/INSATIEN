@@ -65,6 +65,97 @@
                 <!-- Page level custom scripts -->
                 <script src="{{ asset('assetStudent/js/demo/chart-area-demo.js') }}"></script>
                 <script src="{{ asset('assetStudent/js/demo/chart-pie-demo.js') }}"></script>#}
+
+                <script>
+
+                    const eventSource = new EventSource('http://localhost:3000/.well-known/mercure?topic=newRequest{{ app.user.id }}');
+
+
+                    var requests = undefined;
+                    console.log('test');
+
+                    refresh();
+
+                    eventSource.onmessage = event => {
+
+
+                        console.log("new Request", '{{ app.user.firstName }}');
+
+
+                        refresh();
+
+
+                    }
+
+
+
+                    function refresh() {
+                        $.ajax({
+
+                            url: '/user/requestNotification',
+                            method: 'POST',
+                            data: {
+
+                                read: 1
+                            },
+                            success: function (data) {
+
+                                requests = JSON.parse(data);
+                                // console.log(data);
+
+                            }
+                        });
+                        waitResponce();
+                    }
+
+
+
+                    function waitResponce() {
+
+
+                        if (!requests) {
+                            setTimeout(waitResponce, 80);
+
+                        } else if (requests.length != 0) {
+                            printAll();
+
+
+                        }
+                    }
+
+
+
+                    function printAll() {
+
+
+                        requestsDiv = document.querySelector("#requests");
+                        requestsDiv.innerHTML = '';
+                        requests.forEach(request => {
+                            console.log(request);
+                            requestElement =
+                                ' <a class="dropdown-item d-flex align-items-center" href="#">' +
+                                '                  <div class="mr-3">' +
+                                '                    <div class="icon-circle bg-primary">' +
+                                '                      <i class="fas fa-file-alt text-white"></i>' +
+                                '                    </div>' +
+                                '                  </div>' +
+                                '                  <div>' +
+                                '                    <span class="font-weight-bold"> '+request.teacher+
+                                ' invited you  to join his/her class '
+                                +request.classGroup+' </span>' +
+                                '                  </div>' +
+                                '                </a>'
+
+
+                            requestsDiv.appendChild(document.createRange().createContextualFragment(requestElement));
+                        });
+                        requests = undefined;
+
+
+                    }
+
+
+                </script>
                 {% block javascripts %} {% endblock %}
             </div>
         </div>

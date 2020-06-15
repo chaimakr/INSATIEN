@@ -22,7 +22,7 @@
 
 
 
-    <div class="row ml-2 mb-2">
+    <div class="row ml-2 ">
         <h2 >Add points by clicking on map :</h2>
     </div>
 
@@ -54,7 +54,8 @@
         </div>
         <div class="col-sm-3">
             <h3>Selected points :</h3>
-            <div id="pointDiv" class="overflow-auto my-auto" style="max-width: 100%; height:650px;">
+            <hr>
+            <div id="pointDiv" class="overflow-auto my-auto" >
 
             </div>
         </div>
@@ -69,7 +70,10 @@
 
 {% block javascripts %}
     <script>
+
+        $('#pointDiv')[0].style.height=screen.height*0.6+"px";
         $('#form_returnTime')[0].parentNode.style.display = 'none';
+
     </script>
     <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>
 

@@ -20,7 +20,7 @@ class RequestFromTeacher
     /**
      * @ORM\ManyToOne(targetEntity=user::class, inversedBy="requestFromTeachers")
      */
-    private $teacher;
+    private $student;
 
     /**
      * @ORM\ManyToOne(targetEntity=classGroup::class, inversedBy="requestFromTeachers")
@@ -32,14 +32,14 @@ class RequestFromTeacher
         return $this->id;
     }
 
-    public function getTeacher(): ?user
+    public function getStudent(): ?user
     {
-        return $this->teacher;
+        return $this->student;
     }
 
-    public function setTeacher(?user $teacher): self
+    public function setStudent(?user $student): self
     {
-        $this->teacher = $teacher;
+        $this->student = $student;
 
         return $this;
     }

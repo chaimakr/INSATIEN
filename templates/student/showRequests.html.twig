@@ -1,0 +1,21 @@
+{% extends 'StudentBase.html.twig' %}
+
+
+{% block body %}
+
+
+    {% for request in requests %}
+    <div class="card border-primary mb-3" style="max-width: 100rem;">
+        <div class="card-header">Request from {{ request.classGroup.owner.firstName }} {{  request.classGroup.owner.lastName  }}</div>
+        <div class="card-body text-primary">
+
+            <p class="card-text"> {{ request.classGroup.owner.firstName }} {{  request.classGroup.owner.lastName  }} is asking to join his/her class {{ request.classGroup.title }}</p>
+            <a type="button" class="btn btn-success" style="color: white" href="/student/request/accept/{{ request.id }}">Accept</a>
+            <a type="button" class="btn btn-danger" style="color: white"  href="/student/request/deny/{{ request.id }}">Deny</a>
+        </div>
+    </div>
+    {% endfor %}
+
+{% endblock %}
+
+

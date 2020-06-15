@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\ClassGroup;
+use App\Entity\RequestFromTeacher;
 use Doctrine\DBAL\Types\TextType;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -65,20 +66,11 @@ class TeacherController extends AbstractController
             foreach ($studentsIds as $studentId) {
                 $student = $manager->getRepository('App:User')->findOneById($studentId);
                 if ($student) {
-                    $invitation = (new \Swift_Message('invitation'))
-                        ->setFrom('insatien.help@gmail.com')
-                        ->setSubject('INSATIEN invitation to join class')
-                        ->setTo($student->getEmail())
-                        ->setBody(
-                            $this->getUser()->getFirstName().' '.$this->getUser()->getlastName().
-                            ' invited you to join his/her class '.$class->getTitle().
-                            ' <a href="'.$request->getSchemeAndHttpHost().'/student/joinClass/.'.$class->getId()
-                            .'">click here to join</a>   .'
+                    $invitation=new RequestFromTeacher();
+                    $invitation->setStudent($student);
+                    $invitation->setClassGroup($class);
+                    $manager->persist($invitation);
 
-                            ,
-                            'text/html'
-                        );
-                    $mailer->send($invitation);
                 }
             }
 

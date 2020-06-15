@@ -115,7 +115,7 @@ class User implements UserInterface
     private $requestFromStudents;
 
     /**
-     * @ORM\OneToMany(targetEntity=RequestFromTeacher::class, mappedBy="teacher")
+     * @ORM\OneToMany(targetEntity=RequestFromTeacher::class, mappedBy="student")
      */
     private $requestFromTeachers;
 
@@ -476,7 +476,7 @@ class User implements UserInterface
     {
         if (!$this->requestFromTeachers->contains($requestFromTeacher)) {
             $this->requestFromTeachers[] = $requestFromTeacher;
-            $requestFromTeacher->setTeacher($this);
+            $requestFromTeacher->setStudent($this);
         }
 
         return $this;
@@ -487,8 +487,8 @@ class User implements UserInterface
         if ($this->requestFromTeachers->contains($requestFromTeacher)) {
             $this->requestFromTeachers->removeElement($requestFromTeacher);
             // set the owning side to null (unless already changed)
-            if ($requestFromTeacher->getTeacher() === $this) {
-                $requestFromTeacher->setTeacher(null);
+            if ($requestFromTeacher->getStudent() === $this) {
+                $requestFromTeacher->setStudent(null);
             }
         }
 

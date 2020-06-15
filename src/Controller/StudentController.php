@@ -115,4 +115,50 @@ class StudentController extends AbstractController
     }
 
 
+    /**
+     * @Route("/student/showRequests", name="StudentShowRequests")
+     */
+    public function showRequests(EntityManagerInterface $manager)
+    {
+        $requests = $manager->getRepository('App:RequestFromTeacher')->findByStudent($this->getUser());
+
+
+        return $this->render("student/showRequests.html.twig", [
+            'requests' => $requests
+        ]);
+    }
+
+
+    /**
+     * @Route("/student/request/{action}/{id}", name="StudentManageRequests")
+     */
+    public function manageRequests(EntityManagerInterface $manager,$id,$action)
+    {
+        $request = $manager->getRepository('App:RequestFromTeacher')->findOneById($id);
+
+
+        if($request &&$request->getStudent()==$this->getUser() && in_array($action,['accept','deny'])){
+            if($action=='accept'){
+                $class=$request->getClassGroup();
+                $class->addStudentsMember($request->getStudent());
+                $manager->persist($class);
+            }
+            $manager->remove($request);
+            $manager->flush();
+
+            if($action=='deny')
+                $this->addFlash('info','request removed !');
+            else
+                $this->addFlash('info','request accepted !');
+
+            return $this->redirect('/student/showRequests');
+
+        }
+
+        $this->addFlash('error','connot access request ');
+        return $this->redirect('/student/showRequests');
+
+    }
+
+
 }

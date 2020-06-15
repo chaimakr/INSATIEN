@@ -31,7 +31,8 @@ var pinStyle = new ol.style.Style({
         scale: 0.2,
         anchor: [0.3, 0.3]
 
-    })
+    }),
+    zIndex:2
 });
 
 
@@ -138,8 +139,7 @@ map.on('click', (event) => {
         $.ajax({
             url:'/covoiturage/getCovoiturage?covoiturageId='+feature.values_.covoiturageId,
             success:function (data) {
-                console.log(data);
-                covoiturage=JSON.parse(data);
+                 covoiturage=JSON.parse(data);
             }
         });
         addCard(feature.values_covoiturageId);
@@ -179,7 +179,11 @@ function addCard(covoiturageId){
         covoiturage=null;
 
     }else {
-        $('#card')[0].innerHTML='';
+
+        if(jQuery.isEmptyObject($('#spinner')[0]))
+        $('#card')[0].innerHTML='<div id="spinner" class="spinner-border"  role="status">' +
+            '  <span class="sr-only">Loading...</span>' +
+            '</div>';
         setTimeout(addCard,200,covoiturageId);
     }
 

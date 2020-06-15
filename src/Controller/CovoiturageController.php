@@ -41,6 +41,7 @@ class CovoiturageController extends AbstractController
         $manager = $this->getDoctrine()->getManager();
         $user = $manager->getRepository('App:User')->findOneById($this->getUser()->getId());
         $covoiturage->setOwner($user);
+        $jsonPoints='[]';
 
         if (($request->get('modifyId'))) {
             $covoiturage = $manager->getRepository('App:Covoiturage')->findOneById($request->get('modifyId'));
@@ -81,7 +82,15 @@ class CovoiturageController extends AbstractController
                 'input' => 'timestamp',
 
             ])
-            ->add('moreDetails', TextareaType::class);
+            ->add('moreDetails', TextareaType::class)
+            ->add('points',HiddenType::class,[
+                'mapped'=>false,
+                'attr'=>[
+                    'value'=>$jsonPoints
+                ]
+            ])
+
+        ;
 
 
         if (($request->get('modifyId')))
@@ -99,7 +108,7 @@ class CovoiturageController extends AbstractController
                 $covoiturage->setReturnTime(null);
 
 
-            $points = json_decode($_POST['points'], true);
+            $points = json_decode($form->get('points')->getViewData(), true);
             foreach ($points as $element) {
                 $point = new MapPoint();
                 $point->setX($element['x']);
@@ -117,19 +126,15 @@ class CovoiturageController extends AbstractController
             }
             $this->addFlash('success', 'offre covoiturage ajouté avec succés');
 
-            return $this->redirect('/covoiturage/add');
+            return $this->redirect('/covoiturage/myCovoiturage');
         }
 
-        if (isset($jsonPoints))
+
 
             return $this->render('covoiturage/addCovoiturage.html.twig', [
-                'form' => $form->createView(),
-                'jsonPoints' => $jsonPoints
+                'form' => $form->createView()
             ]);
-        else  return $this->render('covoiturage/addCovoiturage.html.twig', [
-            'form' => $form->createView()
 
-        ]);
     }
 
 

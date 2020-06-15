@@ -151,7 +151,6 @@ map.on('pointermove', (event) => {
 
 
 
-
 /*
 add coordinates of points to the hidden input  on form submit
  */
@@ -160,10 +159,14 @@ function jsonPoints() {
     let point;
     pointsLayer.getSource().getFeatures().forEach((feature) => {
         // json+=('{"x":"'+point.getGeometry().flatCoordinates[0]+'",'+'{"y":"'+point.getGeometry().flatCoordinates[1]+'"');
-        point = new Object();
-        point.x = feature.getGeometry().flatCoordinates[0];
-        point.y = feature.getGeometry().flatCoordinates[1];
-        json.push(point);
+
+        if(feature!=insat){
+            point = new Object();
+            point.x = feature.getGeometry().flatCoordinates[0];
+            point.y = feature.getGeometry().flatCoordinates[1];
+            json.push(point);
+        }
+
     });
 
 

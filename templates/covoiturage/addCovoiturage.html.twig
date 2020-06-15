@@ -29,11 +29,8 @@
     <div class="row">
         <div class="col-sm-3 my-auto">
             {{ form_start(form) }}
-            {% if jsonPoints is defined %}
-            <input type="hidden" id="form_points" name="points" value="{{ jsonPoints }}">
-            {% else %}
-                <input type="hidden" id="form_points" name="points" value="[]">
-            {% endif %}
+            {{ form_row(form.points) }}
+
             {{ form_row(form.departurePoint,{'attr':{'placeholder':'location name'}}) }}
             {{ form_row(form.arrivalPoint,{'attr':{'placeholder':'location name'}}) }}
             {{ form_row(form.type,{'attr':{'onclick':'checkType()'}}) }}

@@ -126,21 +126,10 @@ class NotesController extends AbstractController
      * @Route ("/note/Search", name="Search", methods={"GET","POST"})
      */
        
-    public function search(Request $request ,PaginatorInterface $paginator)
+    public function search(Request $request)
     {
-        $query= $request->request->get('search');
-        $manager = $this->getDoctrine()->getManager();
-        $donnees = $manager->getRepository('App:Note')->findAllByTitleAndContent($query);
-        //dump($donnees);die;
-        $notes = $paginator->paginate(
-            $donnees, 
-            $request->query->getInt('page', 1),
-            5 
-        );
-        return $this->render('notes/note.html.twig', [
-            "notes" => $notes
-        ]);
-
+        $query= $request->request->get('query')
+       
          
     }
 

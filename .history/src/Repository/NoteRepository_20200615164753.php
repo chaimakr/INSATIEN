@@ -29,8 +29,8 @@ class NoteRepository extends ServiceEntityRepository
         $query = $entityManager->createQuery(
             'SELECT N
             FROM App\Entity\Note N
-            WHERE N.title = :query OR N.content = :query
-            ORDER BY N.date DESC'
+            WHERE N.title = :query AND N.content = :query
+            ORDER BY N.date ASC'
         )->setParameter('query', $query);
 
         // returns an array of Product objects

@@ -30,7 +30,7 @@ class NoteRepository extends ServiceEntityRepository
             'SELECT N
             FROM App\Entity\Note N
             WHERE N.title = :query OR N.content = :query
-            ORDER BY N.date DESC'
+            ORDER BY N.date ASC'
         )->setParameter('query', $query);
 
         // returns an array of Product objects

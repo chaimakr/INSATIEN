@@ -19,23 +19,6 @@ class NoteRepository extends ServiceEntityRepository
         parent::__construct($registry, Note::class);
     }
 
-     /**
-     * @return Product[]
-     */
-    public function findAllByTitleAndContent($query): array
-    {
-        $entityManager = $this->getEntityManager();
-
-        $query = $entityManager->createQuery(
-            'SELECT N
-            FROM App\Entity\Note N
-            WHERE N.title = :query OR N.content = :query
-            ORDER BY N.date DESC'
-        )->setParameter('query', $query);
-
-        // returns an array of Product objects
-        return $query->getResult();
-    }
     // /**
     //  * @return Note[] Returns an array of Note objects
     //  */

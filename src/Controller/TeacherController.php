@@ -259,6 +259,64 @@ class TeacherController extends AbstractController
 
     }
 
+    /**
+     * @Route("/teacher/inviteStudents/{classId}", name="inviteStudents")
+     */
+    public function inviteStudents($classId=null,Request $request,EntityManagerInterface $manager,PublisherInterface $publisher)
+    {
+        $class = $manager->getRepository('App:ClassGroup')->findOneById($classId);
+        if ($class && $class->getOwner() == $this->getUser()) {
+            $formInvitation = $this->createFormBuilder()
+                ->add('students', HiddenType::class)
+                ->add('sendInvitation', SubmitType::class)
+                ->getForm();
+
+            $formInvitation->handleRequest($request);
+            if ($formInvitation->isSubmitted() && $formInvitation->isValid()) {
+
+
+                $studentsIds = explode(',', $formInvitation->get('students')->getData());
+
+                $studentsIds = array_filter($studentsIds, "ctype_digit");
+
+                foreach ($studentsIds as $studentId) {
+                    $student = $manager->getRepository('App:User')->findOneById($studentId);
+                    if( ($student)&&
+                       !($manager->getRepository('App:RequestFromTeacher')->findOneBy([
+                           'student'=>$student->getId(),
+                           'classGroup'=>$classId
+                       ]))){
+                        $invitation = new RequestFromTeacher();
+                        $invitation->setStudent($student);
+                        $invitation->setClassGroup($class);
+                        $manager->persist($invitation);
+                        $update = new Update('newRequest' . $student->getId(), "[]");
+                        $publisher($update);
+
+
+                    }
+                    $manager->flush();
+                }
+                $this->addFlash('success', 'invitations sent successfully');
+                return $this->redirect('/teacher/showClasses');
+
+            }
+            $students=$manager->getRepository('App:User')->findByRegisterAs('student');
+            foreach ($students as $key=>$student){
+                if( $student->getStudentClassGroups()->contains($class)) unset( $students[$key]);
+            }
+
+            return $this->render('teacher/inviteStudents.html.twig',[
+                'formInvitation'=>$formInvitation->createView(),
+                'students'=>$students
+            ]);
+
+        }
+        $this->addFlash('success', 'class not found');
+        return $this->redirect('/teacher/showClasses');
+
+    }
+
 
 
 

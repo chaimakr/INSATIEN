@@ -1,0 +1,20 @@
+{%extends 'StudentBase.html.twig'%}
+
+{% block body %}
+<p>Type math here: <span id="math-field"></span>
+</p>
+<div id="keyboard">
+  <div class="btn-group" role="group" aria-label="math functions">
+    <button type="button" class="btn btn-default" onClick='input("\\sqrt")'>√</button>
+    <button type="button" class="btn btn-default" onClick= 'input("\\sin")'>sin</button>
+    <button type="button" class="btn btn-default" onClick='input("\\cos")'>cos</button>
+    <button type="button" class="btn btn-default" onClick='input("\\tan")'>tan</button>
+  </div>
+</div>
+{% endblock %}
+ 
+{% block javascript %}
+    <script src="https://cdn.jsdelivr.net/gh/ianlucas/mathjax-editor/dist/mathjax-editor.js?v=3"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="http://mathquill.com/lib/mathquill.js"></script>
+{% endblock %}

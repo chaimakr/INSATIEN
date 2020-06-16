@@ -1,0 +1,28 @@
+{%extends 'StudentBase.html.twig'%}
+{% block stylesheets %}
+<link rel="stylesheet" href="http://mathquill.com/lib/mathquill.css" />
+{% endblock %}
+
+{% block body %}
+<p>Type math here: <span id="math-field"></span></p>
+<p>LaTeX of what you typed: <span id="latex"></span></p>
+{% endblock %}
+ 
+{% block javascript %}
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="/path/to/mathquill.js"></script>
+<script>
+var mathFieldSpan = document.getElementById('math-field');
+var latexSpan = document.getElementById('latex');
+
+var MQ = MathQuill.getInterface(2); // for backcompat
+var mathField = MQ.MathField(mathFieldSpan, {
+  spaceBehavesLikeTab: true, // configurable
+  handlers: {
+    edit: function() { // useful event handlers
+      latexSpan.textContent = mathField.latex(); // simple API
+    }
+  }
+});
+</script>
+{% endblock %}

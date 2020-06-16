@@ -1,0 +1,13 @@
+{%extends 'StudentBase.html.twig'%}
+
+{% block body %}
+<input id="target">
+
+<script>
+  const editor = mathJaxEditor('#target')
+</script>
+{% endblock %}
+ 
+{% block javascript %}
+    <script src="https://cdn.jsdelivr.net/gh/ianlucas/mathjax-editor/dist/mathjax-editor.js?v=3"></script>
+{% endblock %}

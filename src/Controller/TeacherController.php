@@ -11,6 +11,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mercure\Publisher;
+use Symfony\Component\Mercure\PublisherInterface;
+use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Annotation\Route;
 
 class TeacherController extends AbstractController
@@ -38,7 +41,7 @@ class TeacherController extends AbstractController
     /**
      * @Route("/teacher/addClass", name="addClass")
      */
-    public function addClass(Request $request, EntityManagerInterface $manager, \Swift_Mailer $mailer)
+    public function addClass(Request $request, EntityManagerInterface $manager, \Swift_Mailer $mailer,PublisherInterface $publisher)
     {
 
 
@@ -59,6 +62,7 @@ class TeacherController extends AbstractController
         $formAddClass->handleRequest($request);
         if ($formAddClass->isSubmitted() && $formAddClass->isValid()) {
 
+
             $studentsIds = explode(',', $formAddClass->get('students')->getData());
 
             $studentsIds = array_filter($studentsIds, "ctype_digit");
@@ -70,6 +74,8 @@ class TeacherController extends AbstractController
                     $invitation->setStudent($student);
                     $invitation->setClassGroup($class);
                     $manager->persist($invitation);
+                    $update = new Update('newRequest'.$student->getId(),"[]");
+                    $publisher($update);
 
                 }
             }
@@ -204,7 +210,7 @@ class TeacherController extends AbstractController
     public function showRequests(EntityManagerInterface $manager)
     {
         $requests = $manager->getRepository('App:RequestFromStudent')->findByClassGroup(
-            $manager->getRepository('App:ClassGroup')->findByOwner($this->getUser())
+            $manager->getRepository('App:ClassGroup')->findByOwner($this->getUser()),['id'=>'desc']
         );
 
 

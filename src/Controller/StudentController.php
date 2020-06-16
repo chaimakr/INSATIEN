@@ -11,6 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Mercure\PublisherInterface;
+use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
@@ -65,7 +67,7 @@ class StudentController extends AbstractController
     /**
      * @Route("/student/joinClass/{id}", name="joinClass")
      */
-    public function joinClass($id=null,EntityManagerInterface $manager)
+    public function joinClass($id=null,EntityManagerInterface $manager,PublisherInterface $publisher)
     {
         $class=$manager->getRepository('App:ClassGroup')->findOneById($id);
 
@@ -85,6 +87,8 @@ class StudentController extends AbstractController
             $requestJoin->setClassGroup($class);
             $manager->persist($requestJoin);
             $manager->flush();
+            $update = new Update('newRequest'.$class->getOwner()->getId(),"[]");
+            $publisher($update);
             $this->addFlash('success','Your request to join '.$class->getTitle().' has been send successfully.' );
             return $this->redirect('/student/showClasses');
         }
@@ -120,7 +124,7 @@ class StudentController extends AbstractController
      */
     public function showRequests(EntityManagerInterface $manager)
     {
-        $requests = $manager->getRepository('App:RequestFromTeacher')->findByStudent($this->getUser());
+        $requests = $manager->getRepository('App:RequestFromTeacher')->findByStudent($this->getUser(),['id'=>'desc']);
 
 
         return $this->render("student/showRequests.html.twig", [

@@ -151,13 +151,13 @@ class UserController extends AbstractController
 
         if(in_array('ROLE_TEACHER',$this->getUser()->getRoles())){
             $requests = $manager->getRepository('App:RequestFromStudent')->findByClassGroup(
-                $manager->getRepository('App:ClassGroup')->findByOwner($this->getUser())
+                $manager->getRepository('App:ClassGroup')->findByOwner($this->getUser()),['id'=>'desc']
             );
 
         }
         elseif(in_array('ROLE_STUDENT',$this->getUser()->getRoles())){
 
-            $requests = $manager->getRepository('App:RequestFromTeacher')->findByStudent($this->getUser());
+            $requests = $manager->getRepository('App:RequestFromTeacher')->findByStudent($this->getUser(),['id'=>'desc']);
         }
 
 

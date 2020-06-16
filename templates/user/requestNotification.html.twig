@@ -1,0 +1,38 @@
+
+{% if caller =='ROLE_STUDENT' %}
+
+    [
+    {% for request in requests %}
+        {% if loop.last %}
+            {
+            "teacher":"{{ request.classGroup.owner.firstName }} {{  request.classGroup.owner.lastName  }}",
+            "classGroup":"{{ request.classGroup.title }}"
+            }
+        {% else %}
+            {
+            "teacher":"{{ request.classGroup.owner.firstName }} {{  request.classGroup.owner.lastName  }}",
+            "classGroup":"{{ request.classGroup.title }}"
+            },
+        {% endif %}
+    {% endfor %}
+    ]
+
+{% elseif  caller =='ROLE_TEACHER' %}
+[
+{% for request in requests %}
+    {% if loop.last %}
+        {
+        "student":"{{ request.student.firstName }} {{  request.student.lastName  }}",
+        "classGroup":"{{ request.classGroup.title }}"
+        }
+    {% else %}
+        {
+        "student":"{{ request.student.firstName }} {{  request.student.lastName  }}",
+        "classGroup":"{{ request.classGroup.title }}"
+        },
+    {% endif %}
+{% endfor %}
+]
+
+
+{% endif %}

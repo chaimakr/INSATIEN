@@ -136,6 +136,9 @@
 
                     requestsDiv = document.querySelector("#requests");
                     requestsDiv.innerHTML = '';
+
+
+
                     requests.forEach(request => {
                         console.log(request);
 
@@ -163,6 +166,9 @@
 
                         requestsDiv.appendChild(document.createRange().createContextualFragment(requestElement));
                     });
+
+                    $('#numberOfRequests')[0].innerHTML=requests.length;
+
                     requests = undefined;
 
 

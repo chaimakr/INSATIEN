@@ -18,8 +18,18 @@
 <!-- Page Wrapper -->
 <div id="wrapper">
     {% block Sidebar %}
+    {% if app.user.roles[0]=='ROLE_TEACHER' %}
+
+        {{ include('inc/TeacherSidebar.html.twig') }}
+
+
+    {% elseif app.user.roles[0]=='ROLE_STUDENT'%}
+
         {{ include('inc/StudentSidebar.html.twig') }}
+
+    {% endif %}
     {% endblock %}
+
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
         <!-- Main Content -->
@@ -128,6 +138,16 @@
                     requestsDiv.innerHTML = '';
                     requests.forEach(request => {
                         console.log(request);
+
+                        {% if app.user.roles[0]=='ROLE_TEACHER' %}
+                        requestContent='You have a request from ' + request.student  +' to join your class ' + request.classGroup;
+
+                        {% elseif app.user.roles[0]=='ROLE_STUDENT'%}
+                        requestContent= request.teacher +' invited you  to join his/her class '+ request.classGroup;
+
+                        {% endif %}
+
+
                         requestElement =
                             ' <a class="dropdown-item d-flex align-items-center" href="#">' +
                             '                  <div class="mr-3">' +
@@ -136,9 +156,7 @@
                             '                    </div>' +
                             '                  </div>' +
                             '                  <div>' +
-                            '                    <span class="font-weight-bold"> ' + request.teacher +
-                            ' invited you  to join his/her class '
-                            + request.classGroup + ' </span>' +
+                            '                    <span class="font-weight-bold"> ' +requestContent+ ' </span>' +
                             '                  </div>' +
                             '                </a>'
 

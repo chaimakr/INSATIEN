@@ -1,0 +1,17 @@
+{% extends "StudentBase.html.twig" %}
+{% block body %}
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
+        </div>
+        <div class="card-body">
+          <div class="text-center">
+            <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="img/question.svg" alt="">
+          </div>
+          {{ form_start(form,{'attr' : {'novalidate' : 'novalidate' , 'autocomplete' : 'off'}}) }}
+          {{ form_row(form.title,{'attr':{'placeholder':'add a title..'}}) }}
+          {{ form_row(form.content,{'attr':{'placeholder':'add content..'}}) }}
+          {{ form_end(form) }}
+        </div>
+      </div>
+{% endblock %}

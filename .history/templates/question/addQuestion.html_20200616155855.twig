@@ -1,0 +1,7 @@
+{% extends "StudentBase.html.twig" %}
+{% block body %}
+    {{ form_start(form,{'attr' : {'novalidate' : 'novalidate' , 'autocomplete' : 'off'}}) }}
+    {{ form_row(form.title,{'attr':{'placeholder':'add a title..'}}) }}
+    {{ form_row(form.content,{'attr':{'placeholder':'add content..'}}) }}
+    {{ form_end(form) }}
+{% endblock %}

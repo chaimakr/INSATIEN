@@ -1,0 +1,61 @@
+{% extends "StudentBase.html.twig" %}
+
+{% block stylesheets %}
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="{{ asset('assetStudent/css/sb-admin-2.min.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="container">
+        <div class="panel panel-default widget">
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-comment"></span>
+                <h3 class="panel-title">
+                   Questions </h3>
+                {#<span class="label label-info">
+                    {{ totalNumberOfQuestions }}</span>#}
+            </div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    {% for question in questions %}
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-2 col-md-1">
+                                <img src="{% if app.user.pdpPath!="" %} /uploads/picture{{ app.user.id }}.jpg {% else %} //placehold.it/100 {% endif %} " alt="" height="100" width="100">                            </div>
+                            <div class="col-xs-10 col-md-11">
+                                <div>
+                                    <a href="#">{{ question.title }}</a>
+                                    <div class="mic-info">
+                                        By: <a href="#">{{ question.owner.firstName }} {{ question.owner.lastName }}</a> {{ question.date|date('Y-m-d H:i:s') }}
+                                    </div>
+                                </div>
+                                <div class="comment-text">
+                                    {{ question.content }}
+                                </div>
+                                <div class="action">
+                                    <button type="button" class="btn btn-primary btn-xs" title="Edit">
+                                        <i class="fa-pencil-alt></i>
+                                    </button>
+                                    <button type="button" class="btn btn-success btn-xs" title="Approved">
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-xs" title="Delete">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <a href="#" class="btn btn-primary btn-sm btn-block" role="button"><span class="glyphicon glyphicon-refresh"></span> More</a>
+            </div>
+        </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+{% endblock %}

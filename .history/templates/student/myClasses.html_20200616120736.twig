@@ -25,7 +25,7 @@
             {% for class in classes %}
                 <tr>
 
-                    <td> <a href="/student/class/{{ class.id }}?id={{ class.id }}">{{ class.title }} </a></td>
+                    <td>{{ class.title }}</td>
                     <td>{{ class.description }}</td>
                     <td>{{ class.owner.firstName }} {{ class.owner.lastName }}  (  <small>{{ class.owner.email }}</small>)</td>
 

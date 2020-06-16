@@ -47,7 +47,7 @@ class Response
     private $owner;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Response::class, inversedBy="responses")
+     * @ORM\ManyToOne(targetEntity=Responses::class, inversedBy="responses")
      * @ORM\JoinColumn(nullable=false)
      */
     private $main;

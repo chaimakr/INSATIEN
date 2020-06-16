@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ResponseRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -47,20 +45,10 @@ class Response
     private $owner;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Response::class, inversedBy="responses")
+     * @ORM\ManyToOne(targetEntity=Responses::class, inversedBy="responses")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $main;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Response::class, mappedBy="main", orphanRemoval=true)
-     */
-    private $responses;
-
-    public function __construct()
-    {
-        $this->responses = new ArrayCollection();
-    }
+    private $mainResponse;
 
     public function getId(): ?int
     {
@@ -123,49 +111,6 @@ class Response
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
-
-        return $this;
-    }
-
-    public function getMain(): ?Responses
-    {
-        return $this->main;
-    }
-
-    public function setMain(?Responses $mainResponse): self
-    {
-        $this->main = $mainResponse;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Response[]
-     */
-    public function getResponses(): Collection
-    {
-        return $this->responses;
-    }
-
-    public function addResponse(Response $response): self
-    {
-        if (!$this->responses->contains($response)) {
-            $this->responses[] = $response;
-            $response->setMainResponse($this);
-        }
-
-        return $this;
-    }
-
-    public function removeResponse(Response $response): self
-    {
-        if ($this->responses->contains($response)) {
-            $this->responses->removeElement($response);
-            // set the owning side to null (unless already changed)
-            if ($response->getMainResponse() === $this) {
-                $response->setMainResponse(null);
-            }
-        }
 
         return $this;
     }

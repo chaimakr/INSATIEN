@@ -1,0 +1,30 @@
+{% extends 'StudentBase.html.twig' %}
+
+{% block stylesheets %}
+
+{% endblock %}
+
+{% block body %}
+<section class="about_area section_gap">
+    <div class="container">
+        <div class="row justify-content-start align-items-center">
+            <div class="col-lg-5">
+                <div class="about_img">
+                    <img class="" src="{{ asset('img/question.svg') }}" alt="">
+                </div>
+            </div>
+
+            <div class="offset-lg-2 col-lg-5">
+                <div class="main_title text-left">
+                    <h2>Reset Email Sent</h2>
+                    <p>If you don't receive an email please check your spam folder or <a class="primary_btn" href="{{ path('app_forgot_password_request') }}"><span>try again</span></a>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block javascript %}
+
+{% endblock %}

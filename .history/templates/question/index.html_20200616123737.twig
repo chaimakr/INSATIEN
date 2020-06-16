@@ -1,0 +1,32 @@
+{% extends 'StudentBase.html.twig' %}
+
+{% block stylesheets %}
+
+{% endblock %}
+
+{% block body %}
+<section class="about_area section_gap">
+    <div class="container">
+        
+        <div class="row justify-content-start align-items-center">
+            <div class="offset-lg-3 col-lg-5">
+                <div class="main_title text-left">
+                    <h2>Go TO </h2>
+                    <a class="primary_btn" href="{{ path('app_forgot_password_request') }}">My Questions</a>
+                </div>
+            </div>
+        </div> 
+            <div class="row justify-content-start align-items-center">
+                <div class="offset-lg-1 col-lg-5">
+                    <div class="about_img">
+                        <img class="" src="{{ asset('img/question.svg') }}" alt="">
+                    </div>
+                </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block javascript %}
+
+{% endblock %}

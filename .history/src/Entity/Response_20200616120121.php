@@ -47,7 +47,7 @@ class Response
     private $owner;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Response::class, inversedBy="responses")
+     * @ORM\ManyToOne(targetEntity=Responses::class, inversedBy="responses")
      * @ORM\JoinColumn(nullable=false)
      */
     private $main;
@@ -127,14 +127,14 @@ class Response
         return $this;
     }
 
-    public function getMain(): ?Responses
+    public function getMainResponse(): ?Responses
     {
-        return $this->main;
+        return $this->mainResponse;
     }
 
-    public function setMain(?Responses $mainResponse): self
+    public function setMainResponse(?Responses $mainResponse): self
     {
-        $this->main = $mainResponse;
+        $this->mainResponse = $mainResponse;
 
         return $this;
     }

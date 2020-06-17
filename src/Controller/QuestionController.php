@@ -18,9 +18,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\Security;
 
 
-/**
- * @Route("/user/class/{id}")
- */
 class QuestionController extends AbstractController
 {
 
@@ -52,12 +49,11 @@ public function checkAccess($id){
 
 
     /**
-     * @Route("/addQuestion", name="addQuestion")
+     * @Route("/student/class/{id}/addQuestion", name="addQuestion")
      */
     public function add(Request $request, $id)
     {
 
-        if(in_array('ROLE_TEACHER',$this->getUser()->getRoles()))  return $this->redirect('/');
         $test=$this->checkAccess($id);
         if($test) return $test;
         $question = new Question();
@@ -81,7 +77,7 @@ public function checkAccess($id){
             $manager->persist($question);
             $manager->flush();
             $this->addFlash('success', 'a new question has been added ! ');
-            return $this->redirect('/user/class/' . $id . '/showMyQuestions');
+            return $this->redirect('/student/class/' . $id . '/showMyQuestions');
         }
         return $this->render('question/addQuestion.html.twig', [
             'form' => $form->createView()]);
@@ -97,7 +93,7 @@ public function checkAccess($id){
 
 
     /**
-     * @Route("/showAllQuestions", name="showAllQuestions")
+     * @Route("/user/class/{id}/showAllQuestions", name="showAllQuestions")
      */
     public function allQuestions(Request $request, $id, PaginatorInterface $paginator)
     {
@@ -130,11 +126,10 @@ public function checkAccess($id){
 
 
     /**
-     * @Route("/showMyQuestions", name="showMyQuestions")
+     * @Route("/student/class/{id}/showMyQuestions", name="showMyQuestions")
      */
     public function MyQuestions(Request $request, $id, PaginatorInterface $paginator)
     {
-        if(in_array('ROLE_TEACHER',$this->getUser()->getRoles()))  return $this->redirect('/');
 
         $test=$this->checkAccess($id);
         if($test) return $test;
@@ -165,7 +160,7 @@ public function checkAccess($id){
 
 
     /**
-     * @Route("/searchQuestions", name="SearchQuestions" , methods={"GET","POST"})
+     * @Route("/user/class/{id}/searchQuestions", name="SearchQuestions" , methods={"GET","POST"})
      */
     public function SearchQuestions(Request $request, $id, PaginatorInterface $paginator)
     {

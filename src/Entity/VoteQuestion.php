@@ -27,6 +27,11 @@ class VoteQuestion
      */
     private $question;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $value;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +57,18 @@ class VoteQuestion
     public function setQuestion(?Question $question): self
     {
         $this->question = $question;
+
+        return $this;
+    }
+
+    public function getValue(): ?bool
+    {
+        return $this->value;
+    }
+
+    public function setValue(bool $value): self
+    {
+        $this->value = $value;
 
         return $this;
     }

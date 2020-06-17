@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Question;
+use App\Entity\VoteQuestion;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,7 +23,7 @@ class QuestionController extends AbstractController
 {
 
 
-public function checkAccess($id){
+public function canAccessClass($id){
     $class=$this->getDoctrine()->getManager()->getRepository('App:ClassGroup')->findOneById($id);
     if(in_array('ROLE_STUDENT',$this->getUser()->getRoles())){
 
@@ -54,7 +55,7 @@ public function checkAccess($id){
     public function add(Request $request, $id)
     {
 
-        $test=$this->checkAccess($id);
+        $test=$this->canAccessClass($id);
         if($test) return $test;
         $question = new Question();
         $manager = $this->getDoctrine()->getManager();
@@ -62,6 +63,7 @@ public function checkAccess($id){
         $class = $manager->getRepository('App:ClassGroup')->findOneById($id);
         $question->setClass($class);
         $question->setOwner($user);
+        $question->setEvaluation(0);
         $form = $this->createFormBuilder($question)
             ->add('title', TextType::class)
             ->add('content', TextareaType::class)
@@ -98,7 +100,7 @@ public function checkAccess($id){
     public function allQuestions(Request $request, $id, PaginatorInterface $paginator)
     {
 
-        $test=$this->checkAccess($id);
+        $test=$this->canAccessClass($id);
         if($test) return $test;
 
         $manager = $this->getDoctrine()->getManager();
@@ -131,7 +133,7 @@ public function checkAccess($id){
     public function MyQuestions(Request $request, $id, PaginatorInterface $paginator)
     {
 
-        $test=$this->checkAccess($id);
+        $test=$this->canAccessClass($id);
         if($test) return $test;
 
         $manager = $this->getDoctrine()->getManager();
@@ -164,7 +166,7 @@ public function checkAccess($id){
      */
     public function SearchQuestions(Request $request, $id, PaginatorInterface $paginator)
     {
-        $test=$this->checkAccess($id);
+        $test=$this->canAccessClass($id);
         if($test) return $test;
 
 
@@ -186,6 +188,48 @@ public function checkAccess($id){
             'class' => $class,
             'questions' => $questions
         ]);
+    }
+
+    /**
+     * @Route("/user/question/{action}/{id}", name="voteQuestion")
+     */
+    public function voteQuestion(Request $request, $id, $action,EntityManagerInterface $manager)
+    {
+        $question=$manager->getRepository('App:Question')->findOneById($id);
+
+        if($question && in_array($action,['up','down'])){
+            $test=$this->canAccessClass($question->getClass()->getId());
+            if($test) return $test;
+
+            $votes=$manager->getRepository('App:VoteQuestion')->findOneBy([
+                'class'=>$question->getClass()->getId(),
+                'user'=>$this->getUser()
+            ]);
+
+
+            $vote=new VoteQuestion();
+            $vote->setUser($this->getUser());
+            $vote->setQuestion($question);
+            if($action=='up'){
+                $question->setEvaluation($question->getEvaluation()+1);
+                $vote->setValue(true);
+            }elseif ($action=='down'){
+                $question->setEvaluation($question->getEvaluation()-1);
+                $vote->setValue(false);
+            }
+            $manager->persist($question);
+            $manager->persist($vote);
+            $manager->flush();
+
+            $this->addFlash('success','vote registred');
+
+            return $this->redirect('/user/class/'.$question->getClass()->getId().'/showAllQuestions');
+
+
+        }
+
+
+
     }
 
 

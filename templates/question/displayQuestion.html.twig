@@ -1,11 +1,11 @@
 {% extends "StudentBase.html.twig" %}
 
 {% block stylesheets %}
-<link href="{{ asset('assetStudent/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assetStudent/css/sb-admin-2.min.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
-<div class="container">
+    <div class="container">
         <div class="panel panel-default widget">
             <div class="panel-heading">
                 <span class="glyphicon glyphicon-comment"></span>
@@ -14,67 +14,103 @@
                         <h3 class="panel-title">
                             Questions </h3>
                     </fiv>
-                {#<span class="label label-info">
-                    {{ totalNumberOfQuestions }}</span>#}
+                    {#<span class="label label-info">
+                        {{ totalNumberOfQuestions }}</span>#}
                     <div class="col-lg-3">
-                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" action="/student/class/{{ class.id }}/searchQuestions" method="POST">
-                        <div class="input-group">
-                          <input type="search" class="form-control bg-light border-2" placeholder="Search in questions..." aria-label="Search" aria-describedby="basic-addon2" name="search">
-                          <div class="input-group-append">
-                            <button class="btn btn-info" type="submit">
-                              <i class="fas fa-search"></i>
-                            </button>
-                          </div>
-                        </div>
-                      </form>
+                        <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
+                              action="/student/class/{{ class.id }}/searchQuestions" method="POST">
+                            <div class="input-group">
+                                <input type="search" class="form-control bg-light border-2"
+                                       placeholder="Search in questions..." aria-label="Search"
+                                       aria-describedby="basic-addon2" name="search">
+                                <div class="input-group-append">
+                                    <button class="btn btn-info" type="submit">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                </div>  
+                </div>
             </div>
             <div class="panel-body">
                 <ul class="list-group">
                     {% for question in questions %}
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-xs-2 col-md-1">
-                                <img src="{% if app.user.pdpPath!="" %} /uploads/picture{{ app.user.id }}.jpg {% else %} //placehold.it/100 {% endif %} " alt="" height="80" width="80" class="img-profile rounded-circle">                            </div>
-                            <div class="col-xs-10 col-md-11">
-                                <div>
-                                    <a href="#">{{ question.title }}</a>
-                                    <div class="comment-text">
-                                        {{ question.content }}
+
+
+
+
+
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-xs-2 col-md-1">
+                                    <img src="{% if app.user.pdpPath!="" %} /uploads/picture{{ app.user.id }}.jpg {% else %} //placehold.it/100 {% endif %} "
+                                         alt="" height="80" width="80" class="img-profile rounded-circle"></div>
+                                <div class="col-xs-10 col-md-11">
+                                    <div>
+                                        <a href="#">{{ question.title }}</a>
+                                        <div class="comment-text">
+                                            {{ question.content }}
+                                        </div>
+                                        <div class="mic-info">
+                                            <small>
+                                                By:
+                                                <a href="#">{{ question.owner.firstName }} {{ question.owner.lastName }}</a> {{ question.date|date('Y-m-d H:i:s') }}
+
+                                            </small>
+                                        </div>
                                     </div>
-                                    <div class="mic-info">
-                                        <small>
-                                            By: <a href="#">{{ question.owner.firstName }} {{ question.owner.lastName }}</a> {{ question.date|date('Y-m-d H:i:s') }}
 
-                                        </small>
-                                         </div>
-                                </div>
+                                    <div class="action">
 
-                                <div class="action">
-                                    <button type="button" class="btn btn-success btn-xs" title="Valid">
-                                        <i class="fa fa-check"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-xs" title="Invalid">
-                                        <i class="fa fa-times" aria-hidden="true"></i>
-                                    </button>
+                                        {% set sommeVote=0 %}
+                                        {% for vote in question.voteQuestions %}
+                                            {% if vote.user==app.user %}
+                                                {% if vote.value %}
+                                                    {% set sommeVote=sommeVote+1 %}
+                                                {% else %}
+                                                    {% set sommeVote=sommeVote-1 %}
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+
+
+                                        <a type="button" class="btn btn-default
+                                         {% if sommeVote==1 %} {{ btn-primary }} {% endif %}
+                                         btn-xs" title="upVote"
+                                            href="/user/question/up/{{ question.id }}">
+                                            <i class="fa fa-thumbs-up"></i>
+                                        </a>
+                                        <a type="button" class="btn btn-default
+                                         {% if sommeVote==-1 %} {{ btn-primary }} {% endif %}
+                                        btn-xs" title="downVote"
+                                            href="/user/question/down/{{ question.id }}">
+                                            <i class="fa fa-thumbs-down"></i>
+
+                                        </a>
+
+
+                                        <i class="fas fa-poll"> {{ question.evaluation }}</i>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </li>
-                    <hr>
+                        </li>
+                        <hr>
                     {% endfor %}
                 </ul>
-                {{ knp_pagination_render(questions) }}  
+                {{ knp_pagination_render(questions) }}
 
                 {#<a href="#" class="btn btn-primary btn-sm btn-block" role="button"><span class="glyphicon glyphicon-refresh"></span> More</a>#}
             </div>
         </div>
-</div>
+    </div>
 
 {% endblock %}
 
 {% block javascript %}
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<
+script
+src = "//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js" > < /script>
+    < script
+src = "//code.jquery.com/jquery-1.11.1.min.js" > < /script>
 {% endblock %}

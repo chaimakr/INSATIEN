@@ -236,12 +236,12 @@ class TeacherController extends AbstractController
             else
                 $this->addFlash('info','request accepted !');
 
-            return $this->redirect('/teacher/showRequests');
+            return $this->redirect('/user/showRequests');
 
         }
 
         $this->addFlash('error','connot access request ');
-        return $this->redirect('/teacher/showRequests');
+        return $this->redirect('/user/showRequests');
 
     }
 

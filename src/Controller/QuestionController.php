@@ -201,10 +201,30 @@ public function canAccessClass($id){
             $test=$this->canAccessClass($question->getClass()->getId());
             if($test) return $test;
 
-            $votes=$manager->getRepository('App:VoteQuestion')->findOneBy([
-                'class'=>$question->getClass()->getId(),
+            $votes=$manager->getRepository('App:VoteQuestion')->findBy([
+                'question'=>$question->getId(),
                 'user'=>$this->getUser()
             ]);
+
+            $sommeVotes=0;
+            foreach ($votes as $vote){
+                if($vote->getValue()) $sommeVotes++;
+                else $sommeVotes--;
+            }
+
+
+            if($action=='up' && $sommeVotes==1){
+                $this->addFlash('error','cannot double upVote');
+
+                return $this->redirect('/user/class/'.$question->getClass()->getId().'/showAllQuestions');
+
+            }
+            elseif ($action=='down' && $sommeVotes==-1){
+                $this->addFlash('error','cannot double downVote');
+
+                return $this->redirect('/user/class/'.$question->getClass()->getId().'/showAllQuestions');
+
+            }
 
 
             $vote=new VoteQuestion();

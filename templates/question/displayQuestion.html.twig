@@ -66,6 +66,7 @@
                                         {% set sommeVote=0 %}
                                         {% for vote in question.voteQuestions %}
                                             {% if vote.user==app.user %}
+
                                                 {% if vote.value %}
                                                     {% set sommeVote=sommeVote+1 %}
                                                 {% else %}
@@ -76,13 +77,13 @@
 
 
                                         <a type="button" class="btn btn-default
-                                         {% if sommeVote==1 %} {{ btn-primary }} {% endif %}
+                                         {% if sommeVote==1 %} {{ "btn-primary" }} {% endif %}
                                          btn-xs" title="upVote"
                                             href="/user/question/up/{{ question.id }}">
                                             <i class="fa fa-thumbs-up"></i>
                                         </a>
                                         <a type="button" class="btn btn-default
-                                         {% if sommeVote==-1 %} {{ btn-primary }} {% endif %}
+                                         {% if sommeVote==-1 %} {{" btn-primary" }} {% endif %}
                                         btn-xs" title="downVote"
                                             href="/user/question/down/{{ question.id }}">
                                             <i class="fa fa-thumbs-down"></i>

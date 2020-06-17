@@ -1,4 +1,4 @@
-{% extends "StudentBase.html.twig" %}
+{% extends "userBase.html.twig" %}
 
 {% block stylesheets %}
     <link href="{{ asset('assetStudent/css/sb-admin-2.min.css') }}" rel="stylesheet">
@@ -79,13 +79,13 @@
                                         <a type="button" class="btn btn-default
                                          {% if sommeVote==1 %} {{ "btn-primary" }} {% endif %}
                                          btn-xs" title="upVote"
-                                            href="/user/question/up/{{ question.id }}">
+                                           href="/user/question/up/{{ question.id }}">
                                             <i class="fa fa-thumbs-up"></i>
                                         </a>
                                         <a type="button" class="btn btn-default
-                                         {% if sommeVote==-1 %} {{" btn-primary" }} {% endif %}
+                                         {% if sommeVote==-1 %} {{ " btn-primary" }} {% endif %}
                                         btn-xs" title="downVote"
-                                            href="/user/question/down/{{ question.id }}">
+                                           href="/user/question/down/{{ question.id }}">
                                             <i class="fa fa-thumbs-down"></i>
 
                                         </a>
@@ -108,10 +108,8 @@
 
 {% endblock %}
 
-{% block javascript %}
-<
-script
-src = "//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js" > < /script>
-    < script
-src = "//code.jquery.com/jquery-1.11.1.min.js" > < /script>
+{% block javascripts %}
+
+    <script src = "//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js" ></script>
+    <script src = "//code.jquery.com/jquery-1.11.1.min.js" ></script>
 {% endblock %}

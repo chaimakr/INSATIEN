@@ -124,13 +124,19 @@ class UserController extends AbstractController
 
 
 
+
+
+
+
+
+
     /**
      * @Route("/test", name="test")
      */
     public function test(PublisherInterface $publisher)
     {
 
-        $update = new Update('newRequest4',"[]");
+        $update = new Update('newRequest4', "[]");
 
         // The Publisher service is an invokable object
         $publisher($update);
@@ -143,33 +149,68 @@ class UserController extends AbstractController
 
 
 
+
+
+
+
+
     /**
      * @Route("/user/requestNotification", name="requestNotification")
      */
     public function requestNotification(EntityManagerInterface $manager)
     {
 
-        if(in_array('ROLE_TEACHER',$this->getUser()->getRoles())){
+        if (in_array('ROLE_TEACHER', $this->getUser()->getRoles())) {
             $requests = $manager->getRepository('App:RequestFromStudent')->findByClassGroup(
-                $manager->getRepository('App:ClassGroup')->findByOwner($this->getUser()),['id'=>'desc']
+                $manager->getRepository('App:ClassGroup')->findByOwner($this->getUser()), ['id' => 'desc']
             );
 
+        } elseif (in_array('ROLE_STUDENT', $this->getUser()->getRoles())) {
+
+            $requests = $manager->getRepository('App:RequestFromTeacher')->findByStudent($this->getUser(), ['id' => 'desc']);
         }
-        elseif(in_array('ROLE_STUDENT',$this->getUser()->getRoles())){
-
-            $requests = $manager->getRepository('App:RequestFromTeacher')->findByStudent($this->getUser(),['id'=>'desc']);
-        }
 
 
-
-        return $this->render('user/requestNotification.html.twig',[
-            'requests'=>$requests,
-            'caller'=>$this->getUser()->getRoles()[0]
+        return $this->render('user/requestNotification.html.twig', [
+            'requests' => $requests,
+            'caller' => $this->getUser()->getRoles()[0]
         ]);
 
 
     }
 
+
+
+
+
+
+
+
+
+
+    /**
+     * @Route("/user/showRequests", name="showRequests")
+     */
+    public function showRequests(EntityManagerInterface $manager)
+    {
+
+        if($this->getUser()->getRoles()[0]=='ROLE_TEACHER'){
+            $requests = $manager->getRepository('App:RequestFromStudent')->findByClassGroup(
+                $manager->getRepository('App:ClassGroup')->findByOwner($this->getUser()), ['id' => 'desc']
+            );
+
+        }elseif($this->getUser()->getRoles()[0]=='ROLE_STUDENT'){
+            $requests = $manager->getRepository('App:RequestFromTeacher')->findByStudent($this->getUser(),['id'=>'desc']);
+
+        }
+
+
+
+
+        return $this->render("user/showRequests.html.twig", [
+            'requests' => $requests
+        ]);
+    }
 
 
 }

@@ -145,6 +145,7 @@
                         {% if app.user.roles[0]=='ROLE_TEACHER' %}
                         requestContent='You have a request from ' + request.student  +' to join your class ' + request.classGroup;
 
+
                         {% elseif app.user.roles[0]=='ROLE_STUDENT'%}
                         requestContent= request.teacher +' invited you  to join his/her class '+ request.classGroup;
 
@@ -152,7 +153,7 @@
 
 
                         requestElement =
-                            ' <a class="dropdown-item d-flex align-items-center" href="#">' +
+                            ' <a class="dropdown-item d-flex align-items-center" href="/user/showRequests">' +
                             '                  <div class="mr-3">' +
                             '                    <div class="icon-circle bg-primary">' +
                             '                      <i class="fas fa-file-alt text-white"></i>' +

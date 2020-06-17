@@ -119,18 +119,6 @@ class StudentController extends AbstractController
     }
 
 
-    /**
-     * @Route("/student/showRequests", name="StudentShowRequests")
-     */
-    public function showRequests(EntityManagerInterface $manager)
-    {
-        $requests = $manager->getRepository('App:RequestFromTeacher')->findByStudent($this->getUser(),['id'=>'desc']);
-
-
-        return $this->render("student/showRequests.html.twig", [
-            'requests' => $requests
-        ]);
-    }
 
 
     /**

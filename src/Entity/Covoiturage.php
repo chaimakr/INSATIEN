@@ -51,6 +51,11 @@ class Covoiturage
     private $type;
 
     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $date;
+
+    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $departureTime;
@@ -183,6 +188,18 @@ class Covoiturage
     public function setReturnTime(?int $returnTime): self
     {
         $this->returnTime = $returnTime;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): self
+    {
+        $this->date = $date;
 
         return $this;
     }

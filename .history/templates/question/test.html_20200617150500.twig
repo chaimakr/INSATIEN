@@ -1,0 +1,59 @@
+{% extends "userBase.html.twig" %}
+{% block body %}
+<div class="row mb-4">
+    <div class="col-md-4">
+        <section>
+            <div class="row mb-4">
+                <div class="col-md-8">            
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" action="{{ path('Search') }}" method="POST">
+                                <div class="input-group">
+                                  <input type="search" class="form-control bg-light border-0 small" placeholder="Search in notes..." aria-label="Search" aria-describedby="basic-addon2" name='search'>
+                                  <div class="input-group-append">
+                                    <button class="btn btn-info" type="submit">
+                                      <i class="fas fa-search fa-sm"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                              </form>
+                        </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                    <td>
+                                        {% if form is defined %}
+                {{ form_start(form,{'attr' : {'novalidate' : 'novalidate' , 'autocomplete' : 'off'}}) }}
+                {{ form_row(form.title,{'attr':{'placeholder':'add a title..'}}) }}
+                {{ form_row(form.content,{'attr':{'placeholder':'add content..'}}) }}
+                {{ form_end(form) }}
+                {% endif %}  
+                {% if notes is defined %}
+                    {% for note in notes %}
+                      <div class="card border-left-info shadow h-100 py-2 mb-4">
+                        <div class="card-body">
+                          <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                              <div class="font-weight-bold text-info text-uppercase mb-1">{{ note.title }}</div>
+                              <small class="mb-0 font-weight-bold text-gray-800">{{ note.date|date('Y-m-d H:i:s') }}</small>  
+                            </div>
+                            <div class="col-auto">
+                              <a href="/student/note/add?id={{ note.id }}"><i class="fa fa-pencil-alt fa-2x text-gray-300"></i></a>
+                              <a href="/student/note/{{ note.id }}" alt="show"><i class="fas fa-clipboard-list fa-2x text-gray-300"></i></a>
+                              <a href="/student/note/delete/{{ note.id }}"><i class="fa fa-trash fa-2x text-gray-300"></i></a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {% endfor %}
+                                    </td>
+                                    </tr>
+                                </thead>
+                             </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{%extends 'userBase.html.twig'%}
+{% block stylesheets %}
+
+{% endblock %}
+
+{% block body %}
+
+<section class="about_area section_gap">
+        
+        <div class="row justify-content-start align-items-center">
+            <div class="col-lg-5">
+                <div class="about_img">
+                    <img class="" src="{{ asset('img/newsfeed2.svg') }}" height="500" width="600">
+                </div>
+            </div>
+                <div class="offset-lg-1 col-lg-5">
+                    <div class="card border-left-warning shadow h-100 py-2 mb-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">covoiturage</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                        </div>
+                                    <div class="col-auto">
+                                         <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+</section>
+<section>
+    <div class="container">
+        <div class="row py-5 mt-4 align-items-center">
+           
+
+            <div class="col-md-7 col-lg-6 ml-auto">
+
+            </div>
+            <div class="col-md-5 pr-lg-5 mb-5 mb-md-0">
+                <img src="{{ asset('img/newsfeed1.svg')}}" alt="" class="img-fluid mb-3 d-none d-md-block">
+                <h1>Create an Account</h1>
+                <p class="font-italic text-muted mb-0">hurry up and join us !</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+ 
+{% block javascript %}
+
+{% endblock %}

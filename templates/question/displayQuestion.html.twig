@@ -36,17 +36,21 @@
                     <li class="list-group-item">
                         <div class="row">
                             <div class="col-xs-2 col-md-1">
-                                <img src="{% if app.user.pdpPath!="" %} /uploads/picture{{ app.user.id }}.jpg {% else %} //placehold.it/100 {% endif %} " alt="" height="100" width="100">                            </div>
+                                <img src="{% if app.user.pdpPath!="" %} /uploads/picture{{ app.user.id }}.jpg {% else %} //placehold.it/100 {% endif %} " alt="" height="80" width="80" class="img-profile rounded-circle">                            </div>
                             <div class="col-xs-10 col-md-11">
                                 <div>
                                     <a href="#">{{ question.title }}</a>
-                                    <div class="mic-info">
-                                        By: <a href="#">{{ question.owner.firstName }} {{ question.owner.lastName }}</a> {{ question.date|date('Y-m-d H:i:s') }}
+                                    <div class="comment-text">
+                                        {{ question.content }}
                                     </div>
+                                    <div class="mic-info">
+                                        <small>
+                                            By: <a href="#">{{ question.owner.firstName }} {{ question.owner.lastName }}</a> {{ question.date|date('Y-m-d H:i:s') }}
+
+                                        </small>
+                                         </div>
                                 </div>
-                                <div class="comment-text">
-                                    {{ question.content }}
-                                </div>
+
                                 <div class="action">
                                     <button type="button" class="btn btn-success btn-xs" title="Valid">
                                         <i class="fa fa-check"></i>

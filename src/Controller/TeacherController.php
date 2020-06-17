@@ -204,20 +204,6 @@ class TeacherController extends AbstractController
 
 
 
-    /**
-     * @Route("/teacher/showRequests", name="showRequests")
-     */
-    public function showRequests(EntityManagerInterface $manager)
-    {
-        $requests = $manager->getRepository('App:RequestFromStudent')->findByClassGroup(
-            $manager->getRepository('App:ClassGroup')->findByOwner($this->getUser()),['id'=>'desc']
-        );
-
-
-        return $this->render("teacher/showRequests.html.twig", [
-            'requests' => $requests
-        ]);
-    }
 
 
 
@@ -250,12 +236,12 @@ class TeacherController extends AbstractController
             else
                 $this->addFlash('info','request accepted !');
 
-            return $this->redirect('/teacher/showRequests');
+            return $this->redirect('/user/showRequests');
 
         }
 
         $this->addFlash('error','connot access request ');
-        return $this->redirect('/teacher/showRequests');
+        return $this->redirect('/user/showRequests');
 
     }
 

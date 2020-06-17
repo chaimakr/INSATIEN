@@ -63,12 +63,13 @@ class QuestionRepository extends ServiceEntityRepository
       * @return Question[] Returns an array of Question objects
       */
     
-    public function findByTitleAndContent($query)
+    public function findByTitleAndConten($query)
     {
         return $this->createQueryBuilder('q')
-            ->andWhere(' q.title = :query OR q.content = :query ')
-            ->setParameter('query', $query)
+            ->andWhere(' q.title LIKE %:query% OR q.content LIKE %:query% ')
+            ->setParameter('val', $value)
             ->orderBy('q.date', 'DESC')
+            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;

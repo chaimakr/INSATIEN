@@ -69,6 +69,7 @@ class QuestionRepository extends ServiceEntityRepository
             ->andWhere(' q.title = :query OR q.content = :query ')
             ->setParameter('query', $query)
             ->orderBy('q.date', 'DESC')
+            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;

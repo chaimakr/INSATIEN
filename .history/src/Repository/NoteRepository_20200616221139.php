@@ -29,7 +29,7 @@ class NoteRepository extends ServiceEntityRepository
         $query = $entityManager->createQuery(
             'SELECT N
             FROM App\Entity\Note N
-            WHERE N.title = :query OR N.content = :query
+            WHERE (N.title = :query OR N.content = :query)
             ORDER BY N.date DESC'
         )->setParameter('query', $query);
 

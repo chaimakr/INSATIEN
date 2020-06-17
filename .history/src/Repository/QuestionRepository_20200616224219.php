@@ -19,16 +19,16 @@ class QuestionRepository extends ServiceEntityRepository
         parent::__construct($registry, Question::class);
     }
 
-    
-    // /**
-    // * @return Question[]
-    //*/
-    /*public function findAllByTitleAndContent($query): array
+
+    /**
+     * @return Question[]
+     */
+    public function findAllByTitleAndContent($query): array
     {
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(
-            'SELECT q
+            'SELECT *
             FROM App\Entity\Question q
             WHERE q.title = :query OR q.content = :query 
             ORDER BY q.date DESC'
@@ -36,7 +36,7 @@ class QuestionRepository extends ServiceEntityRepository
 
         // returns an array of Product objects
         return $query->getResult();
-    }*/
+    }
 
      /**
      * @return Question[]
@@ -59,21 +59,22 @@ class QuestionRepository extends ServiceEntityRepository
 
 
 
-     /**
-      * @return Question[] Returns an array of Question objects
-      */
-    
-    public function findByTitleAndContent($query)
+    // /**
+    //  * @return Question[] Returns an array of Question objects
+    //  */
+    /*
+    public function findByExampleField($value)
     {
         return $this->createQueryBuilder('q')
-            ->andWhere(' q.title = :query OR q.content = :query ')
-            ->setParameter('query', $query)
-            ->orderBy('q.date', 'DESC')
+            ->andWhere('q.exampleField = :val')
+            ->setParameter('val', $value)
+            ->orderBy('q.id', 'ASC')
+            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
-    
+    */
 
     /*
     public function findOneBySomeField($value): ?Question

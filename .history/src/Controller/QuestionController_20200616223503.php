@@ -120,7 +120,7 @@ class QuestionController extends AbstractController
     {
         $query= $request->request->get('search');
         $manager = $this->getDoctrine()->getManager();
-        $donnees = $manager->getRepository('App:Question')->findByTitleAndContent($query);
+        $donnees = $manager->getRepository('App:Question')->findAllByTitleAndContent($query);
         dump($donnees);die;
         $questions = $paginator->paginate(
             $donnees, 

@@ -22,7 +22,7 @@ class NoteRepository extends ServiceEntityRepository
      /**
      * @return Note[]
      */
-    public function findAllByTitleAndContent($query): array
+    public function findAllByTitleAndContent($Query): array
     {
         $entityManager = $this->getEntityManager();
 
@@ -31,7 +31,7 @@ class NoteRepository extends ServiceEntityRepository
             FROM App\Entity\Note N
             WHERE N.title = :query OR N.content = :query
             ORDER BY N.date DESC'
-        )->setParameter('query', $query);
+        )->setParameter('query', $Query);
 
         // returns an array of Product objects
         return $query->getResult();

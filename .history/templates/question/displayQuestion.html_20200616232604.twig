@@ -9,26 +9,14 @@
         <div class="panel panel-default widget">
             <div class="panel-heading">
                 <span class="glyphicon glyphicon-comment"></span>
-                <div class="row justify-content-start align-items-center">
-                    <fiv class="col-lg-9">
                         <h3 class="panel-title">
                             Questions </h3>
-                    </fiv>
                 {#<span class="label label-info">
                     {{ totalNumberOfQuestions }}</span>#}
-                    <div class="col-lg-3">
-                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" action="/student/class/{{ class.id }}/searchQuestions" method="POST">
-                        <div class="input-group">
-                          <input type="search" class="form-control bg-light border-2" placeholder="Search in notes..." aria-label="Search" aria-describedby="basic-addon2" name="search">
-                          <div class="input-group-append">
-                            <button class="btn btn-info" type="submit">
-                              <i class="fas fa-search"></i>
-                            </button>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 </div>  
+            </div>
             </div>
             <div class="panel-body">
                 <ul class="list-group">

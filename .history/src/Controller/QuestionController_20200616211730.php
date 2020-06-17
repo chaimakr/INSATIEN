@@ -79,7 +79,7 @@ class QuestionController extends AbstractController
         $manager = $this->getDoctrine()->getManager();
         $class = $manager->getRepository('App:ClassGroup')->findOneById($id);
         $donnees=$class->getQuestions();
-        //dd($donnees);
+        dd($donnees);
         $questions = $paginator->paginate(
             $donnees, 
             $request->query->getInt('page', 1),
@@ -113,21 +113,21 @@ class QuestionController extends AbstractController
          }
 
 
-    /**
-     * @Route("/searchQuestions", name="SearchQuestions" , methods={"GET","POST"})
+          /**
+     * @Route("/searchQuestions", name="SearchQuestions")
      */
     public function SearchQuestions(Request $request, $id, PaginatorInterface $paginator)
     {
-        $query= $request->request->get('search');
         $manager = $this->getDoctrine()->getManager();
-        $donnees = $manager->getRepository('App:Question')->findByTitleAndContent($query);
-        dump($donnees);die;
+        $class = $manager->getRepository('App:ClassGroup')->findOneById($id);
+        $user = $this->getUser();
+        $donnees = $manager->getRepository('App:Question')->findMyQuestionInSpecificClass($id,$user->getId());
+
         $questions = $paginator->paginate(
             $donnees, 
             $request->query->getInt('page', 1),
             5 
         );
-        $class = $manager->getRepository('App:ClassGroup')->findOneById($id);
         return $this->render('question/displayQuestion.html.twig',[
             'class' => $class,
             'questions' => $questions

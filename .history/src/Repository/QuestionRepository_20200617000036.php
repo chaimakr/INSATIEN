@@ -66,7 +66,7 @@ class QuestionRepository extends ServiceEntityRepository
     public function findByTitleAndContent($query)
     {
         return $this->createQueryBuilder('q')
-            ->andWhere(' q.title = :query OR q.content = :query ')
+            ->andWhere(' CHARINDEX( @query,@q.title)>0 OR CHARINDEX( @query,@q.content)>0 ')
             ->setParameter('query', $query)
             ->orderBy('q.date', 'DESC')
             ->getQuery()

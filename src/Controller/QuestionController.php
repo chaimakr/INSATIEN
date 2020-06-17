@@ -19,19 +19,29 @@ use Symfony\Component\Security\Core\Security;
 
 
 /**
- * @Route("/student/class/{id}")
+ * @Route("/user/class/{id}")
  */
 class QuestionController extends AbstractController
 {
 
 
 public function checkAccess($id){
-
     $class=$this->getDoctrine()->getManager()->getRepository('App:ClassGroup')->findOneById($id);
-    if(!($class && $class->getStudentsMembers()->contains($this->getUser()))){
-      $this->addFlash("error",'cannot access class');
-        return $this->redirect('/student/myClasses');
-    };
+    if(in_array('ROLE_STUDENT',$this->getUser()->getRoles())){
+
+        if(!($class && $class->getStudentsMembers()->contains($this->getUser()))){
+            $this->addFlash("error",'cannot access class');
+            return $this->redirect('/student/myClasses');
+        };
+    }
+    elseif (in_array('ROLE_TEACHER',$this->getUser()->getRoles())){
+        if(!($class && $class->getOwner()==$this->getUser())){
+            $this->addFlash("error",'cannot access class');
+            return $this->redirect('/teacher/showClasses');
+        }
+    }
+
+
 }
 
 
@@ -46,6 +56,8 @@ public function checkAccess($id){
      */
     public function add(Request $request, $id)
     {
+
+        if(in_array('ROLE_TEACHER',$this->getUser()->getRoles()))  return $this->redirect('/');
         $test=$this->checkAccess($id);
         if($test) return $test;
         $question = new Question();
@@ -69,7 +81,7 @@ public function checkAccess($id){
             $manager->persist($question);
             $manager->flush();
             $this->addFlash('success', 'a new question has been added ! ');
-            return $this->redirect('/student/class/' . $id . '/showMyQuestions');
+            return $this->redirect('/user/class/' . $id . '/showMyQuestions');
         }
         return $this->render('question/addQuestion.html.twig', [
             'form' => $form->createView()]);
@@ -89,6 +101,7 @@ public function checkAccess($id){
      */
     public function allQuestions(Request $request, $id, PaginatorInterface $paginator)
     {
+
         $test=$this->checkAccess($id);
         if($test) return $test;
 
@@ -121,6 +134,8 @@ public function checkAccess($id){
      */
     public function MyQuestions(Request $request, $id, PaginatorInterface $paginator)
     {
+        if(in_array('ROLE_TEACHER',$this->getUser()->getRoles()))  return $this->redirect('/');
+
         $test=$this->checkAccess($id);
         if($test) return $test;
 

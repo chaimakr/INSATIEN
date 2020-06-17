@@ -119,6 +119,16 @@ class User implements UserInterface
      */
     private $requestFromTeachers;
 
+    /**
+     * @ORM\OneToMany(targetEntity=VoteQuestion::class, mappedBy="user")
+     */
+    private $voteQuestions;
+
+    /**
+     * @ORM\OneToMany(targetEntity=VoteResponse::class, mappedBy="user")
+     */
+    private $voteResponses;
+
     public function __construct()
     {
         $this->covoiturages = new ArrayCollection();
@@ -131,6 +141,8 @@ class User implements UserInterface
         $this->notes = new ArrayCollection();
         $this->requestFromStudents = new ArrayCollection();
         $this->requestFromTeachers = new ArrayCollection();
+        $this->voteQuestions = new ArrayCollection();
+        $this->voteResponses = new ArrayCollection();
     }
 
 
@@ -489,6 +501,68 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($requestFromTeacher->getStudent() === $this) {
                 $requestFromTeacher->setStudent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|VoteQuestion[]
+     */
+    public function getVoteQuestions(): Collection
+    {
+        return $this->voteQuestions;
+    }
+
+    public function addVoteQuestion(VoteQuestion $voteQuestion): self
+    {
+        if (!$this->voteQuestions->contains($voteQuestion)) {
+            $this->voteQuestions[] = $voteQuestion;
+            $voteQuestion->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVoteQuestion(VoteQuestion $voteQuestion): self
+    {
+        if ($this->voteQuestions->contains($voteQuestion)) {
+            $this->voteQuestions->removeElement($voteQuestion);
+            // set the owning side to null (unless already changed)
+            if ($voteQuestion->getUser() === $this) {
+                $voteQuestion->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|VoteResponse[]
+     */
+    public function getVoteResponses(): Collection
+    {
+        return $this->voteResponses;
+    }
+
+    public function addVoteResponse(VoteResponse $voteResponse): self
+    {
+        if (!$this->voteResponses->contains($voteResponse)) {
+            $this->voteResponses[] = $voteResponse;
+            $voteResponse->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVoteResponse(VoteResponse $voteResponse): self
+    {
+        if ($this->voteResponses->contains($voteResponse)) {
+            $this->voteResponses->removeElement($voteResponse);
+            // set the owning side to null (unless already changed)
+            if ($voteResponse->getUser() === $this) {
+                $voteResponse->setUser(null);
             }
         }
 

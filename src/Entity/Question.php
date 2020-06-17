@@ -59,9 +59,15 @@ class Question
      */
     private $responses;
 
+    /**
+     * @ORM\OneToMany(targetEntity=VoteQuestion::class, mappedBy="question")
+     */
+    private $voteQuestions;
+
     public function __construct()
     {
         $this->responses = new ArrayCollection();
+        $this->voteQuestions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -168,6 +174,37 @@ class Question
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|VoteQuestion[]
+     */
+    public function getVoteQuestions(): Collection
+    {
+        return $this->voteQuestions;
+    }
+
+    public function addVoteQuestion(VoteQuestion $voteQuestion): self
+    {
+        if (!$this->voteQuestions->contains($voteQuestion)) {
+            $this->voteQuestions[] = $voteQuestion;
+            $voteQuestion->setQuestion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVoteQuestion(VoteQuestion $voteQuestion): self
+    {
+        if ($this->voteQuestions->contains($voteQuestion)) {
+            $this->voteQuestions->removeElement($voteQuestion);
+            // set the owning side to null (unless already changed)
+            if ($voteQuestion->getQuestion() === $this) {
+                $voteQuestion->setQuestion(null);
+            }
+        }
 
         return $this;
     }

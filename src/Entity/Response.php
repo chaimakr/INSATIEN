@@ -57,9 +57,15 @@ class Response
      */
     private $responses;
 
+    /**
+     * @ORM\OneToMany(targetEntity=VoteResponse::class, mappedBy="response")
+     */
+    private $voteResponses;
+
     public function __construct()
     {
         $this->responses = new ArrayCollection();
+        $this->voteResponses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -164,6 +170,37 @@ class Response
             // set the owning side to null (unless already changed)
             if ($response->getMainResponse() === $this) {
                 $response->setMainResponse(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|VoteResponse[]
+     */
+    public function getVoteResponses(): Collection
+    {
+        return $this->voteResponses;
+    }
+
+    public function addVoteResponse(VoteResponse $voteResponse): self
+    {
+        if (!$this->voteResponses->contains($voteResponse)) {
+            $this->voteResponses[] = $voteResponse;
+            $voteResponse->setResponse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVoteResponse(VoteResponse $voteResponse): self
+    {
+        if ($this->voteResponses->contains($voteResponse)) {
+            $this->voteResponses->removeElement($voteResponse);
+            // set the owning side to null (unless already changed)
+            if ($voteResponse->getResponse() === $this) {
+                $voteResponse->setResponse(null);
             }
         }
 

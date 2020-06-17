@@ -33,7 +33,6 @@ class TeacherController extends AbstractController
 //        }
 
 
-
         return $this->render("teacher/TeacherConnected.html.twig");
     }
 
@@ -49,7 +48,7 @@ class TeacherController extends AbstractController
     /**
      * @Route("/teacher/addClass", name="addClass")
      */
-    public function addClass(Request $request, EntityManagerInterface $manager, \Swift_Mailer $mailer,PublisherInterface $publisher)
+    public function addClass(Request $request, EntityManagerInterface $manager, \Swift_Mailer $mailer, PublisherInterface $publisher)
     {
 
 
@@ -78,11 +77,11 @@ class TeacherController extends AbstractController
             foreach ($studentsIds as $studentId) {
                 $student = $manager->getRepository('App:User')->findOneById($studentId);
                 if ($student) {
-                    $invitation=new RequestFromTeacher();
+                    $invitation = new RequestFromTeacher();
                     $invitation->setStudent($student);
                     $invitation->setClassGroup($class);
                     $manager->persist($invitation);
-                    $update = new Update('newRequest'.$student->getId(),"[]");
+                    $update = new Update('newRequest' . $student->getId(), "[]");
                     $publisher($update);
 
                 }
@@ -92,7 +91,7 @@ class TeacherController extends AbstractController
             $manager->flush();
 
 
-            $this->addFlash('success','class added successfully');
+            $this->addFlash('success', 'class added successfully');
             return $this->redirect('/teacher/showClasses');
 
         }
@@ -219,44 +218,10 @@ class TeacherController extends AbstractController
 
 
 
-
-
-
-    /**
-     * @Route("/teacher/request/{action}/{id}", name="manageRequests")
-     */
-    public function manageRequests(EntityManagerInterface $manager,$id,$action)
-    {
-        $request = $manager->getRepository('App:RequestFromStudent')->findOneById($id);
-
-
-        if($request &&$request->getClassGroup()->getOwner()==$this->getUser() && in_array($action,['accept','deny'])){
-            if($action=='accept'){
-                $class=$request->getClassGroup();
-                $class->addStudentsMember($request->getStudent());
-                $manager->persist($class);
-            }
-            $manager->remove($request);
-            $manager->flush();
-
-            if($action=='deny')
-                $this->addFlash('info','request removed !');
-            else
-                $this->addFlash('info','request accepted !');
-
-            return $this->redirect('/user/showRequests');
-
-        }
-
-        $this->addFlash('error','connot access request ');
-        return $this->redirect('/user/showRequests');
-
-    }
-
     /**
      * @Route("/teacher/inviteStudents/{classId}", name="inviteStudents")
      */
-    public function inviteStudents($classId=null,Request $request,EntityManagerInterface $manager,PublisherInterface $publisher)
+    public function inviteStudents($classId = null, Request $request, EntityManagerInterface $manager, PublisherInterface $publisher)
     {
         $class = $manager->getRepository('App:ClassGroup')->findOneById($classId);
         if ($class && $class->getOwner() == $this->getUser()) {
@@ -275,11 +240,11 @@ class TeacherController extends AbstractController
 
                 foreach ($studentsIds as $studentId) {
                     $student = $manager->getRepository('App:User')->findOneById($studentId);
-                    if( ($student)&&
-                       !($manager->getRepository('App:RequestFromTeacher')->findOneBy([
-                           'student'=>$student->getId(),
-                           'classGroup'=>$classId
-                       ]))){
+                    if (($student) &&
+                        !($manager->getRepository('App:RequestFromTeacher')->findOneBy([
+                            'student' => $student->getId(),
+                            'classGroup' => $classId
+                        ]))) {
                         $invitation = new RequestFromTeacher();
                         $invitation->setStudent($student);
                         $invitation->setClassGroup($class);
@@ -295,14 +260,14 @@ class TeacherController extends AbstractController
                 return $this->redirect('/teacher/showClasses');
 
             }
-            $students=$manager->getRepository('App:User')->findByRegisterAs('student');
-            foreach ($students as $key=>$student){
-                if( $student->getStudentClassGroups()->contains($class)) unset( $students[$key]);
+            $students = $manager->getRepository('App:User')->findByRegisterAs('student');
+            foreach ($students as $key => $student) {
+                if ($student->getStudentClassGroups()->contains($class)) unset($students[$key]);
             }
 
-            return $this->render('teacher/inviteStudents.html.twig',[
-                'formInvitation'=>$formInvitation->createView(),
-                'students'=>$students
+            return $this->render('teacher/inviteStudents.html.twig', [
+                'formInvitation' => $formInvitation->createView(),
+                'students' => $students
             ]);
 
         }
@@ -310,8 +275,6 @@ class TeacherController extends AbstractController
         return $this->redirect('/teacher/showClasses');
 
     }
-
-
 
 
 }

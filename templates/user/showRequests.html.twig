@@ -4,6 +4,9 @@
 {% block body %}
 
 
+    {% if requests|length>0 %}
+
+
     {% if app.user.roles[0]=='ROLE_TEACHER' %}
 
         {% for request in requests %}
@@ -16,9 +19,9 @@
                         join
                         your class {{ request.classGroup.title }}</p>
                     <a type="button" class="btn btn-success" style="color: white"
-                       href="/teacher/request/accept/{{ request.id }}">Accept</a>
+                       href="/user/request/accept/{{ request.id }}">Accept</a>
                     <a type="button" class="btn btn-danger" style="color: white"
-                       href="/teacher/request/deny/{{ request.id }}">Deny</a>
+                       href="/user/request/deny/{{ request.id }}">Deny</a>
                 </div>
             </div>
         {% endfor %}
@@ -35,13 +38,22 @@
                     <p class="card-text"> {{ request.classGroup.owner.firstName }} {{ request.classGroup.owner.lastName }}
                         is asking to join his/her class {{ request.classGroup.title }}</p>
                     <a type="button" class="btn btn-success" style="color: white"
-                       href="/student/request/accept/{{ request.id }}">Accept</a>
+                       href="/user/request/accept/{{ request.id }}">Accept</a>
                     <a type="button" class="btn btn-danger" style="color: white"
-                       href="/student/request/deny/{{ request.id }}">Deny</a>
+                       href="/user/request/deny/{{ request.id }}">Deny</a>
                 </div>
             </div>
         {% endfor %}
 
     {% endif %}
 
+    {% else %}
+
+        <div class="alert alert-primary" role="alert">
+            you have no requests
+        </div>
+
+
+
+    {% endif %}
 {% endblock %}

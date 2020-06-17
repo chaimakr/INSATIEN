@@ -213,4 +213,47 @@ class UserController extends AbstractController
     }
 
 
+    /**
+     * @Route("/user/request/{action}/{id}", name="manageRequests")
+     */
+    public function manageRequests(EntityManagerInterface $manager, $id, $action)
+    {
+
+        if($this->getUser()->getRoles()[0]=='ROLE_TEACHER') {
+
+            $request = $manager->getRepository('App:RequestFromStudent')->findOneById($id);
+            $canPass=$request && $request->getClassGroup()->getOwner() == $this->getUser() && in_array($action, ['accept', 'deny']);
+        }elseif($this->getUser()->getRoles()[0]=='ROLE_STUDENT'){
+
+            $request = $manager->getRepository('App:RequestFromTeacher')->findOneById($id);
+            $canPass=$request && $request->getStudent() == $this->getUser() && in_array($action, ['accept', 'deny']);
+
+        }
+
+        if( $canPass){
+            if ($action == 'accept') {
+                $class = $request->getClassGroup();
+                $class->addStudentsMember($request->getStudent());
+                $manager->persist($class);
+            }
+            $manager->remove($request);
+            $manager->flush();
+
+            if ($action == 'deny')
+                $this->addFlash('info', 'request removed !');
+            else
+                $this->addFlash('info', 'request accepted !');
+
+            return $this->redirect('/user/showRequests');
+
+        }
+        else{
+            $this->addFlash('error', 'connot access request ');
+            return $this->redirect('/user/showRequests');
+
+        }
+
+
+    }
+
 }

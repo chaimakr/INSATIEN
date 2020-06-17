@@ -32,7 +32,7 @@ class StudentController extends AbstractController
         $manager = $this->getDoctrine()->getManager();
         $covoiturages = $manager->getRepository('App:Covoiturage')->findRecent();
         $questions = $manager->getRepository('App:Question')->findRecent();
-        return $this->render("student/StudentConnected.html.twig",[
+        return $this->render("student/StudentConnected.html.twig", [
             'covoiturages' => $covoiturages,
             'questions' => $questions
         ]);
@@ -52,59 +52,73 @@ class StudentController extends AbstractController
      */
     public function showClasses(EntityManagerInterface $manager)
     {
-        $otherClasses=$manager->getRepository('App:ClassGroup')->findAll();
+        $otherClasses = $manager->getRepository('App:ClassGroup')->findAll();
 
-        foreach ($otherClasses as $key=>$class){
+        foreach ($otherClasses as $key => $class) {
 
-            if($class->getStudentsMembers()->contains($this->getUser())){
+            if ($class->getStudentsMembers()->contains($this->getUser())) {
                 unset($otherClasses[$key]);
             }
         }
 
 
-
-        return $this->render("student/showClasses.html.twig",[
-            'classes'=>$otherClasses
+        return $this->render("student/showClasses.html.twig", [
+            'classes' => $otherClasses
         ]);
     }
+
+
+
+
+
+
+
+
 
 
     /**
      * @Route("/student/joinClass/{id}", name="joinClass")
      */
-    public function joinClass($id=null,EntityManagerInterface $manager,PublisherInterface $publisher)
+    public function joinClass($id = null, EntityManagerInterface $manager, PublisherInterface $publisher)
     {
-        $class=$manager->getRepository('App:ClassGroup')->findOneById($id);
+        $class = $manager->getRepository('App:ClassGroup')->findOneById($id);
 
-        if(($class) && !($class->getStudentsMembers()->contains($this->getUser()))){
+        if (($class) && !($class->getStudentsMembers()->contains($this->getUser()))) {
 
 
-            $allRequests=$manager->getRepository('App:RequestFromStudent')->findAll();
-            foreach ($allRequests as $request){
-                if($request->getStudent()==$this->getUser()&& $request->getClassGroup()==$class){
-                    $this->addFlash('info','You already sent a request to join '.$class->getTitle() );
+            $allRequests = $manager->getRepository('App:RequestFromStudent')->findAll();
+            foreach ($allRequests as $request) {
+                if ($request->getStudent() == $this->getUser() && $request->getClassGroup() == $class) {
+                    $this->addFlash('info', 'You already sent a request to join ' . $class->getTitle());
                     return $this->redirect('/student/showClasses');
                 }
             }
 
-            $requestJoin=new \App\Entity\RequestFromStudent();
+            $requestJoin = new \App\Entity\RequestFromStudent();
             $requestJoin->setStudent($this->getUser());
             $requestJoin->setClassGroup($class);
             $manager->persist($requestJoin);
             $manager->flush();
-            $update = new Update('newRequest'.$class->getOwner()->getId(),"[]");
+            $update = new Update('newRequest' . $class->getOwner()->getId(), "[]");
             $publisher($update);
-            $this->addFlash('success','Your request to join '.$class->getTitle().' has been send successfully.' );
+            $this->addFlash('success', 'Your request to join ' . $class->getTitle() . ' has been send successfully.');
             return $this->redirect('/student/showClasses');
-        }
-        else{
-            $this->addFlash('error','Class not found .' );
+        } else {
+            $this->addFlash('error', 'Class not found .');
             return $this->redirect('/student/showClasses');
 
         }
 
 
     }
+
+
+
+
+
+
+
+
 
 
     /**
@@ -113,49 +127,24 @@ class StudentController extends AbstractController
     public function myClasses(EntityManagerInterface $manager)
     {
 
-        $classes=$manager->getRepository('App:User')->findOneById($this->getUser()->getId())->getStudentClassGroups();
+        $classes = $manager->getRepository('App:User')->findOneById($this->getUser()->getId())->getStudentClassGroups();
 
 
-
-
-        return $this->render("student/myClasses.html.twig",[
-            'classes'=>$classes
+        return $this->render("student/myClasses.html.twig", [
+            'classes' => $classes
         ]);
     }
 
 
 
 
-    /**
-     * @Route("/student/request/{action}/{id}", name="StudentManageRequests")
-     */
-    public function manageRequests(EntityManagerInterface $manager,$id,$action)
-    {
-        $request = $manager->getRepository('App:RequestFromTeacher')->findOneById($id);
 
 
-        if($request &&$request->getStudent()==$this->getUser() && in_array($action,['accept','deny'])){
-            if($action=='accept'){
-                $class=$request->getClassGroup();
-                $class->addStudentsMember($request->getStudent());
-                $manager->persist($class);
-            }
-            $manager->remove($request);
-            $manager->flush();
 
-            if($action=='deny')
-                $this->addFlash('info','request removed !');
-            else
-                $this->addFlash('info','request accepted !');
 
-            return $this->redirect('/user/showRequests');
 
-        }
 
-        $this->addFlash('error','connot access request ');
-        return $this->redirect('/user/showRequests');
 
-    }
 
 
 }

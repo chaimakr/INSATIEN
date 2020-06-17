@@ -122,13 +122,14 @@ class QuestionController extends AbstractController
         $query= $request->request->get('search');
         $manager = $this->getDoctrine()->getManager();
         $data = $manager->getRepository('App:Question')->findAll();
-         foreach ($data as $key => $d){
-            if((strpos($d->getTitle(),$query)===false) && (strpos($d->getContent(),$query))===false){
+         foreach ($data as $key=>$d){
+            if(!(strpos($d->getTitle(),$query) || strpos($d->getContent(),$query))){
                 unset($data[$key]);
             }
         }
-        $questions = $paginator->paginate(
-            $data, 
+        dd($data);
+       $questions = $paginator->paginate(
+            $donnees, 
             $request->query->getInt('page', 1),
             5 
         );

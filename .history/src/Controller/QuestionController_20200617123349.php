@@ -127,6 +127,7 @@ class QuestionController extends AbstractController
                 unset($data[$key]);
             }
         }
+        dd($data);
         $questions = $paginator->paginate(
             $data, 
             $request->query->getInt('page', 1),

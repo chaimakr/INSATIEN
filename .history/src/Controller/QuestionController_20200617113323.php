@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Knp\Component\Pager\PaginatorInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 
 
@@ -122,13 +123,12 @@ class QuestionController extends AbstractController
         $query= $request->request->get('search');
         $manager = $this->getDoctrine()->getManager();
         $data = $manager->getRepository('App:Question')->findAll();
-         foreach ($data as $key => $d){
-            if((strpos($d->getTitle(),$query)===false) && (strpos($d->getContent(),$query))===false){
-                unset($data[$key]);
-            }
+        $donnees = new collection();
+        foreach( $data as $d ){
+            if
         }
-        $questions = $paginator->paginate(
-            $data, 
+       $questions = $paginator->paginate(
+            $donnees, 
             $request->query->getInt('page', 1),
             5 
         );

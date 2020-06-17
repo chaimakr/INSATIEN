@@ -17,7 +17,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 
 
-
 /**
  * @Route("/student/class/{id}")
  */
@@ -121,14 +120,10 @@ class QuestionController extends AbstractController
     {
         $query= $request->request->get('search');
         $manager = $this->getDoctrine()->getManager();
-        $data = $manager->getRepository('App:Question')->findAll();
-         foreach ($data as $key => $d){
-            if((strpos($d->getTitle(),$query)===false) && (strpos($d->getContent(),$query))===false){
-                unset($data[$key]);
-            }
-        }
-        $questions = $paginator->paginate(
-            $data, 
+        $donnees = $manager->getRepository('App:Question')->findAll();
+    
+       $questions = $paginator->paginate(
+            $donnees, 
             $request->query->getInt('page', 1),
             5 
         );

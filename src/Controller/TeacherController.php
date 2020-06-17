@@ -260,12 +260,27 @@ class TeacherController extends AbstractController
                 return $this->redirect('/teacher/showClasses');
 
             }
+
+
+            $allRequests =array_merge( $manager->getRepository('App:RequestFromStudent')->findAll(),
+                $manager->getRepository('App:RequestFromTeacher')->findAll()
+
+            );
             $students = $manager->getRepository('App:User')->findByRegisterAs('student');
             foreach ($students as $key => $student) {
                 if ($student->getStudentClassGroups()->contains($class)) unset($students[$key]);
+
+                foreach ($allRequests as $request) {
+                    if ($request->getStudent() == $student && $request->getClassGroup() == $class){
+                        unset($students[$key]);
+                        break;
+                    }
+                }
             }
 
-            return $this->render('teacher/inviteStudents.html.twig', [
+
+
+                    return $this->render('teacher/inviteStudents.html.twig', [
                 'formInvitation' => $formInvitation->createView(),
                 'students' => $students
             ]);

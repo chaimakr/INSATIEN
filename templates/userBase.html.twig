@@ -121,8 +121,10 @@
 
                     if (!requests) {
                         setTimeout(waitResponce, 80);
+                        console.log('waiting');
 
-                    } else if (requests.length != 0) {
+                    } else {
+                        console.log('printing');
                         printAll();
 
 
@@ -140,7 +142,7 @@
 
 
                     requests.forEach(request => {
-                        console.log(request);
+                        console.log(request.id);
 
                         {% if app.user.roles[0]=='ROLE_TEACHER' %}
                         requestContent='You have a request from ' + request.student  +' to join your class ' + request.classGroup;
@@ -162,7 +164,13 @@
                             '                  <div>' +
                             '                    <span class="font-weight-bold"> ' +requestContent+ ' </span>' +
                             '                  </div>' +
-                            '                </a>'
+                            ' <div class="row">' +
+                            '<a type="button" class="btn btn-success col-md-6" style="color: white"' +
+                            '                       href="/user/request/accept/'+request.id+'">Accept</a>' +
+                            '                    <a type="button" class="btn btn-danger col-md-6" style="color: white"' +
+                            '                       href="/user/request/deny/'+request.id +'">Deny</a>'
+                            +
+                            '                </div></a>'
 
 
                         requestsDiv.appendChild(document.createRange().createContextualFragment(requestElement));

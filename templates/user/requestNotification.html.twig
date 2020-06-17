@@ -5,11 +5,13 @@
     {% for request in requests %}
         {% if loop.last %}
             {
+            "id":"{{ request.id }}",
             "teacher":"{{ request.classGroup.owner.firstName }} {{  request.classGroup.owner.lastName  }}",
             "classGroup":"{{ request.classGroup.title }}"
             }
         {% else %}
             {
+            "id":"{{ request.id }}",
             "teacher":"{{ request.classGroup.owner.firstName }} {{  request.classGroup.owner.lastName  }}",
             "classGroup":"{{ request.classGroup.title }}"
             },
@@ -22,11 +24,13 @@
 {% for request in requests %}
     {% if loop.last %}
         {
+        "id":"{{ request.id }}",
         "student":"{{ request.student.firstName }} {{  request.student.lastName  }}",
         "classGroup":"{{ request.classGroup.title }}"
         }
     {% else %}
         {
+        "id":"{{ request.id }}",
         "student":"{{ request.student.firstName }} {{  request.student.lastName  }}",
         "classGroup":"{{ request.classGroup.title }}"
         },

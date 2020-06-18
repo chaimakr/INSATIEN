@@ -36,7 +36,7 @@ class Response
 
     /**
      * @ORM\ManyToOne(targetEntity=Question::class, inversedBy="responses")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $Question;
 
@@ -48,7 +48,7 @@ class Response
 
     /**
      * @ORM\ManyToOne(targetEntity=Response::class, inversedBy="responses")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $main;
 

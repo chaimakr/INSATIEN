@@ -216,13 +216,13 @@ public function canAccessClass($id){
             if($action=='up' && $sommeVotes==1){
                 $this->addFlash('error','cannot double upVote');
 
-                return $this->redirect('/user/class/'.$question->getClass()->getId().'/showAllQuestions');
+                return $this->redirect('/user/class/'.$question->getClass()->getId().'/showAllQuestions#question'.$id);
 
             }
             elseif ($action=='down' && $sommeVotes==-1){
                 $this->addFlash('error','cannot double downVote');
 
-                return $this->redirect('/user/class/'.$question->getClass()->getId().'/showAllQuestions');
+                return $this->redirect('/user/class/'.$question->getClass()->getId().'/showAllQuestions#question'.$id);
 
             }
 
@@ -243,7 +243,7 @@ public function canAccessClass($id){
 
             $this->addFlash('success','vote registred');
 
-            return $this->redirect('/user/class/'.$question->getClass()->getId().'/showAllQuestions');
+            return $this->redirect('/user/class/'.$question->getClass()->getId().'/showAllQuestions#question'.$id);
 
 
         }

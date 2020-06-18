@@ -32,7 +32,8 @@
         "symfony/validator": "4.4.*",
         "symfony/web-link": "4.4.*",
         "symfony/yaml": "4.4.*",
-        "symfonycasts/reset-password-bundle": "^1.1"
+        "symfonycasts/reset-password-bundle": "^1.1",
+        "tattali/calendar-bundle": "^1.2"
     },
     "require-dev": {
         "symfony/debug-pack": "^1.0",

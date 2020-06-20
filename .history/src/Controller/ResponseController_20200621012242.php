@@ -56,18 +56,15 @@ class ResponseController extends AbstractController
             $allResponses=$question->getResponses();
 
             $response=new Response();
-            if (($request->get('ModifyIdResp'))) 
-            $response = $manager->getRepository('App:Response')->findOneById($request->get('ModifyIdResp'));
+            if (($request->get('ModifyId'))) 
+            $response = $manager->getRepository('App:Response')->findOneById($request->get('ModifyId'));
             $formAddResponse=$this->createFormBuilder($response)
                 ->add('content',TextareaType::class);
-                if (($request->get('ModifyIdResp'))) {
-                    $formAddResponse=$formAddResponse->add('ModifyResponse',SubmitType::class)
+                if (($request->get('ModifyId'))) 
+                $formAddResponse->add('addResponse',SubmitType::class);
+                else 
+                $formAddResponse->add('ModifyResponse',SubmitType::class)
                 ->getForm();
-            }
-                else {
-                    $formAddResponse=$formAddResponse->add('AddResponse',SubmitType::class)
-                ->getForm();
-            }
 
             $formAddResponse->handleRequest($request);
 
@@ -78,10 +75,6 @@ class ResponseController extends AbstractController
                 $response->setOwner($this->getUser());
                 $manager->persist($response);
                 $manager->flush();
-                if (($request->get('ModifyIdResp'))) 
-                $this->addFlash('success','Reply updated ! ');
-                else
-                $this->addFlash('success','Reply added ! ');
 
                 return $this->redirect('/user/questionResponces/'.$id);
 
@@ -89,18 +82,10 @@ class ResponseController extends AbstractController
 
             
             $reply=new Response();
-            if (($request->get('ModifyIdRepl'))) 
-            $relpy = $manager->getRepository('App:Response')->findOneById($request->get('ModifyIdRepl'));
             $formAddReplyToResponse=$this->createFormBuilder($reply)
-            ->add('content',TextareaType::class);
-            if (($request->get('ModifyIdRepl'))) {
-                $formAddReplyToResponse=$formAddReplyToResponse->add('ModifyReply',SubmitType::class)
+            ->add('content',TextareaType::class)
+            ->add('addReply',SubmitType::class)
             ->getForm();
-        }
-            else {
-                $formAddReplyToResponse=$formAddReplyToResponse->add('AddReply',SubmitType::class)
-            ->getForm();
-        }           
 
         $formAddReplyToResponse->handleRequest($request);
 
@@ -111,10 +96,6 @@ class ResponseController extends AbstractController
             $reply->setOwner($this->getUser());
             $manager->persist($reply);
             $manager->flush();
-            if (($request->get('ModifyIdRepl'))) 
-                $this->addFlash('success','Reply updated ! ');
-                else
-                $this->addFlash('success','Reply added ! ');
             return $this->redirect('/user/questionResponces/'.$id);
 
         }

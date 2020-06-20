@@ -78,7 +78,7 @@ class ResponseController extends AbstractController
                 $response->setOwner($this->getUser());
                 $manager->persist($response);
                 $manager->flush();
-                if (($request->get('ModifyIdResp'))) 
+                if (($request->get('ModifyId'))) 
                 $this->addFlash('success','Reply updated ! ');
                 else
                 $this->addFlash('success','Reply added ! ');

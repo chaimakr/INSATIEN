@@ -72,7 +72,7 @@
                     {% if formAddResponse.ModifyResponse is defined %}
             {{ form_widget(formAddResponse.ModifyResponse,{'attr':{'class':'btn btn-primary mb-2', 'label':'Reply'}}) }}
             {% else %}
-            {{ form_widget(formAddResponse.AddResponse,{'attr':{'class':'btn btn-primary mb-2', 'label':'Reply'}}) }}
+            {{ form_widget(formAddResponse.addResponse,{'attr':{'class':'btn btn-primary mb-2', 'label':'Reply'}}) }}
             {% endif %}
                 </div>  
             </div>  
@@ -105,7 +105,7 @@
                             <a class="col-lg-1" role="button" href="/user/Response/delete/{{response.id}}">Delete</a>
                         </span>
                         <span>
-                            <a class="col-lg-1" role="button" href="/user/questionResponces/{{question.id}}?ModifyIdResp={{ response.id }}">Modify</a>
+                            <a class="col-lg-1" role="button" href="/user/questionResponces/{{question.id}}?ModifyId={{ response.id }}">Modify</a>
                         </span>
                         <div class="collapse" id="reply{{ response.id }}">
                             {% set formAddReplyToResponse = form.createView %}
@@ -115,11 +115,7 @@
                             <input name="ResponseId" type="hidden" value="{{response.id}}">
                             <div class="row justify-content-start align-items-center">
                                 <div class="offset-lg-10 col-lg-2">
-                            {% if formAddReplyToResponse.ModifyReply is defined %}
-                            {{ form_widget(formAddReplyToResponse.ModifyReply,{'attr':{'class':'btn btn-primary mb-2'}}) }}
-                            {% else %}
-                            {{ form_widget(formAddReplyToResponse.AddReply,{'attr':{'class':'btn btn-primary mb-2'}}) }}
-                            {% endif %}
+                            {{ form_widget(formAddReplyToResponse.addReply,{'attr':{'class':'btn btn-primary mb-2'}}) }}
                                 </div>  
                             </div>  
                 
@@ -145,9 +141,7 @@
                                     </div>
                                     <div class="ui comment">
                                         <span>
-                                            <a class="col-lg" role="button" href="/user/Reply/delete/{{reply.id}}">delete</a>
-                                            <a class="col-lg-1" role="button" href="/user/questionResponces/{{question.id}}?ModifyIdReply={{ response.id }}">Modify</a>
-
+                                            <a class="col-lg-1" role="button" href="/user/Reply/delete/{{reply.id}}">delete</a>
                                         </span>
                                     </div>
                                 </div>

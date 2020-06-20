@@ -78,7 +78,7 @@ class ResponseController extends AbstractController
                 $response->setOwner($this->getUser());
                 $manager->persist($response);
                 $manager->flush();
-                if (($request->get('ModifyIdResp'))) 
+                if (($request->get('ModifyId'))) 
                 $this->addFlash('success','Reply updated ! ');
                 else
                 $this->addFlash('success','Reply added ! ');
@@ -111,10 +111,6 @@ class ResponseController extends AbstractController
             $reply->setOwner($this->getUser());
             $manager->persist($reply);
             $manager->flush();
-            if (($request->get('ModifyIdRepl'))) 
-                $this->addFlash('success','Reply updated ! ');
-                else
-                $this->addFlash('success','Reply added ! ');
             return $this->redirect('/user/questionResponces/'.$id);
 
         }

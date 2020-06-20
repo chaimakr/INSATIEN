@@ -1,0 +1,66 @@
+{% extends 'userBase.html.twig' %}
+
+
+{% block body %}
+
+
+    {% if requests|length>0 %}
+
+
+    {% if app.user.roles[0]=='ROLE_TEACHER' %}
+
+        {% for request in requests %}
+            <div class="card border-primary mb-3" style="max-width: 100rem;" id="request{{ request.id }}">
+                <div class="card-header">Request
+                    from {{ request.student.firstName }} {{ request.student.lastName }}</div>
+                <div class="card-body text-primary">
+
+                    <p class="card-text"> {{ request.student.firstName }} {{ request.student.lastName }} is asking to
+                        join
+                        your class {{ request.classGroup.title }}</p>
+                    <a type="button" class="btn btn-success" style="color: white"
+                       href="/user/request/accept/{{ request.id }}">Accept</a>
+                    <a type="button" class="btn btn-danger" style="color: white"
+                       href="/user/request/deny/{{ request.id }}">Deny</a>
+                </div>
+            </div>
+        {% endfor %}
+
+
+    {% elseif app.user.roles[0]=='ROLE_STUDENT' %}
+
+        {% for request in requests %}
+            <div class="card border-primary mb-3" style="max-width: 100rem;"  id="request{{ request.id }}">
+                <div class="card-header">Request
+                    from {{ request.classGroup.owner.firstName }} {{ request.classGroup.owner.lastName }}</div>
+                <div class="card-body text-primary">
+
+                    <p class="card-text"> {{ request.classGroup.owner.firstName }} {{ request.classGroup.owner.lastName }}
+                        is asking to join his/her class {{ request.classGroup.title }}</p>
+                    <a type="button" class="btn btn-success" style="color: white"
+                       href="/user/request/accept/{{ request.id }}">Accept</a>
+                    <a type="button" class="btn btn-danger" style="color: white"
+                       href="/user/request/deny/{{ request.id }}">Deny</a>
+                </div>
+            </div>
+        {% endfor %}
+
+    {% endif %}
+
+    {% else %}
+
+        <div class="text-center">
+            <div class="error mx-auto" data-text="404">404</div>
+            {#<p class="lead text-gray-800 mb-5">Page Not Found</p>#}
+            <p class="text-gray-500 mb-0">you currently have no request </p>
+            <a href="index.html">&larr; Back to homepage</a>
+        </div>
+
+        {#<div class="alert alert-primary" role="alert">
+            you have no requests
+        </div>#}
+
+
+
+    {% endif %}
+{% endblock %}

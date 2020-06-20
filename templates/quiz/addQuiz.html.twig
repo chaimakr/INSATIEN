@@ -12,35 +12,32 @@
             font-size: 12px;
         }
     </style>
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 {% endblock %}
 
 
 {% block body %}
-      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-
 <div class="container">
-    {{ form(formQuiz) }}
+    {{ form_start(formQuiz) }}
 
+    {{ form_row(formQuiz.title,{'attr':{'placeholder':'quiz title'}}) }}
 
-    <div class="container">
-        <div class="row">
-            <div class="control-group" id="fields">
-                <div class="controls">
-                    <form role="form" autocomplete="off">
-                        <div class="entry input-group col-xs-3">
-                            <input class="form-control" name="fields[]" type="text" placeholder="Type something" />
-                            <span class="input-group-btn">
-                            <button class="btn btn-success btn-add" type="button">
-                              <i class="fa fa-plus" aria-hidden="true"></i>
+    <div class="container mt-2 mb-2">
+                <div id="questions">
+
+                            <button class="btn btn-success btn-add-question" type="button">
+                              <i class="fa fa-plus" aria-hidden="true"> question</i>
 
                             </button>
-                        </span>
-                        </div>
-                    </form>
-                    <br>
-                </div>
+
             </div>
         </div>
+
+
+    {{ form_row(formQuiz.addQuiz,{'attr':{'onclick':'jsonQuestions'}}) }}
+
+    {{ form_end(formQuiz) }}
+
     </div>
 
 </div>
@@ -50,30 +47,89 @@
 {% endblock %}
 
 {% block javascripts %}
+
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script>
         $(function()
         {
-            $(document).on('click', '.btn-add', function(e)
+            $(document).on('click', '.btn-add-question', function(e)
             {
                 e.preventDefault();
+                $(e.target).parents('#questions:first').append(
+                    '<div class="entry input-group question border border-primary">' +
+                    '                            <input class="form-control" name="fields[]" type="text" placeholder="Add question" />' +
+                    '                            <span class="input-group-btn">' +
+                    '                            <button class="btn btn-danger btn-remove-question" type="button">' +
+                    '                              <i class="fa fa-minus" aria-hidden="true"> question</i>' +
+                    '' +
+                    '                            </button>' +
+                    '</span>' +
+                    ' <button class="btn btn-success btn-add-answer" type="button">' +
+                    '                              <i class="fa fa-plus" aria-hidden="true"> answer</i>' +
+                    '                            </button>'+
+                    '                            <div class="answers">' +
+                    '                            </div>' +
+                    '                        </div>'
+                );
 
-                var controlForm = $('.controls form:first'),
-                    currentEntry = $(this).parents('.entry:first'),
-                    newEntry = $(currentEntry.clone()).appendTo(controlForm);
 
-                newEntry.find('input').val('');
-                controlForm.find('.entry:not(:last) .btn-add')
-                    .removeClass('btn-add').addClass('btn-remove')
-                    .removeClass('btn-success').addClass('btn-danger')
-                    .html('<i class="fa fa-minus" aria-hidden="true"></i>\n');
-            }).on('click', '.btn-remove', function(e)
+
+
+            }).on('click', '.btn-remove-question', function(e)
             {
                 $(this).parents('.entry:first').remove();
 
                 e.preventDefault();
                 return false;
+            }).on('click', '.btn-remove-answer', function(e)
+            {
+                $(this).parents('.answer:first').remove();
+
+                e.preventDefault();
+                return false;
+            }).on('click', '.btn-add-answer', function(e)
+            {
+                e.preventDefault();
+
+                $(e.target).parents('.question:first').children('.answers').append(
+                    '<div class="answer input-group">' +
+                    '    <input class="form-control"  type="text" placeholder="Add answer" >' +
+                    '<input class="toggleButton" type="checkbox" checked data-toggle="toggle"  data-onstyle="success" data-offstyle="danger" data-on="Correct" data-off="Wrong">'+
+                    '    <button class="btn btn-danger btn-remove-answer" type="button">' +
+                    '        <i class="fa fa-minus" aria-hidden="true" > answer</i>' +
+                    '' +
+                    '    </button>' +
+                    '</div>'
+                );
+                $('.toggleButton').bootstrapToggle();
+
+
             });
         });
+
+
+        function jsonQuestions() {
+
+            questions=[];
+
+            $('#questions').children('.question').each((i,question)=>{
+                questionAndAnswers=[];
+                questionAndAnswers['question']=question.value;
+                console.log(questionAndAnswers);
+                questions.push(questionAndAnswers);
+            });
+        }
+
+
+        questions=[];
+
+      for(i in [1,2]){
+            questionAndAnswers['question']=i;
+            console.log(i,questionAndAnswers);
+            questions.push(questionAndAnswers);
+        };
+
+
     </script>
 
 {% endblock %}

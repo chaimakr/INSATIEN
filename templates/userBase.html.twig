@@ -81,7 +81,6 @@
 
 
                 var requests = undefined;
-                console.log('test');
 
                 refresh();
 
@@ -124,10 +123,8 @@
 
                     if (!requests) {
                         setTimeout(waitResponce, 80);
-                        console.log('waiting');
 
                     } else {
-                        console.log('printing');
                         printAll();
 
 
@@ -145,7 +142,6 @@
 
 
                     requests.forEach(request => {
-                        console.log(request.id);
 
                         {% if app.user.roles[0]=='ROLE_TEACHER' %}
                         requestContent='You have a request from ' + request.student  +' to join your class ' + request.classGroup;

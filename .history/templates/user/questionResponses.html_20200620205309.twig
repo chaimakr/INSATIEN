@@ -1,0 +1,149 @@
+{% extends 'userBase.html.twig' %}
+{% block stylesheets %}
+
+
+    <link rel="stylesheet" href="{{ asset('assetsUser/assetsResponse/response.css')}}">
+{% endblock %}
+{% block body %}
+
+
+        <div class="row">
+            <div class="col-xs-2 col-md-1">
+                <img src="{% if question.owner.pdpPath!="" %} /uploads/picture{{ question.owner.id }}.jpg {% else %} //placehold.it/100 {% endif %} "
+                     alt="" height="80" width="80" class="img-profile rounded-circle"></div>
+            <div class="col-xs-10 col-md-11">
+                <div>
+                    <a href="#">{{ question.title }}</a>
+                    <div class="comment-text">
+                        {{ question.content }}
+                    </div>
+                    <div class="mic-info">
+                        <small>
+                            By:
+                            <a href="#">{{ question.owner.firstName }} {{ question.owner.lastName }}</a> {{ question.date|date('Y-m-d H:i:s') }}
+
+                        </small>
+                    </div>
+                </div>
+
+                <div class="action">
+
+                    {% set sommeVote=0 %}
+                    {% for vote in question.voteQuestions %}
+                        {% if vote.user==app.user %}
+
+                            {% if vote.value %}
+                                {% set sommeVote=sommeVote+1 %}
+                            {% else %}
+                                {% set sommeVote=sommeVote-1 %}
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+
+
+                    <a type="button" class="btn btn-default
+                                         {% if sommeVote==1 %} {{ "btn-primary" }} {% endif %}
+                                         btn-xs" title="upVote"
+                       href="/user/question/up/{{ question.id }}">
+                        <i class="fa fa-thumbs-up"></i>
+                    </a>
+                    <a type="button" class="btn btn-default
+                                         {% if sommeVote==-1 %} {{ " btn-primary" }} {% endif %}
+                                        btn-xs" title="downVote"
+                       href="/user/question/down/{{ question.id }}">
+                        <i class="fa fa-thumbs-down"></i>
+
+                    </a>
+
+
+                    <i class="fas fa-poll"> {{ question.evaluation }}</i>
+                </div>
+            </div>
+        </div>
+
+    <div class="container">
+        <div class="ui comments">
+
+            {{ form_start(formAddResponse,{'attr':{'class':'ui reply form'}}) }}
+
+            {{ form_widget(formAddResponse.content,{'attr':{'placeholder':'write your answer here ...', 'class':'mb-2'}}) }}
+            <div class="row justify-content-start align-items-center">
+                <div class="offset-lg-10 col-lg-2">
+            {{ form_widget(formAddResponse.addResponse,{'attr':{'class':'btn btn-primary mb-2', 'label':'Reply'}}) }}
+                </div>  
+            </div>  
+
+            {{ form_end(formAddResponse) }}
+
+            <h3 class="ui dividing header">Answers</h3>
+
+            {% if allResponses|length == 0 %}
+            no answers
+            {% else %}
+            {% for response in allResponses %}
+            <div class="comment">
+                <a class="avatar">
+                    <img src="/uploads/picture{{ response.owner.id }}.jpg">
+                </a>
+                <div class="content">
+                    <a class="author">{{ response.owner.firstName }} {{ response.owner.lastName  }}</a>
+                    <div class="metadata">
+                        <span class="date"> {{ response.date|date('Y-m-d H:i:s') }}</span>
+                    </div>
+                    <div class="text">
+                    {{ response.content }}
+                    </div>
+                    <div class="ui comments">
+                        <a class="" role="button" data-toggle="collapse" href="#reply{{ response.id }}" aria-expanded="false" aria-controls="collapseExample">reply</a>
+                    </span>
+                        <div class="collapse" id="reply{{ response.id }}">
+                            {{ form_start(formAddReplyToResponse,{'attr':{'class':'ui reply form'}}) }}
+
+                            {{ form_widget(formAddReplyToResponse.content,{'attr':{'placeholder':'write your reply here ...', 'class':'mb-2'}}) }}
+                            <input name="ResponseId" type="hidden" value="{{response.id}}">
+                            <div class="row justify-content-start align-items-center">
+                                <div class="offset-lg-10 col-lg-2">
+                            {{ form_widget(formAddReplyToResponse.addReply,{'attr':{'class':'btn btn-primary mb-2', 'label':'Reply'}}) }}
+                                </div>  
+                            </div>  
+                
+                            {{ form_end(formAddReplyToResponse) }}
+                
+                            <h3 class="ui dividing header">Replies</h3>
+                
+                            {% if response.responses|length == 0 %}
+                            no answers
+                            {% else %}
+                            {% for reply in response.responses %}
+                            <div class="comment">
+                                <a class="avatar">
+                                    <img src="/uploads/picture{{ reply.owner.id }}.jpg">
+                                </a>
+                                <div class="content">
+                                    <a class="author">{{ reply.owner.firstName }} {{ reply.owner.lastName  }}</a>
+                                    <div class="metadata">
+                                        <span class="date"> {{ reply.date|date('Y-m-d H:i:s') }}</span>
+                                    </div>
+                                    <div class="text">
+                                    {{ reply.content }}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                </div>
+            </div>
+            {% endfor %}
+    {% endif %}
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src="{{ asset('assetsUser/assetsResponse/response.js')}}"></script>
+
+{% endblock %}

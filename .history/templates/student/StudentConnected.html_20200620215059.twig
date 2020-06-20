@@ -1,0 +1,149 @@
+{%extends 'userBase.html.twig'%}
+{% block stylesheets %}
+
+{% endblock %}
+
+{% block body %}
+
+<section class="about_area section_gap">
+        
+        <div class="row justify-content-start align-items-center">
+            <div class="col-lg-5">
+                <div class="about_img">
+                    <img class="" src="{{ asset('img/newsfeed2.svg') }}" height="500" width="600">
+                </div>
+            </div>
+            {% if covoiturages[0] is defined %}
+                <div class="offset-lg-1 col-lg-5">
+                    <div class="card border-left-info shadow h-100 py-2 mb-4">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    {#<div class="text-xs font-weight-bold text-info text-uppercase mb-1">covoiturage</div>#}
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ covoiturages[0].owner.firstName}} is going to {{ covoiturages[0].arrivalPoint }} , they may take you along ..</div>
+                                        </div>
+                                    <div class="col-auto">
+                                        <a href="/covoiturage/show"><i class="fa fa-car  fa-2x text-gray-300" aria-hidden="true"></i></a>  
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                    {% if covoiturages[1] is defined %}
+
+                    <div class="card border-left-info shadow h-100 py-2 mb-4">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    {#<div class="text-xs font-weight-bold text-info text-uppercase mb-1"></div>#}
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">Also {{ covoiturages[1].owner.firstName}} is heading to {{ covoiturages[1].arrivalPoint }} , check them ..</div>
+                                        </div>
+                                    <div class="col-auto">
+                                        <a href="/covoiturage/show"><i class="fa fa-car fa-2x text-gray-300" aria-hidden="true"></i></a> 
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if covoiturages[2] is defined %}
+                    <div class="card border-left-info shadow h-100 py-2 mb-4">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    {#<div class="text-xs font-weight-bold text-info text-uppercase mb-1">covoiturage</div>#}
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ covoiturages[2].owner.firstName}} plans to go to {{ covoiturages[2].arrivalPoint }} , check their availability ..  </div>
+                                        </div>
+                                    <div class="col-auto">
+                                        <a href="/covoiturage/show"><i class="fa fa-car  fa-2x text-gray-300" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% else %}
+                <div class="offset-lg-1 col-lg-5">
+                    <div class="text-center">
+                        <h2 class="text-gray-500 mb-0">currently , there is no carpooling..</h2>
+                    </div>
+                </div>  
+                {% endif %}  
+    </section>
+
+
+    <section class="about_area section_gap">
+        
+        <div class="row justify-content-start align-items-center">
+            {% if questions[0] is defined %}    
+            <div class="offset-lg-1 col-lg-5">
+                    
+                    <div class="card border-left-warning shadow h-100 py-2 mb-4">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ questions[0].owner.firstName}} added a question a while ago in the {{ questions[0].class.title }} class </div>
+                                        </div>
+                                    <div class="col-auto">
+                                       <a href="/user/class/{{questions[0].class.id}}/showAllQuestions"><i class="fas fa-comments fa-2x text-gray-300"></i></a> 
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+
+                    <div class="card border-left-warning shadow h-100 py-2 mb-4">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">you're good at {{ questions[1].class.title }} aren't you ? you might help {{ questions[1].owner.firstName}} .. </div>
+                                        </div>
+                                    <div class="col-auto">
+                                        <a href="/user/class/{{questions[1].class.id}}/showAllQuestions"><i class="fas fa-comments fa-2x text-gray-300"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+
+                    <div class="card border-left-warning shadow h-100 py-2 mb-4">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">something is confusing {{ questions[2].owner.firstName}} at {{ questions[2].class.title }} , check his question .. </div>
+                                        </div>
+                                    <div class="col-auto">
+                                        <a href="/user/class/{{questions[2].class.id}}/showAllQuestions"><i class="fas fa-comments fa-2x text-gray-300"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    
+                </div>
+                {% else %}
+                <div class="offset-lg-1 col-lg-5">
+                    <div class="text-center">
+                        <h2 class="text-gray-500 mb-0">currently , there is no questions..</h2>
+                    </div>
+                </div>  
+                {% endif %}
+
+                <div class="col-lg-5">
+                    <div class="about_img">
+                        <img class="" src="{{ asset('img/newsfeed1.svg') }}" height="500" width="600">
+                    </div>
+                </div>
+    </section>
+<footer>
+    <div class="info-color-dark text-center py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-lg-12">
+                    <h6 class="text-center text-uppercase font-weight-bold text-teal mx-3">
+                    ALWAYS KEEPING YOU UPDATED .. </h6> <i class="fa fa-heart" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+{% endblock %}
+ 
+{% block javascript %}
+
+{% endblock %}

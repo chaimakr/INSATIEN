@@ -55,6 +55,11 @@ class ClassGroup
      */
     private $requestFromTeachers;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Quiz::class, mappedBy="class")
+     */
+    private $quizzes;
+
 
     public function __construct()
     {
@@ -62,6 +67,7 @@ class ClassGroup
         $this->questions = new ArrayCollection();
         $this->requestFromStudents = new ArrayCollection();
         $this->requestFromTeachers = new ArrayCollection();
+        $this->quizzes = new ArrayCollection();
 
     }
 
@@ -219,6 +225,37 @@ class ClassGroup
             // set the owning side to null (unless already changed)
             if ($requestFromTeacher->getClassGroup() === $this) {
                 $requestFromTeacher->setClassGroup(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Quiz[]
+     */
+    public function getQuizzes(): Collection
+    {
+        return $this->quizzes;
+    }
+
+    public function addQuiz(Quiz $quiz): self
+    {
+        if (!$this->quizzes->contains($quiz)) {
+            $this->quizzes[] = $quiz;
+            $quiz->setClass($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuiz(Quiz $quiz): self
+    {
+        if ($this->quizzes->contains($quiz)) {
+            $this->quizzes->removeElement($quiz);
+            // set the owning side to null (unless already changed)
+            if ($quiz->getClass() === $this) {
+                $quiz->setClass(null);
             }
         }
 

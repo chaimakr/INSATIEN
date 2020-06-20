@@ -1,0 +1,81 @@
+{% extends 'userBase.html.twig' %}
+
+{% block stylesheets %}
+    <style>
+        .entry:not(:first-of-type)
+        {
+            margin-top: 10px;
+        }
+
+        .glyphicon
+        {
+            font-size: 12px;
+        }
+    </style>
+{% endblock %}
+
+
+{% block body %}
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+
+<div class="container">
+    {{ form(formQuiz) }}
+
+
+    <div class="container">
+        <div class="row">
+            <div class="control-group" id="fields">
+                <div class="controls">
+                    <form role="form" autocomplete="off">
+                        <div class="entry input-group col-xs-3">
+                            <input class="form-control" name="fields[]" type="text" placeholder="Type something" />
+                            <span class="input-group-btn">
+                            <button class="btn btn-success btn-add" type="button">
+                              <i class="fa fa-plus" aria-hidden="true"></i>
+
+                            </button>
+                        </span>
+                        </div>
+                    </form>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(function()
+        {
+            $(document).on('click', '.btn-add', function(e)
+            {
+                e.preventDefault();
+
+                var controlForm = $('.controls form:first'),
+                    currentEntry = $(this).parents('.entry:first'),
+                    newEntry = $(currentEntry.clone()).appendTo(controlForm);
+
+                newEntry.find('input').val('');
+                controlForm.find('.entry:not(:last) .btn-add')
+                    .removeClass('btn-add').addClass('btn-remove')
+                    .removeClass('btn-success').addClass('btn-danger')
+                    .html('<i class="fa fa-minus" aria-hidden="true"></i>\n');
+            }).on('click', '.btn-remove', function(e)
+            {
+                $(this).parents('.entry:first').remove();
+
+                e.preventDefault();
+                return false;
+            });
+        });
+    </script>
+
+{% endblock %}
+
+

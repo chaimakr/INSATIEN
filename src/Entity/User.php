@@ -129,6 +129,16 @@ class User implements UserInterface
      */
     private $voteResponses;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Quiz::class, mappedBy="participants")
+     */
+    private $quizzes;
+
+    /**
+     * @ORM\OneToMany(targetEntity=QuizTry::class, mappedBy="student")
+     */
+    private $quizTries;
+
     public function __construct()
     {
         $this->covoiturages = new ArrayCollection();
@@ -143,6 +153,8 @@ class User implements UserInterface
         $this->requestFromTeachers = new ArrayCollection();
         $this->voteQuestions = new ArrayCollection();
         $this->voteResponses = new ArrayCollection();
+        $this->quizzes = new ArrayCollection();
+        $this->quizTries = new ArrayCollection();
     }
 
 
@@ -563,6 +575,65 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($voteResponse->getUser() === $this) {
                 $voteResponse->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Quiz[]
+     */
+    public function getQuizzes(): Collection
+    {
+        return $this->quizzes;
+    }
+
+    public function addQuiz(Quiz $quiz): self
+    {
+        if (!$this->quizzes->contains($quiz)) {
+            $this->quizzes[] = $quiz;
+            $quiz->addParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuiz(Quiz $quiz): self
+    {
+        if ($this->quizzes->contains($quiz)) {
+            $this->quizzes->removeElement($quiz);
+            $quiz->removeParticipant($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|QuizTry[]
+     */
+    public function getQuizTries(): Collection
+    {
+        return $this->quizTries;
+    }
+
+    public function addQuizTry(QuizTry $quizTry): self
+    {
+        if (!$this->quizTries->contains($quizTry)) {
+            $this->quizTries[] = $quizTry;
+            $quizTry->setStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuizTry(QuizTry $quizTry): self
+    {
+        if ($this->quizTries->contains($quizTry)) {
+            $this->quizTries->removeElement($quizTry);
+            // set the owning side to null (unless already changed)
+            if ($quizTry->getStudent() === $this) {
+                $quizTry->setStudent(null);
             }
         }
 

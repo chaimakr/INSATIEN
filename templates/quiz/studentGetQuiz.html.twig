@@ -1,0 +1,39 @@
+{% extends 'userBase.html.twig' %}
+
+{% block body %}
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+
+        // $.ajax
+        // ({
+        //     type: "POST",
+        //     url: "localhost:3000/.well-known/mercure",
+        //     dataType: 'json',
+        //     headers: {
+        //         "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InB1Ymxpc2giOltdfX0.b6N4HL2OH8I8iqk5Q1Xv_PxiasJ35enudpUoV4evw8s"
+        //     },
+        //     data: {"foo": "updated value"},
+        //     success: function (){
+        //         alert('Thanks for your comment!');
+        //     }
+        // });
+
+
+
+        const eventQuiz = new EventSource('http://localhost:3000/.well-known/mercure?topic=newQuiz');
+
+
+        eventQuiz.onmessage = event => {
+
+
+            console.log("new quiz");
+
+
+        }
+
+    </script>
+{% endblock %}
+

@@ -113,6 +113,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/web-server-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/yaml" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfonycasts/reset-password-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/tattali/calendar-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/twig/extra-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/twig/twig" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/assert" />

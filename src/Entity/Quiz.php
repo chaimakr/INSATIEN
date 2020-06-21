@@ -6,11 +6,12 @@ use App\Repository\QuizRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 /**
  * @ORM\Entity(repositoryClass=QuizRepository::class)
  */
-class Quiz
+class Quiz implements JsonSerializable
 {
     /**
      * @ORM\Id()
@@ -42,6 +43,13 @@ class Quiz
 
 
 
+
+
+
+
+
+
+
     public function __construct()
     {
 
@@ -49,15 +57,42 @@ class Quiz
         $this->quizTries = new ArrayCollection();
     }
 
+
+
+
+
+
+
+
+
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
+
+
+
+
+
+
+
+
+
     public function getClass(): ?ClassGroup
     {
         return $this->class;
     }
+
+
+
+
+
+
+
+
+
 
     public function setClass(?ClassGroup $class): self
     {
@@ -65,6 +100,13 @@ class Quiz
 
         return $this;
     }
+
+
+
+
+
+
+
 
 
 
@@ -76,6 +118,15 @@ class Quiz
         return $this->quizQuestions;
     }
 
+
+
+
+
+
+
+
+
+
     public function addQuizQuestion(QuizQuestion $quizQuestion): self
     {
         if (!$this->quizQuestions->contains($quizQuestion)) {
@@ -85,6 +136,15 @@ class Quiz
 
         return $this;
     }
+
+
+
+
+
+
+
+
+
 
     public function removeQuizQuestion(QuizQuestion $quizQuestion): self
     {
@@ -99,10 +159,28 @@ class Quiz
         return $this;
     }
 
+
+
+
+
+
+
+
+
+
     public function getTitle(): ?string
     {
         return $this->title;
     }
+
+
+
+
+
+
+
+
+
 
     public function setTitle(string $title): self
     {
@@ -111,6 +189,15 @@ class Quiz
         return $this;
     }
 
+
+
+
+
+
+
+
+
+
     /**
      * @return Collection|QuizTry[]
      */
@@ -118,6 +205,15 @@ class Quiz
     {
         return $this->quizTries;
     }
+
+
+
+
+
+
+
+
+
 
     public function addQuizTry(QuizTry $quizTry): self
     {
@@ -128,6 +224,15 @@ class Quiz
 
         return $this;
     }
+
+
+
+
+
+
+
+
+
 
     public function removeQuizTry(QuizTry $quizTry): self
     {
@@ -142,5 +247,34 @@ class Quiz
         return $this;
     }
 
+
+
+
+
+
+
+
+
+
+    /**
+     * @inheritDoc
+     */
+    public function jsonSerialize()
+    {
+        $questions=[];
+        forEach( $this->getQuizQuestions() as $question){
+            $answers=[];
+            foreach ($question->getQuizAnswers() as $answer){
+                array_push($answers,$answer->getContent());
+            }
+            array_push($questions,['question'=>$question->getContent(),'answers'=>$answers]);
+        }
+
+        return [
+            "title" => $this->getTitle(),
+            "class" => $this->getClass()->getTitle(),
+            "questions" => $questions
+        ];
+    }
 
 }

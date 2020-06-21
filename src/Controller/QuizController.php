@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Quiz;
 use App\Entity\QuizAnswer;
 use App\Entity\QuizQuestion;
+use App\Entity\QuizTry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -92,16 +93,19 @@ class QuizController extends AbstractController
         $quiz=$manager->getRepository('App:Quiz')->findOneById($quizId);
 
         if(!($quiz &&
-        $quiz->getClass()->getStudentMembers()->contains($this->getUser()))
+        $quiz->getClass()->getStudentsMembers()->contains($this->getUser()))
         ){
             return  new Response('cannot access quiz ', 401);
 
         }
 
+        $update = new Update('joinedQuiz'.$quizId,json_encode([$this->getUser()->getId(),$this->getUser()->getFirstName(),$this->getUser()->getLastName()]) );
+        $publisher($update);
 
 
-
-        return $this->render("quiz/studentJoinQuiz.html.twig");
+        return $this->render("quiz/studentJoinQuiz.html.twig",[
+            'quiz'=>$quiz
+        ]);
     }
 
     /**
@@ -147,6 +151,7 @@ class QuizController extends AbstractController
      */
     public function launchQuiz( EntityManagerInterface $manager,$quizId)
     {
+
         $quiz=$manager->getRepository('App:Quiz')->findOneById($quizId);
 
         if(!($quiz && $quiz->getClass()->getOwner()==$this->getUser())){
@@ -155,12 +160,102 @@ class QuizController extends AbstractController
         }
 
 
+//        dd(json_encode($quiz));
         return $this->render('quiz/teacherLaunchQuiz.html.twig',[
             'quiz'=>$quiz
         ]);
 
     }
 
+    /**
+     * @Route("/student/quitQuiz/{quizId}", name="studentQuitQuiz")
+     */
+    public function studentQuitQuiz( PublisherInterface $publisher,$quizId)
+    {
+
+        $update = new Update('quitQuiz'.$quizId,$this->getUser()->getId() );
+        $publisher($update);
+
+        return new Response('quit');
+    }
+
+
+    /**
+     * @Route("/teacher/quizState/{quizId}/{quizState}", name="changeQuizState")
+     */
+    public function changeQuizState( PublisherInterface $publisher,$quizId,$quizState)
+    {
+        $quiz=$this->getDoctrine()->getManager()->getRepository('App:Quiz')->findOneById($quizId);
+
+        if(!($quiz && $quiz->getClass()->getOwner()==$this->getUser())){
+            return  new Response('cannot access quiz ', 401);
+
+        }
+        if($quizState<=$quiz->getQuizQuestions()->count()){
+            $answers=[];
+            $question=$quiz->getQuizQuestions()[$quizState-1];
+
+            foreach ($question->getQuizAnswers() as $answer){
+                array_push($answers,$answer->getContent());
+            }
+
+
+            $update = new Update('quizState'.$quizId,json_encode( ['question'=>$question->getContent(),'answers'=>$answers])) ;
+            $publisher($update);
+
+        }
+        elseif($quizState=$quiz->getQuizQuestions()->count()+1){
+            $update = new Update('quizState'.$quizId,'quizEnded') ;
+            $publisher($update);
+        }
+
+        return new Response('updated');
+
+
+
+    }
+
+    /**
+     * @Route("/student/quizAnswer/{quizId}/{quizState}/{answerId}", name="addAnswerToQuiz")
+     */
+    public function addAnswerToQuiz( PublisherInterface $publisher,$quizId,$quizState,$answerId,EntityManagerInterface $manager)
+    {
+        $quiz=$manager->getRepository('App:Quiz')->findOneById($quizId);
+
+        if(!($quiz &&
+            $quiz->getClass()->getStudentsMembers()->contains($this->getUser()))
+        ){
+            return  new Response('cannot access quiz ', 401);
+
+        }
+        $quizTry=$manager->getRepository('App:QuizTry')->findOneBy([
+            'student'=>$this->getUser(),
+            'quiz'=>$quiz
+        ]);
+        if(!$quizTry){
+            $quizTry=new QuizTry();
+        }
+
+        $quizTry->setStudent($this->getUser());
+        $quizTry->setQuiz($quiz);
+
+        $newAnswer=$quiz->getQuizQuestions()[$quizState-1]->getQuizAnswers()[$answerId];
+
+        foreach ($quizTry->getQuizAnswers() as $answer){
+            if($quiz->getQuizQuestions()[$quizState-1]->getQuizAnswers()->contains($answer))
+            $quizTry->removeQuizAnswer($answer);
+        }
+
+        $quizTry->addQuizAnswer($newAnswer);
+
+        $manager->persist($quizTry);
+        $manager->flush();
+
+        return new Response('saved');
+
+
+
+    }
 
 
 

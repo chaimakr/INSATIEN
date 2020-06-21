@@ -7,7 +7,6 @@
 {% block body %}
 
 
-
         <div class="row">
             <div class="col-xs-2 col-md-1">
                 <img src="{% if question.owner.pdpPath!="" %} /uploads/picture{{ question.owner.id }}.jpg {% else %} //placehold.it/100 {% endif %} "
@@ -119,7 +118,7 @@
                             {% if formAddReplyToResponse.ModifyReply is defined %}
                             {{ form_widget(formAddReplyToResponse.ModifyReply,{'attr':{'class':'btn btn-primary mb-2'}}) }}
                             {% else %}
-                            {{ form_widget(formAddReplyToResponse.AddReply,{'attr':{'class':'btn btn-primary mb-2'}}) }}
+                            {{ form_widget(formAddReplyToResponse.addReply,{'attr':{'class':'btn btn-primary mb-2'}}) }}
                             {% endif %}
                                 </div>  
                             </div>  

@@ -97,11 +97,7 @@
       <span>Notes</span></a>
   </li>
 
-  <li class="nav-item">
-    <a class="nav-link" href="/student/getQuiz">
-      <i class="fas fa-clipboard-list"></i>
-      <span>Quiz</span></a>
-  </li>
+
 
   {#<!-- Nav Item - Tables -->
   <li class="nav-item">
@@ -113,6 +109,26 @@
   <!-- Divider -->
   <hr class="sidebar-divider d-none d-md-block">
 
+
+  <li class="nav-item">
+    <div class="row container">
+      <input id="quizId" type="text" class="col-sm-6" placeholder="quiz ID" >
+      <a id="joinQuiz" class="nav-link col-sm-6" href="" >
+        <i class="fas fa-clipboard-list"></i>
+        <span>Join Quiz</span>
+      </a>
+    </div>
+
+  </li>
+
+  <script>
+    document.querySelector('#joinQuiz').addEventListener('click',e=>{
+      e.preventDefault()
+      window.location.href ="/student/joinQuiz/"+ document.querySelector('#quizId').value;
+    })
+  </script>
+
+  <hr class="sidebar-divider d-none d-md-block">
   <!-- Sidebar Toggler (Sidebar) -->
   <div class="text-center d-none d-md-inline">
     <button class="rounded-circle border-0" id="sidebarToggle"></button>

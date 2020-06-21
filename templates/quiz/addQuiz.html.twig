@@ -48,6 +48,7 @@
 
 {% block javascripts %}
 
+
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script>
         $(function()
@@ -57,18 +58,22 @@
                 e.preventDefault();
                 $(e.target).parents('#questions:first').append(
                     '<div class="entry input-group question border border-primary">' +
-                    '                            <input class="form-control" name="fields[]" type="text" placeholder="Add question" />' +
+                        '<div class="row container">'+
+                        '<div class="col-sm-6" >'+
+                    '                            <input class="form-control"  autocomplete="false"  type="text" placeholder="Add question" />' +
                     '                            <span class="input-group-btn">' +
                     '                            <button class="btn btn-danger btn-remove-question" type="button">' +
                     '                              <i class="fa fa-minus" aria-hidden="true"> question</i>' +
-                    '' +
+
                     '                            </button>' +
                     '</span>' +
                     ' <button class="btn btn-success btn-add-answer" type="button">' +
                     '                              <i class="fa fa-plus" aria-hidden="true"> answer</i>' +
                     '                            </button>'+
-                    '                            <div class="answers">' +
+                        '</div>'+
+                    '                            <div class="answers col-sm-6">' +
                     '                            </div>' +
+                        '</div>'+
                     '                        </div>'
                 );
 
@@ -91,9 +96,9 @@
             {
                 e.preventDefault();
 
-                $(e.target).parents('.question:first').children('.answers').append(
+                $(e.target).parents('.question:first').find('.answers').append(
                     '<div class="answer input-group">' +
-                    '    <input class="form-control"  type="text" placeholder="Add answer" >' +
+                    '    <input class="form-control"  autocomplete="false"   type="text" placeholder="Add answer" >' +
                     '<input class="toggleButton" type="checkbox" checked data-toggle="toggle"  data-onstyle="success" data-offstyle="danger" data-on="Correct" data-off="Wrong">'+
                     '    <button class="btn btn-danger btn-remove-answer" type="button">' +
                     '        <i class="fa fa-minus" aria-hidden="true" > answer</i>' +
@@ -112,9 +117,9 @@
 
             questionsAndAnswers=[];
 
-            $('#questions').children('.question').each((i,question)=>{
+            $('#questions').find('.question').each((i,question)=>{
                 questionAndAnswers={};
-                questionAndAnswers['question']=$(question).children('input:first')[0].value;
+                questionAndAnswers['question']=$(question).find('input:first')[0].value;
                 if(questionAndAnswers['question']=='') return true;
                 answers=[];
                 $(question).find('.answer').each((i,answer)=>{
@@ -122,7 +127,7 @@
 
 
                     answerObj={};
-                    answerObj['answer']=$(answer).children('input:first')[0].value;
+                    answerObj['answer']=$(answer).find('input:first')[0].value;
                     if(answerObj['answer']=='') return true;
                     answerObj['valid']=!$(answer).children('div .toggle')[0].classList.contains('off');
 

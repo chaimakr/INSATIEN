@@ -25,9 +25,14 @@ class QuizTry
     private $student;
 
     /**
-     * @ORM\ManyToMany(targetEntity=quizAnswer::class, inversedBy="quizTries")
+     * @ORM\ManyToMany(targetEntity=QuizAnswer::class, inversedBy="quizTries")
      */
     private $quizAnswers;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Quiz::class, inversedBy="quizTries")
+     */
+    private $quiz;
 
     public function __construct()
     {
@@ -52,14 +57,14 @@ class QuizTry
     }
 
     /**
-     * @return Collection|quizAnswer[]
+     * @return Collection|QuizAnswer[]
      */
     public function getQuizAnswers(): Collection
     {
         return $this->quizAnswers;
     }
 
-    public function addQuizAnswer(quizAnswer $quizAnswer): self
+    public function addQuizAnswer(QuizAnswer $quizAnswer): self
     {
         if (!$this->quizAnswers->contains($quizAnswer)) {
             $this->quizAnswers[] = $quizAnswer;
@@ -68,11 +73,23 @@ class QuizTry
         return $this;
     }
 
-    public function removeQuizAnswer(quizAnswer $quizAnswer): self
+    public function removeQuizAnswer(QuizAnswer $quizAnswer): self
     {
         if ($this->quizAnswers->contains($quizAnswer)) {
             $this->quizAnswers->removeElement($quizAnswer);
         }
+
+        return $this;
+    }
+
+    public function getQuiz(): ?Quiz
+    {
+        return $this->quiz;
+    }
+
+    public function setQuiz(?Quiz $quiz): self
+    {
+        $this->quiz = $quiz;
 
         return $this;
     }

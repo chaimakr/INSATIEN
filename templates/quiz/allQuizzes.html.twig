@@ -1,0 +1,115 @@
+{%extends 'userBase.html.twig'%}
+
+{% block stylesheets %}
+    <!-- Custom styles for this page -->
+    <link href="{{ asset('assetStudent/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+
+{% endblock %}
+
+{% block body %}
+
+
+
+    <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+            <tr>
+
+                <th>My Quizzes </th>
+
+
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for quiz in quizes %}
+                <tr>
+
+                    <td>
+                        <div class=" card border-success mb-3">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between" style="background-color: lightgray;">
+                                <div>
+                                    <h6 class="m-0 font-weight-bold text-primary"> {{ quiz.title }} </h6>
+
+
+                                </div>
+                                <div class="dropdown no-arrow">
+                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(17px, 18px, 0px);">
+{#                                        <div class="dropdown-header">Go to</div>#}
+                                        <a  class="dropdown-item" href="/teacher/removeQuiz/{{ quiz.id }}"><i class="fas fa-trash"></i></a>
+
+                                        <a  class="dropdown-item" href="/teacher/launchQuiz/{{ quiz.id }}">launch quiz</a>
+{#                                        <a  class="dropdown-item" href="/teacher/inviteStudents/{{ class.id }}">#}
+{#                                            Invite Students#}
+{#                                        </a>#}
+{#                                        <div class="dropdown-divider"></div>#}
+{#                                        <a class="dropdown-item" href="/user/class/{{ class.id }}/showAllQuestions"> All Questions</a>#}
+{#                                        <a class="dropdown-item" href="/teacher/{{ class.id }}/allQuizes"> All Quizes</a>#}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Card Body -->
+                            <div class="card-body">
+                                <ul class="list-group">
+                                    {% for question in quiz.quizQuestions %}
+                                    <li class="list-group-item list-group-item-primary">{{ question.content }}</li>
+                                    <li class="list-group-item">
+                                        <ul class="list-group">
+                                           {% for answer in question.quizAnswers %}
+                                               {% if answer.valid %}
+                                                   <li class="list-group-item list-group-item-success">{{ answer.content }}</li>
+                                               {% else %}
+                                                   <li class="list-group-item list-group-item-danger">{{ answer.content }}</li>
+                                               {% endif %}
+
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <!-- Page level plugins -->
+    <script src="{{ asset('assetStudent/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assetStudent/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
+
+    <script src="{{ asset('assetStudent/js/demo/datatables-demo.js') }}"></script>
+
+
+{% endblock %}

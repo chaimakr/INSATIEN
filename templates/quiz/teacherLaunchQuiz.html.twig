@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assetsUser/assetsQuiz/teacherLaunchQuiz.css') }}">
+    <script src="{{ asset('assetStudent/vendor/jquery/jquery.min.js') }}"></script>
+
+    <script src="{{ asset('assetStudent/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <script src="{{ asset('assetStudent/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <title>Quiz</title>
+</head>
+<body>
+<div class="container">
+    <h1>Quiz : {{ quiz.title }}</h1>
+    <div>
+        Connected Students :
+    </div>
+</div>
+</body>
+<script>
+    const studentJoined = new EventSource('http://localhost:3000/.well-known/mercure?topic=joinQuiz{{ quiz.id }}');
+
+
+    eventSource.onmessage = event => {
+
+console.log('student joined');
+
+    }
+</script>
+</html>

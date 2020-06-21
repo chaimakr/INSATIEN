@@ -24,13 +24,9 @@ class Quiz
      */
     private $class;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="quizzes")
-     */
-    private $participants;
 
     /**
-     * @ORM\OneToMany(targetEntity=QuizQuestion::class, mappedBy="quiz")
+     * @ORM\OneToMany(targetEntity=QuizQuestion::class, mappedBy="quiz" , cascade={"remove"})
      */
     private $quizQuestions;
 
@@ -40,14 +36,17 @@ class Quiz
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=10)
+     * @ORM\OneToMany(targetEntity=QuizTry::class, mappedBy="quiz")
      */
-    private $code;
+    private $quizTries;
+
+
 
     public function __construct()
     {
-        $this->participants = new ArrayCollection();
+
         $this->quizQuestions = new ArrayCollection();
+        $this->quizTries = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,31 +66,7 @@ class Quiz
         return $this;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getParticipants(): Collection
-    {
-        return $this->participants;
-    }
 
-    public function addParticipant(User $participant): self
-    {
-        if (!$this->participants->contains($participant)) {
-            $this->participants[] = $participant;
-        }
-
-        return $this;
-    }
-
-    public function removeParticipant(User $participant): self
-    {
-        if ($this->participants->contains($participant)) {
-            $this->participants->removeElement($participant);
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|QuizQuestion[]
@@ -136,15 +111,36 @@ class Quiz
         return $this;
     }
 
-    public function getCode(): ?string
+    /**
+     * @return Collection|QuizTry[]
+     */
+    public function getQuizTries(): Collection
     {
-        return $this->code;
+        return $this->quizTries;
     }
 
-    public function setCode(string $code): self
+    public function addQuizTry(QuizTry $quizTry): self
     {
-        $this->code = $code;
+        if (!$this->quizTries->contains($quizTry)) {
+            $this->quizTries[] = $quizTry;
+            $quizTry->setQuiz($this);
+        }
 
         return $this;
     }
+
+    public function removeQuizTry(QuizTry $quizTry): self
+    {
+        if ($this->quizTries->contains($quizTry)) {
+            $this->quizTries->removeElement($quizTry);
+            // set the owning side to null (unless already changed)
+            if ($quizTry->getQuiz() === $this) {
+                $quizTry->setQuiz(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }

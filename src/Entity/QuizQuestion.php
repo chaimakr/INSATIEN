@@ -25,7 +25,7 @@ class QuizQuestion
     private $content;
 
     /**
-     * @ORM\OneToMany(targetEntity=QuizAnswer::class, mappedBy="quizQuestion")
+     * @ORM\OneToMany(targetEntity=QuizAnswer::class, mappedBy="quizQuestion", cascade={"remove"})
      */
     private $quizAnswers;
 

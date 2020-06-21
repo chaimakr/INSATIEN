@@ -129,10 +129,6 @@ class User implements UserInterface
      */
     private $voteResponses;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Quiz::class, mappedBy="participants")
-     */
-    private $quizzes;
 
     /**
      * @ORM\OneToMany(targetEntity=QuizTry::class, mappedBy="student")
@@ -153,7 +149,6 @@ class User implements UserInterface
         $this->requestFromTeachers = new ArrayCollection();
         $this->voteQuestions = new ArrayCollection();
         $this->voteResponses = new ArrayCollection();
-        $this->quizzes = new ArrayCollection();
         $this->quizTries = new ArrayCollection();
     }
 
@@ -581,33 +576,7 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Quiz[]
-     */
-    public function getQuizzes(): Collection
-    {
-        return $this->quizzes;
-    }
 
-    public function addQuiz(Quiz $quiz): self
-    {
-        if (!$this->quizzes->contains($quiz)) {
-            $this->quizzes[] = $quiz;
-            $quiz->addParticipant($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQuiz(Quiz $quiz): self
-    {
-        if ($this->quizzes->contains($quiz)) {
-            $this->quizzes->removeElement($quiz);
-            $quiz->removeParticipant($this);
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|QuizTry[]

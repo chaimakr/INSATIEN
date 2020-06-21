@@ -20,7 +20,7 @@ class QuizTry
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=USer::class, inversedBy="quizTries")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="quizTries")
      */
     private $student;
 
@@ -39,12 +39,12 @@ class QuizTry
         return $this->id;
     }
 
-    public function getStudent(): ?USer
+    public function getStudent(): ?User
     {
         return $this->student;
     }
 
-    public function setStudent(?USer $student): self
+    public function setStudent(?User $student): self
     {
         $this->student = $student;
 

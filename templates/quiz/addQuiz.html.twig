@@ -34,7 +34,7 @@
         </div>
 
 
-    {{ form_row(formQuiz.addQuiz,{'attr':{'onclick':'jsonQuestions'}}) }}
+    {{ form_row(formQuiz.addQuiz,{'attr':{'onclick':'jsonQuestions()'}}) }}
 
     {{ form_end(formQuiz) }}
 
@@ -110,24 +110,36 @@
 
         function jsonQuestions() {
 
-            questions=[];
+            questionsAndAnswers=[];
 
             $('#questions').children('.question').each((i,question)=>{
-                questionAndAnswers=[];
-                questionAndAnswers['question']=question.value;
-                console.log(questionAndAnswers);
-                questions.push(questionAndAnswers);
+                questionAndAnswers={};
+                questionAndAnswers['question']=$(question).children('input:first')[0].value;
+                if(questionAndAnswers['question']=='') return true;
+                answers=[];
+                $(question).find('.answer').each((i,answer)=>{
+
+
+
+                    answerObj={};
+                    answerObj['answer']=$(answer).children('input:first')[0].value;
+                    if(answerObj['answer']=='') return true;
+                    answerObj['valid']=!$(answer).children('div .toggle')[0].classList.contains('off');
+
+
+                    answers.push(answerObj);
+                });
+                questionAndAnswers['answers']=answers;
+
+                questionsAndAnswers.push(questionAndAnswers);
+
+
             });
+            $('#form_questionsAndAnswers')[0].value=JSON.stringify(questionsAndAnswers);
         }
 
 
-        questions=[];
 
-      for(i in [1,2]){
-            questionAndAnswers['question']=i;
-            console.log(i,questionAndAnswers);
-            questions.push(questionAndAnswers);
-        };
 
 
     </script>

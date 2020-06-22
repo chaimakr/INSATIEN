@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/doctrine-bundle": "^2.0",
+        "easycorp/easyadmin-bundle": "^3.0",
         "knplabs/knp-paginator-bundle": "^5.2",
         "sensio/framework-extra-bundle": "^5.5",
         "symfony/apache-pack": "^1.0",

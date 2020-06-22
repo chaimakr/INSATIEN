@@ -60,7 +60,7 @@ class Question
     private $responses;
 
     /**
-     * @ORM\OneToMany(targetEntity=VoteQuestion::class, mappedBy="question",orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=VoteQuestion::class, mappedBy="question",onDelete="CASCADE")
      */
     private $voteQuestions;
 

@@ -1,4 +1,10 @@
 easy_admin:
+  design:
+    menu:
+      - {label: "test"}
+      - label: "tests"
+        children:
+          {entity: User , label: "users", icon: "th-list"}
     user: 
       display_name: false
     entities:

@@ -135,6 +135,8 @@ class User implements UserInterface
      */
     private $quizTries;
 
+
+
     public function __construct()
     {
         $this->covoiturages = new ArrayCollection();
@@ -150,6 +152,7 @@ class User implements UserInterface
         $this->voteQuestions = new ArrayCollection();
         $this->voteResponses = new ArrayCollection();
         $this->quizTries = new ArrayCollection();
+        $this->quizSessions = new ArrayCollection();
     }
 
 
@@ -608,4 +611,6 @@ class User implements UserInterface
 
         return $this;
     }
+
+
 }

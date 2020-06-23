@@ -1,0 +1,12 @@
+easy_admin:
+    site_name: 'INSATIEN'
+    user: 
+      display_name: false
+    entities:
+#        # List the entity class name you want to manage
+        - App\Entity\User
+        - App\Entity\Note
+        - App\Entity\Question
+        - App\Entity\Response
+    design:
+      form_theme: ['@EasyAdmin/form/bootstrap_4.html.twig', '@App/custom_form_theme.html.twig']    

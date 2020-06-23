@@ -44,8 +44,18 @@
             {% endif %}
         </div>
 
+            <div id="send">
+                {% if quizSession.status==0 %}
+                    Waiting for quiz launch
 
-        <button onclick="sendAnswer()">send</button>
+                {% endif %}
+
+                {% if quizSession.status>0 %}
+                    <button onclick="sendAnswer()">send</button>
+
+                {% endif %}
+            </div>
+
                  {% endif %}
     </div>
 {% endblock %}
@@ -67,6 +77,7 @@
             }
             else{
 
+                $('#send')[0].innerHTML=' <button onclick="sendAnswer()">send</button>';
                 state++;
 
                 data=JSON.parse(event.data);

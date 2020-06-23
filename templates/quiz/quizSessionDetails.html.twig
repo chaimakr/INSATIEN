@@ -1,0 +1,70 @@
+{% extends 'userBase.html.twig' %}
+{% block stylesheets %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        Participants :
+
+
+        <div class="card-deck">
+            {% for try in quizSession.quizTries %}
+
+            {% set numberOfQuestions=quizSession.quiz.quizQuestions|length %}
+
+            <div class="card" style="max-width: 18rem;">
+                <div style="width:100%; text-align:center"  >
+                    <img class="img-profile rounded-circle y " src="/uploads/picture{{ try.student.id }}.jpg "  width="60" height="60">
+                    <h5 class="card-title">{{ try.student.firstName }} {{ try.student.lastName }}</h5>
+                </div>
+
+                <div class="card-body">
+
+
+                    <span class="d-inline-block" data-toggle="popover" data-html="true"  data-content="
+                    {% set rightAnswers=0 %}
+            {% for answer in try.quizAnswers %}
+            <h3>question : {{ answer.quizQuestion.content }}</h3>
+            answer : {{ answer.content }}
+            {% if answer.valid==true %} {% set rightAnswers=rightAnswers+1 %}<span class=&quot;badge badge-success&quot;>Right </span>
+{% else %}<span class=&quot;badge badge-danger&quot;>Wrong </span>
+{% endif %}
+
+            {% endfor %}">
+  <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled>Answers</button>
+</span>
+                </div>
+                <div class="card-footer">
+                   Score ={{ rightAnswers }}/{{ numberOfQuestions }}
+                </div>
+            </div>
+
+
+            {% if loop.index is divisible by(3) %}
+        </div>
+        <div class="card-deck">
+            {% endif %}
+
+            {% endfor %}
+        </div>
+    </div>
+
+
+
+
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
+    </script>
+{% endblock %}
+

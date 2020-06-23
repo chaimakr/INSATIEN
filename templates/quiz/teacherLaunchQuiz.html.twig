@@ -23,7 +23,7 @@
 {#       Connected Students :#}
 {#    </div>#}
 
-    <button id="nextQuestion">next Question</button>
+    <a type="button" class="btn btn-primary" id="nextQuestion">next Question</a>
     <div id="question">
 
     </div>
@@ -67,7 +67,10 @@
                     read: 1
                 }
             });
-            $('#question')[0].innerHTML='quiz ended';
+            $('#question')[0].innerHTML='quiz ended <br> <a type="button" class="btn btn-primary" href="/teacher/quizSessionDetails/{{ quizSession.id }}">Get Results</a>';
+            $('#nextQuestion')[0].remove();
+
+
 
         }
 

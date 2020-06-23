@@ -54,13 +54,18 @@ class QuizController extends AbstractController
 
             $questionsAndAnswers = json_decode($formQuiz->get('questionsAndAnswers')->getData());
 
+
             foreach ($questionsAndAnswers as $questionAndAnswers) {
                 $question = new QuizQuestion();
                 $question->setContent($questionAndAnswers->question);
+
                 foreach ($questionAndAnswers->answers as $answer) {
+
                     $quizAnswer = new QuizAnswer();
                     $quizAnswer->setContent($answer->answer);
-                    $quizAnswer->setValid($answer->valid);
+                    if($answer->valid) $quizAnswer->setValid(1);
+                    else $quizAnswer->setValid(0);
+
                     $manager->persist($quizAnswer);
                     $question->addQuizAnswer($quizAnswer);
                 }
@@ -194,6 +199,7 @@ class QuizController extends AbstractController
         if ($quizSession && $quizSession->getQuiz()->getClass()->getOwner() == $this->getUser()) {
             if ($quizSession->getStatus() == -1) {
                 $session->remove('quizSession');
+                dd('');
                 return $this->render('quiz/teacherQuizResults.html.twig');
             }
             return $this->render('quiz/teacherLaunchQuiz.html.twig', [
@@ -217,6 +223,7 @@ class QuizController extends AbstractController
         $quizSession = new QuizSession();
         $quizSession->setQuiz($quiz);
         $quizSession->setStatus(0);
+        $quizSession->setDate(new \DateTime());
         $manager->persist($quizSession);
         $manager->flush();
         $session->set('quizSession', $quizSession->getId());
@@ -256,7 +263,10 @@ class QuizController extends AbstractController
         }
 
 
-        if ($quizState > $quizSession->getQuiz()->getQuizQuestions()->count()) $quizSession->setStatus(-1);
+        if ($quizState > $quizSession->getQuiz()->getQuizQuestions()->count()){
+            $quizSession->setStatus(-1);
+            $request->getSession()->remove('quizSession');
+        }
         else $quizSession->setStatus($quizState);
 
 
@@ -343,6 +353,46 @@ class QuizController extends AbstractController
         return new Response('saved');
 
 
+
+    }
+
+    /**
+     * @Route("/teacher/quizSessions/{quizId}", name="showQuizSessions")
+     */
+    public function showQuizSessions( EntityManagerInterface $manager,$quizId)
+    {
+        $quiz = $manager->getRepository('App:Quiz')->findOneById($quizId);
+
+        if (!($quiz && $quiz->getClass()->getOwner() == $this->getUser())) {
+            return new Response('cannot access quiz ', 401);
+
+        }
+
+        $quizSessions=$manager->getRepository('App:QuizSession')->findByQuiz($quiz,['id'=>'desc']);
+
+        return $this->render('quiz/quizSessions.html.twig',[
+            'quizSessions'=>$quizSessions,
+            'quiz'=>$quiz
+        ]);
+
+
+    }
+
+    /**
+     * @Route("/teacher/quizSessionDetails/{quizSessionId}", name="QuizSessionDetails")
+     */
+    public function QuizSessionDetails( EntityManagerInterface $manager,$quizSessionId)
+    {
+        $quizSession=$manager->getRepository('App:QuizSession')->findOneById($quizSessionId);
+        if (!($quizSession && $quizSession->getQuiz()->getClass()->getOwner() == $this->getUser())) {
+            return new Response('cannot access quiz ', 401);
+
+        }
+
+        return $this->render('quiz/quizSessionDetails.html.twig',[
+            'quizSession'=>$quizSession,
+            'quiz'=>$quizSession->getQuiz()
+        ]);
 
     }
 

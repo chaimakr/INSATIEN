@@ -1,8 +1,8 @@
 {% extends 'userBase.html.twig' %}
 
   {% block stylesheets %}
-      <link rel="stylesheet"
-            href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/css/ol.css">
+{#      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/css/ol.css">#}
+      <link rel="stylesheet" href="{{ asset('assetCovoiturage/v6.3.1/css/ol.css') }}">
       <style>
           .map {
               height: 650px;
@@ -28,24 +28,24 @@
 
     <div class="row">
         <div class="col-sm-3 my-auto">
-            {{ form_start(form) }}
-            {{ form_row(form.points) }}
+            {{ form_start(formCovoiturage) }}
+            {{ form_row(formCovoiturage.points) }}
 
-            {{ form_row(form.departurePoint,{'attr':{'placeholder':'location name'}}) }}
-            {{ form_row(form.arrivalPoint,{'attr':{'placeholder':'location name'}}) }}
-            {{ form_row(form.type,{'attr':{'onclick':'checkType()'}}) }}
-            {{ form_row(form.departureTime,{'widget' :'choice'}) }}
-            {{ form_row(form.returnTime,{'widget' :'choice'}) }}
-            {{ form_row(form.moreDetails,{ "required" : false}) }}
+            {{ form_row(formCovoiturage.departurePoint,{'attr':{'placeholder':'location name'}}) }}
+            {{ form_row(formCovoiturage.arrivalPoint,{'attr':{'placeholder':'location name'}}) }}
+            {{ form_row(formCovoiturage.type,{'attr':{'onclick':'checkType()'}}) }}
+            {{ form_row(formCovoiturage.departureTime,{'widget' :'choice'}) }}
+            {{ form_row(formCovoiturage.returnTime,{'widget' :'choice'}) }}
+            {{ form_row(formCovoiturage.moreDetails,{ "required" : false}) }}
 
-            {% if form.modifyOffer is defined %}
-            {{ form_row(form.modifyOffer,{'attr':{'onclick':'jsonPoints()'}}) }}
+            {% if formCovoiturage.modifyOffer is defined %}
+            {{ form_row(formCovoiturage.modifyOffer,{'attr':{'onclick':'jsonPoints()'}}) }}
 
             {% else %}
-            {{ form_row(form.addOffer,{ 'attr':{'onclick':'jsonPoints()'}}) }}
+            {{ form_row(formCovoiturage.addOffer,{ 'attr':{'onclick':'jsonPoints()'}}) }}
 
             {% endif %}
-            {{ form_end(form) }}
+            {{ form_end(formCovoiturage) }}
         </div>
 
 
@@ -75,7 +75,8 @@
         $('#form_returnTime')[0].parentNode.style.display = 'none';
 
     </script>
-    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>
+{#    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>#}
+    <script src="{{ asset('assetCovoiturage/v6.3.1/build/ol.js') }}" ></script>
 
     <script src="{{ asset('assetCovoiturage/addingPoints.js') }}"></script>
 {% endblock %}

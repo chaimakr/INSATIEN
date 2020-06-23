@@ -65,7 +65,7 @@ class CovoiturageController extends AbstractController
         };
 
 
-        $form = $this->createFormBuilder($covoiturage)
+        $formCovoiturage = $this->createFormBuilder($covoiturage)
             ->add('departurePoint', TextType::class)
             ->add('arrivalPoint', TextType::class)
             ->add('type', ChoiceType::class, [
@@ -94,21 +94,21 @@ class CovoiturageController extends AbstractController
 
 
         if (($request->get('modifyId')))
-            $form=$form->add('modifyOffer', SubmitType::class)->getForm();
+            $formCovoiturage=$formCovoiturage->add('modifyOffer', SubmitType::class)->getForm();
         else
-            $form=$form->add('addOffer', SubmitType::class)
+            $formCovoiturage=$formCovoiturage->add('addOffer', SubmitType::class)
             ->getForm();
 
 
-        $form->handleRequest($request);
+        $formCovoiturage->handleRequest($request);
 
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            if ($form->get('type')->getViewData() == 'oneWay')
+        if ($formCovoiturage->isSubmitted() && $formCovoiturage->isValid()) {
+            if ($formCovoiturage->get('type')->getViewData() == 'oneWay')
                 $covoiturage->setReturnTime(null);
 
 
-            $points = json_decode($form->get('points')->getViewData(), true);
+            $points = json_decode($formCovoiturage->get('points')->getViewData(), true);
             foreach ($points as $element) {
                 $point = new MapPoint();
                 $point->setX($element['x']);
@@ -132,7 +132,7 @@ class CovoiturageController extends AbstractController
 
 
             return $this->render('covoiturage/addCovoiturage.html.twig', [
-                'form' => $form->createView()
+                'formCovoiturage' => $formCovoiturage->createView()
             ]);
 
     }

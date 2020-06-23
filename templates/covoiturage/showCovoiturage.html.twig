@@ -1,8 +1,10 @@
 {% extends 'userBase.html.twig' %}
 
   {% block stylesheets %}
-      <link rel="stylesheet"
-            href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/css/ol.css">
+{#      <link rel="stylesheet"#}
+{#            href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/css/ol.css">#}
+
+      <link rel="stylesheet" href="{{ asset('assetCovoiturage/v6.3.1/css/ol.css') }}">
       <style>
           .map {
               height: 650px;
@@ -41,8 +43,8 @@
 
 
 {% block javascripts %}
-    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>
-
+{#    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>#}
+    <script src="{{ asset('assetCovoiturage/v6.3.1/build/ol.js') }}"></script>
     <script src="{{ asset('assetCovoiturage/showCovoiturage.js') }}"></script>
 {% endblock %}
 

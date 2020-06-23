@@ -39,20 +39,17 @@
 <script src="{{ asset('assetStudent/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('assetStudent/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 <script>
-    quiz=JSON.parse('{{ quizSession.quiz|json_encode()|raw }}');
+    quiz=JSON.parse('{{ quiz|json_encode()|raw }}');
     state=0;
-
-
-
 
     $('#nextQuestion')[0].addEventListener('click',(e)=>{
         if(state<quiz['questions'].length){
             $('#question')[0].innerHTML=quiz['questions'][state]['question'];
             state++;
-            console.log('/teacher/quizState/{{ quizSession.id }}/'+state);
+            console.log('/teacher/quizState/{{ quiz.id }}/'+state);
             $.ajax({
 
-                url:'/teacher/quizState/{{ quizSession.id }}/'+state,
+                url:'/teacher/quizState/{{ quiz.id }}/'+state,
                 method: 'POST',
                 data: {
 
@@ -67,31 +64,22 @@
             $.ajax({
 
 
-                url:'/teacher/quizState/{{ quizSession.id }}/'+state,
+                url:'/teacher/quizState/{{ quiz.id }}/'+state,
                 method: 'POST',
                 data: {
 
                     read: 1
                 }
             });
-            $('#question')[0].innerHTML='quiz ended <br> <a type="button" class="quiz-answer low-value answer-text" href="/teacher/quizSessionDetails/{{ quizSession.id }}">Get Results</a>';
-            $('#nextQuestion')[0].remove();
-
-
+            $('#question')[0].innerHTML='quiz ended';
 
         }
 
     });
 
 
-    {% if (quizSession.status>0) %}
-    state={{quizSession.status}}-1;
-    $('#nextQuestion')[0].click();
-    {% endif %}
-
-
-    const studentJoined = new EventSource('http://localhost:3000/.well-known/mercure?topic=joinedQuiz{{ quizSession.id }}');
-    const studentQuit = new EventSource('http://localhost:3000/.well-known/mercure?topic=quitQuiz{{ quizSession.id }}');
+    const studentJoined = new EventSource('http://localhost:3000/.well-known/mercure?topic=joinedQuiz{{ quiz.id }}');
+    const studentQuit = new EventSource('http://localhost:3000/.well-known/mercure?topic=quitQuiz{{ quiz.id }}');
 
     students={};
 
@@ -120,9 +108,6 @@
 
         console.log(event.data);
         $('#student'+event.data).remove();
-
-
-
 
     }
 </script>

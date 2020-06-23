@@ -27,8 +27,9 @@
                         </div>
                         <div id="question" class="question-title-wrap"></div>
                     </div>
-                </div>  
+                
                     <div class=" col-lg-3"></div>
+                </div>      
             </div> 
         </div>          
 
@@ -84,7 +85,7 @@
     });
 
 
-    {% if (quizSession.status>0) %}
+    {% if quizSession.status>0 %}
     state={{quizSession.status}}-1;
     $('#nextQuestion')[0].click();
     {% endif %}

@@ -2,7 +2,7 @@
 
 {% block stylesheets %}
     
-    {#<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">#}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assetsUser/assetsQuiz/teacherLaunchQuiz.css') }}">
     
 {% endblock %}
@@ -11,12 +11,11 @@
 
 {% endblock %}
 
-
-{% block body %}
 {% block Sidebar %}
     
 {% endblock %}
-    <div  class="quizzie">
+{% block body %}
+    <div  class="container">
         {% if quizSession.status==-1 %}
         quiz ended
         {% else %}
@@ -61,15 +60,14 @@
 {% endblock %}
 
 {% block javascripts %}
-<script src="{{ asset('assetStudent/vendor/jquery/jquery.min.js') }}"></script>
-
-    <script src="{{ asset('assetStudent/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
-    <script src="{{ asset('assetStudent/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
     <script>
 
 
+        <script src="{{ asset('assetStudent/vendor/jquery/jquery.min.js') }}"></script>
 
+<script src="{{ asset('assetStudent/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+<script src="{{ asset('assetStudent/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
 
 

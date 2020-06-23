@@ -84,7 +84,7 @@
     });
 
 
-    {% if (quizSession.status>0) %}
+    {% if quizSession.status>0 %}
     state={{quizSession.status}}-1;
     $('#nextQuestion')[0].click();
     {% endif %}

@@ -1,0 +1,120 @@
+{% extends "userBase.html.twig" %}
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assetsUser/assetsQuiz/teacherLaunchQuiz.css') }}">
+    <script src="{{ asset('assetStudent/vendor/jquery/jquery.min.js') }}"></script>
+
+    <script src="{{ asset('assetStudent/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <script src="{{ asset('assetStudent/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+        <link rel="stylesheet" href="{{ asset('assetsUser/assetsQuiz/quiz.css') }}">
+
+{% block title %}
+<title>Quiz</title>
+{% endblock %}
+</head>
+<body>
+<div class="container">
+    <h1>Quiz : {{ quizSession.quiz.title }}</h1>
+    <h1>code to join quiz : {{ quizSession.id }}</h1>
+{#    <div id="connectedStudents">#}
+{#       Connected Students :#}
+{#    </div>#}
+
+    <a type="button" class="btn btn-primary" id="nextQuestion">next Question</a>
+    <div id="question">
+
+    </div>
+
+</div>
+</body>
+
+<script>
+    quiz=JSON.parse('{{ quizSession.quiz|json_encode()|raw }}');
+    state=0;
+
+
+
+
+    $('#nextQuestion')[0].addEventListener('click',(e)=>{
+        if(state<quiz['questions'].length){
+            $('#question')[0].innerHTML=quiz['questions'][state]['question'];
+            state++;
+            console.log('/teacher/quizState/{{ quizSession.id }}/'+state);
+            $.ajax({
+
+                url:'/teacher/quizState/{{ quizSession.id }}/'+state,
+                method: 'POST',
+                data: {
+
+                    read: 1
+                }
+            });
+
+
+        }
+        else {
+            state++;
+            $.ajax({
+
+
+                url:'/teacher/quizState/{{ quizSession.id }}/'+state,
+                method: 'POST',
+                data: {
+
+                    read: 1
+                }
+            });
+            $('#question')[0].innerHTML='quiz ended <br> <a type="button" class="btn btn-primary" href="/teacher/quizSessionDetails/{{ quizSession.id }}">Get Results</a>';
+            $('#nextQuestion')[0].remove();
+
+
+
+        }
+
+    });
+
+
+    {% if quizSession.status>0 %}
+    state={{quizSession.status}}-1;
+    $('#nextQuestion')[0].click();
+    {% endif %}
+
+
+    const studentJoined = new EventSource('http://localhost:3000/.well-known/mercure?topic=joinedQuiz{{ quizSession.id }}');
+    const studentQuit = new EventSource('http://localhost:3000/.well-known/mercure?topic=quitQuiz{{ quizSession.id }}');
+
+    students={};
+
+    studentJoined.onmessage = event => {
+
+
+        data=JSON.parse(event.data);
+        if(!students[data[0]]){
+            students[data[0]]=data[1]+' '+data[2];
+
+            console.log(students);
+
+            for(studentId in students){
+                $('#connectedStudents').append('<div id="student'+studentId +'">' +
+                    students[studentId]+
+                    '</div>');
+            };
+        }
+
+
+
+
+
+    }
+    studentQuit.onmessage = event => {
+
+        console.log(event.data);
+        $('#student'+event.data).remove();
+
+
+
+
+    }
+</script>
+</html>

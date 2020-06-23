@@ -10,28 +10,26 @@
 </head>
     <body>
         <div class="container-fluid">
-            <div class="personalised-container">
-                <div class="row justify-content-start align-items-center">
-                    <div class=" col-lg-3"></div>
-                    <div class="col-lg-6">
-                        <h1 class="mt-4 mb-4 mr-2 ml-2">Quiz : {{ quizSession.quiz.title }}</h1>
-                        <div class="quiz-step step1 current">
-                            <div class="question-wrap ">
-                            <h2>code to join quiz #{{ quizSession.id }}</h2>
-                            </div>
+            <div class="row justify-content-start align-items-center">
+				<div class="col-lg-5">
+                    <h1>Quiz : {{ quizSession.quiz.title }}</h1>
+                    <div class="quiz-step step1 current">
+                        <div class="question-wrap">
+                        <h2>code to join quiz #{{ quizSession.id }}</h2>
                         </div>
-                        <div type="button" class="quiz-answer low-value" id="nextQuestion">
-                            <div class="answer-wrap">
-                            <p class="answer-text">next Question</p>
-                            </div> 
-                        </div>
-                        <div id="question" class="question-title-wrap"></div>
+                    </div>
+                    <div type="button" class="quiz-answer low-value" id="nextQuestion">
+                        <div class="answer-wrap">
+                        <p class="answer-text">next Question</p>
+                        </div> 
                     </div>
                 </div>  
-                    <div class=" col-lg-3"></div>
-            </div> 
-        </div>          
+				<div class="offset-lg-2 col-lg-5">
+                    <div id="question" class="question-title-wrap"></div>
+				</div>
+            </div>       
 
+        </div>    
     </body>
 
 
@@ -84,7 +82,7 @@
     });
 
 
-    {% if (quizSession.status>0) %}
+    {% if quizSession.status>0 %}
     state={{quizSession.status}}-1;
     $('#nextQuestion')[0].click();
     {% endif %}

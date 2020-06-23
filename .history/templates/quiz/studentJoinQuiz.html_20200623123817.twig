@@ -11,12 +11,11 @@
 
 {% endblock %}
 
-
-{% block body %}
 {% block Sidebar %}
     
 {% endblock %}
-    <div  class="quizzie">
+{% block body %}
+    <div  class="container">
         {% if quizSession.status==-1 %}
         quiz ended
         {% else %}

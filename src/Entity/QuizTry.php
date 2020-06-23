@@ -29,10 +29,12 @@ class QuizTry
      */
     private $quizAnswers;
 
+
+
     /**
-     * @ORM\ManyToOne(targetEntity=Quiz::class, inversedBy="quizTries")
+     * @ORM\ManyToOne(targetEntity=QuizSession::class, inversedBy="QuizTries")
      */
-    private $quiz;
+    private $quizSession;
 
     public function __construct()
     {
@@ -82,14 +84,16 @@ class QuizTry
         return $this;
     }
 
-    public function getQuiz(): ?Quiz
+
+
+    public function getQuizSession(): ?QuizSession
     {
-        return $this->quiz;
+        return $this->quizSession;
     }
 
-    public function setQuiz(?Quiz $quiz): self
+    public function setQuizSession(?QuizSession $quizSession): self
     {
-        $this->quiz = $quiz;
+        $this->quizSession = $quizSession;
 
         return $this;
     }

@@ -17,21 +17,58 @@
 
 {% block body %}
     <div  class="container">
-
+        {% if quizSession.status==-1 %}
+        quiz ended
+        {% else %}
         <div id="question">
-
+            {% if quizSession.status>0 %}
+                {{ quizSession.quiz.quizQuestions[quizSession.status-1].content }}
+            {% endif %}
         </div>
         <div id="answers">
-
+            {% if quizSession.status>0 %}
+             <div class="row">
+                 <legend class="col-form-label col-sm-2 pt-0">Answers</legend>
+                 <div class="col-sm-10">
+                {% for answer in quizSession.quiz.quizQuestions[quizSession.status-1].quizAnswers %}
+                 <div class="form-check">
+                 <input class="answer-check" type="radio" name="gridRadios" id="answer{{ loop.index }}"
+                                      value="{{ loop.index }}" checked>
+                         <label class="form-check-label" for="gridRadios1">
+                       {{ answer.content }}
+                         </label>
+                    </div>
+                {% endfor %}
+                 </div>
+             </div>
+            {% endif %}
         </div>
-        <button onclick="sendAnswer()">send</button>
+
+            <div id="send">
+                {% if quizSession.status==0 %}
+                    Waiting for quiz launch
+
+                {% endif %}
+
+                {% if quizSession.status>0 %}
+                    <button onclick="sendAnswer()">send</button>
+
+                {% endif %}
+            </div>
+
+                 {% endif %}
     </div>
 {% endblock %}
 
 {% block javascripts %}
     <script>
 
-        const quizState = new EventSource('http://localhost:3000/.well-known/mercure?topic=quizState{{ quiz.id }}');
+
+
+
+
+
+        const quizState = new EventSource('http://localhost:3000/.well-known/mercure?topic=quizState{{ quizSession.id }}');
         state=0;
         quizState.onmessage = event => {
             if(event.data=='quizEnded'){
@@ -40,6 +77,7 @@
             }
             else{
 
+                $('#send')[0].innerHTML=' <button onclick="sendAnswer()">send</button>';
                 state++;
 
                 data=JSON.parse(event.data);
@@ -80,7 +118,7 @@
             $.ajax({
 
 
-                url:'/student/quizAnswer/{{ quiz.id }}/'+state+'/'+$('.answer-check:checked').val(),
+                url:'/student/quizAnswer/{{ quizSession.id }}/'+state+'/'+$('.answer-check:checked').val(),
                 method: 'POST',
                 data: {
 

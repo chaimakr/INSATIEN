@@ -41,6 +41,11 @@ class Quiz implements JsonSerializable
      */
     private $quizTries;
 
+    /**
+     * @ORM\OneToMany(targetEntity=QuizSession::class, mappedBy="quiz")
+     */
+    private $quizSessions;
+
 
 
 
@@ -55,6 +60,7 @@ class Quiz implements JsonSerializable
 
         $this->quizQuestions = new ArrayCollection();
         $this->quizTries = new ArrayCollection();
+        $this->quizSessions = new ArrayCollection();
     }
 
 
@@ -197,65 +203,6 @@ class Quiz implements JsonSerializable
 
 
 
-
-    /**
-     * @return Collection|QuizTry[]
-     */
-    public function getQuizTries(): Collection
-    {
-        return $this->quizTries;
-    }
-
-
-
-
-
-
-
-
-
-
-    public function addQuizTry(QuizTry $quizTry): self
-    {
-        if (!$this->quizTries->contains($quizTry)) {
-            $this->quizTries[] = $quizTry;
-            $quizTry->setQuiz($this);
-        }
-
-        return $this;
-    }
-
-
-
-
-
-
-
-
-
-
-    public function removeQuizTry(QuizTry $quizTry): self
-    {
-        if ($this->quizTries->contains($quizTry)) {
-            $this->quizTries->removeElement($quizTry);
-            // set the owning side to null (unless already changed)
-            if ($quizTry->getQuiz() === $this) {
-                $quizTry->setQuiz(null);
-            }
-        }
-
-        return $this;
-    }
-
-
-
-
-
-
-
-
-
-
     /**
      * @inheritDoc
      */
@@ -275,6 +222,37 @@ class Quiz implements JsonSerializable
             "class" => $this->getClass()->getTitle(),
             "questions" => $questions
         ];
+    }
+
+    /**
+     * @return Collection|QuizSession[]
+     */
+    public function getQuizSessions(): Collection
+    {
+        return $this->quizSessions;
+    }
+
+    public function addQuizSession(QuizSession $quizSession): self
+    {
+        if (!$this->quizSessions->contains($quizSession)) {
+            $this->quizSessions[] = $quizSession;
+            $quizSession->setQuiz($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuizSession(QuizSession $quizSession): self
+    {
+        if ($this->quizSessions->contains($quizSession)) {
+            $this->quizSessions->removeElement($quizSession);
+            // set the owning side to null (unless already changed)
+            if ($quizSession->getQuiz() === $this) {
+                $quizSession->setQuiz(null);
+            }
+        }
+
+        return $this;
     }
 
 }

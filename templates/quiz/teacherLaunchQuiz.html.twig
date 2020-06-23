@@ -17,12 +17,13 @@
 </head>
 <body>
 <div class="container">
-    <h1>Quiz : {{ quiz.title }}</h1>
+    <h1>Quiz : {{ quizSession.quiz.title }}</h1>
+    <h1>code to join quiz : {{ quizSession.id }}</h1>
 {#    <div id="connectedStudents">#}
 {#       Connected Students :#}
 {#    </div>#}
 
-    <button id="nextQuestion">next Question</button>
+    <a type="button" class="btn btn-primary" id="nextQuestion">next Question</a>
     <div id="question">
 
     </div>
@@ -31,17 +32,20 @@
 </body>
 
 <script>
-    quiz=JSON.parse('{{ quiz|json_encode()|raw }}');
+    quiz=JSON.parse('{{ quizSession.quiz|json_encode()|raw }}');
     state=0;
+
+
+
 
     $('#nextQuestion')[0].addEventListener('click',(e)=>{
         if(state<quiz['questions'].length){
             $('#question')[0].innerHTML=quiz['questions'][state]['question'];
             state++;
-            console.log('/teacher/quizState/{{ quiz.id }}/'+state);
+            console.log('/teacher/quizState/{{ quizSession.id }}/'+state);
             $.ajax({
 
-                url:'/teacher/quizState/{{ quiz.id }}/'+state,
+                url:'/teacher/quizState/{{ quizSession.id }}/'+state,
                 method: 'POST',
                 data: {
 
@@ -56,22 +60,31 @@
             $.ajax({
 
 
-                url:'/teacher/quizState/{{ quiz.id }}/'+state,
+                url:'/teacher/quizState/{{ quizSession.id }}/'+state,
                 method: 'POST',
                 data: {
 
                     read: 1
                 }
             });
-            $('#question')[0].innerHTML='quiz ended';
+            $('#question')[0].innerHTML='quiz ended <br> <a type="button" class="btn btn-primary" href="/teacher/quizSessionDetails/{{ quizSession.id }}">Get Results</a>';
+            $('#nextQuestion')[0].remove();
+
+
 
         }
 
     });
 
 
-    const studentJoined = new EventSource('http://localhost:3000/.well-known/mercure?topic=joinedQuiz{{ quiz.id }}');
-    const studentQuit = new EventSource('http://localhost:3000/.well-known/mercure?topic=quitQuiz{{ quiz.id }}');
+    {% if quizSession.status>0 %}
+    state={{quizSession.status}}-1;
+    $('#nextQuestion')[0].click();
+    {% endif %}
+
+
+    const studentJoined = new EventSource('http://localhost:3000/.well-known/mercure?topic=joinedQuiz{{ quizSession.id }}');
+    const studentQuit = new EventSource('http://localhost:3000/.well-known/mercure?topic=quitQuiz{{ quizSession.id }}');
 
     students={};
 

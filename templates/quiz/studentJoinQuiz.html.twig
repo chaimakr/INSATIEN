@@ -34,10 +34,10 @@
                         
                             {% for answer in quizSession.quiz.quizQuestions[quizSession.status-1].quizAnswers %}
                             <div class="row">
-                            <input class="option-input radio" type="radio" name="gridRadios" id="answer{{ loop.index }}"
+                            <input class="answer-check option-input radio " type="radio" name="gridRadios" id="answer{{ loop.index }}"
                                                 value="{{ loop.index }}" checked>
-                                    {#<label class="form-check-label" for="gridRadios1">#}
-                                <p>{{ answer.content }}</p>
+                                    <label class="form-check-label" for="gridRadios1">
+                                 <p>{{ answer.content }}</p>
                                     </label>
                                 </div>
                             {% endfor %}
@@ -52,7 +52,7 @@
                     {% endif %}
 
                     {% if quizSession.status>0 %}
-                        <button type="submit" class="answer-text question-title-wrap" onclick="sendAnswer()">send</button>
+                        <button type="submit" class="mt-4 answer-text question-title-wrap" onclick="sendAnswer()">send</button>
 
                     {% endif %}
                 </div>
@@ -81,7 +81,7 @@
             }
             else{
 
-                $('#send')[0].innerHTML=' <button class="answer-text question-title-wrap" onclick="sendAnswer()">send</button>';
+                $('#send')[0].innerHTML=' <button class="mt-4 answer-text question-title-wrap" onclick="sendAnswer()">send</button>';
                 state++;
 
                 data=JSON.parse(event.data);
@@ -98,15 +98,14 @@
 
               answers.forEach((answer)=>{
 
-                  answersDiv+= '        <div class="form-check">' +
-                      '          <input class="option-input radio" type="radio" name="gridRadios" id="answer'+answers.indexOf(answer)
+                  answersDiv+= '        <div class="row">' +
+                      '          <input class="option-input radio answer-check" type="radio" name="gridRadios" id="answer'+answers.indexOf(answer)
                       +'" value="'+answers.indexOf(answer)  +'" checked>' +
-                      '          <label class="form-check-label" for="gridRadios1">' +
+                      '          <label class="form-check-label" for="gridRadios1"><p>' +
                       answer +
-                      '          </label>' +
+                      '     </p>     </label>' +
                       '        </div>'
               });
-
 
 
                     answersDiv+='      </div></div>' ;
@@ -121,6 +120,7 @@
         }
 
         function sendAnswer(){
+            console.log('/student/quizAnswer/{{ quizSession.id }}/'+state+'/'+$('.answer-check:checked').val());
             $.ajax({
 
 

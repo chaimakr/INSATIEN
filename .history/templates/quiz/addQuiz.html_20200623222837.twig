@@ -64,7 +64,7 @@
 
                     '                            </button>' +
                     '</span>' +
-                    ' <button class="btn btn-success btn-add-answer mr-2" type="button">' +
+                    ' <button class="btn btn-success btn-add-answer mt-2 mb-2" type="button">' +
                     '                              <i class="fa fa-plus" aria-hidden="true"> answer</i>' +
                     '                            </button>'+
                         '</div>'+
@@ -94,10 +94,10 @@
                 e.preventDefault();
 
                 $(e.target).parents('.question:first').find('.answers').append(
-                    '<div class="answer input-group mt-2 mb-2">' +
-                    '<input class="form-control mr-2"  autocomplete="false"   type="text" placeholder="Add answer" >' +
+                    '<div class="answer input-group">' +
+                    '<input class="form-control mt-2 mb-2"  autocomplete="false"   type="text" placeholder="Add answer" >' +
                     '<input class="toggleButton" type="checkbox" checked data-toggle="toggle"  data-onstyle="success" data-offstyle="danger" data-on="Correct" data-off="Wrong">'+
-                    '    <button class="btn btn-danger btn-remove-answer mr-2 ml-2" type="button">' +
+                    '    <button class="btn btn-danger btn-remove-answer mt-2 mb-2" type="button">' +
                     '        <i class="fa fa-minus" aria-hidden="true" > answer</i>' +
                     '' +
                     '    </button>' +

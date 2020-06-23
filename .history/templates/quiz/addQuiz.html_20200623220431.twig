@@ -20,18 +20,18 @@
 <div class="container">
     {{ form_start(formQuiz) }}
 
-    {{ form_row(formQuiz.title,{'attr':{'placeholder':'quiz title..'}}) }}
+    {{ form_row(formQuiz.title,{'attr':{'placeholder':'quiz title'}}) }}
 
         <div class="container mt-2 mb-2">
                 <div id="questions">
-                    <button class="btn btn-success btn-add-question mt-2 mb-2" type="button">
+                    <button class="btn btn-success btn-add-question" type="button">
                         <i class="fa fa-plus" aria-hidden="true"> question</i>
                     </button>
                 </div>
         </div>
 
 
-    {{ form_row(formQuiz.addQuiz,{'attr':{'onclick':'jsonQuestions()','class':'btn btn-info ml-3'}}) }}
+    {{ form_row(formQuiz.addQuiz,{'attr':{'onclick':'jsonQuestions()','class':'btn btn-info'}}) }}
 
     {{ form_end(formQuiz) }}
 
@@ -54,21 +54,21 @@
             {
                 e.preventDefault();
                 $(e.target).parents('#questions:first').append(
-                    '<div class="entry input-group question border border-info mt-2 mb-2">' +
-                        '<div class="row container mt-2 mb-2">'+
+                    '<div class="entry input-group question border border-info">' +
+                        '<div class="row container">'+
                         '<div class="col-sm-6" >'+
-                    '                            <input class="form-control mt-2 mb-2"  autocomplete="false"  type="text" placeholder="Add question" />' +
-                    '                            <span class="input-group-btn mt-2 mb-2">' +
-                    '                            <button class="btn btn-danger btn-remove-question mt-2 mb-2 " type="button">' +
+                    '                            <input class="form-control"  autocomplete="false"  type="text" placeholder="Add question" />' +
+                    '                            <span class="input-group-btn">' +
+                    '                            <button class="btn btn-danger btn-remove-question" type="button">' +
                     '                              <i class="fa fa-minus" aria-hidden="true"> question</i>' +
 
                     '                            </button>' +
                     '</span>' +
-                    ' <button class="btn btn-success btn-add-answer mr-2" type="button">' +
+                    ' <button class="btn btn-success btn-add-answer" type="button">' +
                     '                              <i class="fa fa-plus" aria-hidden="true"> answer</i>' +
                     '                            </button>'+
                         '</div>'+
-                    '                            <div class="answers col-sm-6 mt-2 mb-2">' +
+                    '                            <div class="answers col-sm-6">' +
                     '                            </div>' +
                         '</div>'+
                     '                        </div>'
@@ -94,10 +94,10 @@
                 e.preventDefault();
 
                 $(e.target).parents('.question:first').find('.answers').append(
-                    '<div class="answer input-group mt-2 mb-2">' +
-                    '<input class="form-control mr-2"  autocomplete="false"   type="text" placeholder="Add answer" >' +
+                    '<div class="answer input-group">' +
+                    '    <input class="form-control"  autocomplete="false"   type="text" placeholder="Add answer" >' +
                     '<input class="toggleButton" type="checkbox" checked data-toggle="toggle"  data-onstyle="success" data-offstyle="danger" data-on="Correct" data-off="Wrong">'+
-                    '    <button class="btn btn-danger btn-remove-answer mr-2 ml-2" type="button">' +
+                    '    <button class="btn btn-danger btn-remove-answer" type="button">' +
                     '        <i class="fa fa-minus" aria-hidden="true" > answer</i>' +
                     '' +
                     '    </button>' +

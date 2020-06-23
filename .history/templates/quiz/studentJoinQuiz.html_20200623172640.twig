@@ -9,59 +9,57 @@
     <title>Quiz</title>
 
 <body>
-    <div class="container-fluid">
-        <div class="personalised-container">
-            {% if quizSession.status==-1 %}
-            <div class="container">
-            <h1 class="mt-4 mb-4 mr-2 ml-2">Quiz ended !</h1>
-            </div>
-            {% else %}
-            <h1 id="question">
-                {% if quizSession.status>0 %}
-                    {{ quizSession.quiz.quizQuestions[quizSession.status-1].content }}
-                {% endif %}
-            </h1>
-            <div class="row  justify-content-start align-items-center">
-                <div class=" offset-3 col-lg-6 offset-3 ">
-                    <div id="answers">
-                        {% if quizSession.status>0 %}
-                    
-                                    <div class="quiz-answer low-value">
-                                        <div class="answer-wrap">
-                                        <p class="answer-text ">Answers</p>
-                                        </div> 
-                                    </div>
-                        
-                            {% for answer in quizSession.quiz.quizQuestions[quizSession.status-1].quizAnswers %}
-                            <div class="row">
-                            <input class="option-input radio" type="radio" name="gridRadios" id="answer{{ loop.index }}"
-                                                value="{{ loop.index }}" checked>
-                                    {#<label class="form-check-label" for="gridRadios1">#}
-                                <p>{{ answer.content }}</p>
-                                    </label>
-                                </div>
-                            {% endfor %}
-                {% endif %}
-                </div>
-             
-                <div id="send">
-                    {% if quizSession.status==0 %}
-                        <div class="container">
-                            <h1 class="mt-4 mb-4 mr-2 ml-2">Waiting for the quiz to launch...</h1>
-                        </div>
-                    {% endif %}
-
-                    {% if quizSession.status>0 %}
-                        <button type="submit" class="answer-text question-title-wrap" onclick="sendAnswer()">send</button>
-
-                    {% endif %}
-                </div>
-
-                    {% endif %}
-                </div>
-            </div>
+    <div class="personalised-container">
+        {% if quizSession.status==-1 %}
+        <div class="container">
+        <h1 class="mt-4 mb-4 mr-2 ml-2">Quiz ended</h1>
         </div>
+        {% else %}
+        <h1 id="question">
+            {% if quizSession.status>0 %}
+                {{ quizSession.quiz.quizQuestions[quizSession.status-1].content }}
+            {% endif %}
+        </h1>
+        <div id="answers">
+            {% if quizSession.status>0 %}
+             <div class="row  justify-content-start align-items-center">
+                <div class=" offset-3 col-lg-6 offset-3 ">
+                        <div class="quiz-answer low-value">
+                            <div class="answer-wrap">
+                            <p class="answer-text ">Answers</p>
+                            </div> 
+                        </div>
+             
+                {% for answer in quizSession.quiz.quizQuestions[quizSession.status-1].quizAnswers %}
+                 <div class="form-check">
+                 <input class="answer-check" type="radio" name="gridRadios" id="answer{{ loop.index }}"
+                                      value="{{ loop.index }}" checked>
+                         <label class="form-check-label" for="gridRadios1">
+                       {{ answer.content }}
+                         </label>
+                    </div>
+                {% endfor %}
+                 </div>
+             </div>
+            {% endif %}
+        </div>
+
+            <div id="send">
+                {% if quizSession.status==0 %}
+                    <div class="container">
+                        <h1 class="mt-4 mb-4 mr-2 ml-2">Waiting for the quiz to launch...</h1>
+                    </div>
+                {% endif %}
+
+                {% if quizSession.status>0 %}
+                    <button onclick="sendAnswer()">send</button>
+
+                {% endif %}
+            </div>
+
+                 {% endif %}
     </div>
+
 <script src="{{ asset('assetStudent/vendor/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('assetStudent/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('assetStudent/vendor/jquery-easing/jquery.easing.min.js') }}"></script>

@@ -98,13 +98,13 @@ h1,h2,p {
     background: #9faab7;
   }
   .option-input:checked {
-    background: #d90;
+    background: #40e0d0;
   }
   .option-input:checked::before {
     height: 40px;
     width: 40px;
     position: absolute;
-    content: '✓';
+    content: '✔';
     content: white;
     display: inline-block;
     font-size: 26.66667px;
@@ -131,6 +131,7 @@ h1,h2,p {
 
   .personalised-container{
     margin-top: 10%;
+    
     display: block;
     position: relative;
     inline-size: auto;
@@ -167,7 +168,6 @@ h1,h2,p {
     display: block;
     width: auto;
     margin: 1%;
-    text-decoration: #fff;
     
   }
   .question-title-wrap  :hover {

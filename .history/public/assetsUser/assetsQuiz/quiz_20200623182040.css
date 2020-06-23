@@ -74,7 +74,9 @@ h1,h2,p {
 
   .option-input {
     -webkit-appearance: none;
-    
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
     appearance: none;
     position: relative;
     top: 13.33333px;
@@ -98,14 +100,13 @@ h1,h2,p {
     background: #9faab7;
   }
   .option-input:checked {
-    background: #d90;
+    background: #40e0d0;
   }
   .option-input:checked::before {
     height: 40px;
     width: 40px;
     position: absolute;
-    content: '✓';
-    content: white;
+    content: '✔';
     display: inline-block;
     font-size: 26.66667px;
     text-align: center;
@@ -115,7 +116,7 @@ h1,h2,p {
     -webkit-animation: click-wave 0.65s;
     -moz-animation: click-wave 0.65s;
     animation: click-wave 0.65s;
-    background: #d90;
+    background: #40e0d0;
     content: '';
     display: block;
     position: relative;
@@ -131,6 +132,7 @@ h1,h2,p {
 
   .personalised-container{
     margin-top: 10%;
+    
     display: block;
     position: relative;
     inline-size: auto;
@@ -167,7 +169,6 @@ h1,h2,p {
     display: block;
     width: auto;
     margin: 1%;
-    text-decoration: #fff;
     
   }
   .question-title-wrap  :hover {

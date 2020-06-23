@@ -13,7 +13,7 @@
         <div class="personalised-container">
             {% if quizSession.status==-1 %}
             <div class="container">
-            <h1 class="mt-4 mb-4 mr-2 ml-2">Quiz ended !</h1>
+            <h1 class="mt-4 mb-4 mr-2 ml-2">Quiz ended</h1>
             </div>
             {% else %}
             <h1 id="question">
@@ -43,7 +43,8 @@
                             {% endfor %}
                 {% endif %}
                 </div>
-             
+                </div>
+                <div class=" offset-8 col-lg-4">
                 <div id="send">
                     {% if quizSession.status==0 %}
                         <div class="container">
@@ -52,7 +53,7 @@
                     {% endif %}
 
                     {% if quizSession.status>0 %}
-                        <button type="submit" class="answer-text question-title-wrap" onclick="sendAnswer()">send</button>
+                        <button class="answer-text question-title-wrap" onclick="sendAnswer()">send</button>
 
                     {% endif %}
                 </div>

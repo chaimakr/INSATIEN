@@ -1,0 +1,142 @@
+{% extends "userBase.html.twig" %}
+
+{% block stylesheets %}
+    
+    {#<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">#}
+    <link rel="stylesheet" href="{{ asset('assetsUser/assetsQuiz/teacherLaunchQuiz.css') }}">
+    
+{% endblock %}
+{% block title %}
+<title>Quiz</title>
+
+{% endblock %}
+
+
+{% block body %}
+{% block Sidebar %}
+    
+{% endblock %}
+    <div  class="quizzie">
+        {% if quizSession.status==-1 %}
+        quiz ended
+        {% else %}
+        <div id="question">
+            {% if quizSession.status>0 %}
+                {{ quizSession.quiz.quizQuestions[quizSession.status-1].content }}
+            {% endif %}
+        </div>
+        <div id="answers">
+            {% if quizSession.status>0 %}
+             <div class="row">
+                 <legend class="col-form-label col-sm-2 pt-0">Answers</legend>
+                 <div class="col-sm-10">
+                {% for answer in quizSession.quiz.quizQuestions[quizSession.status-1].quizAnswers %}
+                 <div class="form-check">
+                 <input class="answer-check" type="radio" name="gridRadios" id="answer{{ loop.index }}"
+                                      value="{{ loop.index }}" checked>
+                         <label class="form-check-label" for="gridRadios1">
+                       {{ answer.content }}
+                         </label>
+                    </div>
+                {% endfor %}
+                 </div>
+             </div>
+            {% endif %}
+        </div>
+
+            <div id="send">
+                {% if quizSession.status==0 %}
+                    Waiting for quiz launch
+
+                {% endif %}
+
+                {% if quizSession.status>0 %}
+                    <button onclick="sendAnswer()">send</button>
+
+                {% endif %}
+            </div>
+
+                 {% endif %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('assetStudent/vendor/jquery/jquery.min.js') }}"></script>
+
+    <script src="{{ asset('assetStudent/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <script src="{{ asset('assetStudent/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+    <script>
+
+
+
+
+
+
+        const quizState = new EventSource('http://localhost:3000/.well-known/mercure?topic=quizState{{ quizSession.id }}');
+        state=0;
+        quizState.onmessage = event => {
+            if(event.data=='quizEnded'){
+                $('div')[0].innerHTML='quiz ended';
+
+            }
+            else{
+
+                $('#send')[0].innerHTML=' <button onclick="sendAnswer()">send</button>';
+                state++;
+
+                data=JSON.parse(event.data);
+                $('#question')[0].innerHTML=data['question'];
+
+              answers=data['answers'];
+
+                answersDiv=' <div class="row">' +
+                    '      <legend class="col-form-label col-sm-2 pt-0">Answers</legend>' +
+                    '      <div class="col-sm-10">' ;
+
+
+              answers.forEach((answer)=>{
+
+                  answersDiv+= '        <div class="form-check">' +
+                      '          <input class="answer-check" type="radio" name="gridRadios" id="answer'+answers.indexOf(answer)
+                      +'" value="'+answers.indexOf(answer)  +'" checked>' +
+                      '          <label class="form-check-label" for="gridRadios1">' +
+                      answer +
+                      '          </label>' +
+                      '        </div>'
+              });
+
+
+
+                    answersDiv+='      </div></div>' ;
+
+
+                $('#answers')[0].innerHTML=answersDiv;
+            }
+
+
+
+
+        }
+
+        function sendAnswer(){
+            $.ajax({
+
+
+                url:'/student/quizAnswer/{{ quizSession.id }}/'+state+'/'+$('.answer-check:checked').val(),
+                method: 'POST',
+                data: {
+
+                    read: 1
+                },
+                success:(data)=>{
+                    console.log(data);
+                }
+            });
+        }
+
+
+
+    </script>
+{% endblock %}
+

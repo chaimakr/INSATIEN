@@ -131,6 +131,7 @@ h1,h2,p {
 
   .personalised-container{
     margin-top: 10%;
+    
     display: block;
     position: relative;
     inline-size: auto;
@@ -167,7 +168,6 @@ h1,h2,p {
     display: block;
     width: auto;
     margin: 1%;
-    text-decoration: #fff;
     
   }
   .question-title-wrap  :hover {

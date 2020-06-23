@@ -23,7 +23,16 @@
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
                                     {#<div class="text-xs font-weight-bold text-info text-uppercase mb-1">covoiturage</div>#}
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ covoiturages[i].owner.firstName}} is going to {{ covoiturages[i].arrivalPoint }} , they may take you along ..</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            {%  if i==0 %}
+                                            {{ covoiturages[i].owner.firstName}} is going to {{ covoiturages[i].arrivalPoint }} , they may take you along ..
+                                            {% elseif i==1 %}
+
+                                                Also {{ covoiturages[i].owner.firstName}} is heading to {{ covoiturages[i].arrivalPoint }} , check them ..
+                                                {% elseif i==2 %}
+                                                    {{ covoiturages[i].owner.firstName}} plans to go to {{ covoiturages[i].arrivalPoint }} , check their availability ..
+                                            {% endif %}
+                                        </div>
                                         </div>
                                     <div class="col-auto">
                                         <a href="/covoiturage/show"><i class="fa fa-car  fa-2x text-gray-300" aria-hidden="true"></i></a>  
@@ -58,7 +67,18 @@
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ questions[i].owner.firstName}} added a question a while ago in the {{ questions[0].class.title }} class </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+
+                                        {%  if i==0 %}
+                                            {{ questions[i].owner.firstName}} added a question a while ago in the {{ questions[i].class.title }} class
+                                        {% elseif i==1 %}
+                                            you're good at {{ questions[i].class.title }} aren't you ? you might help {{ questions[i].owner.firstName}} ..
+                                        {% elseif i==2 %}
+                                            something is confusing {{ questions[i].owner.firstName}} at {{ questions[i].class.title }} , check his question ..
+                                        {% endif %}
+
+
+                                    </div>
                                         </div>
                                     <div class="col-auto">
                                        <a href="/user/class/{{questions[i].class.id}}/showAllQuestions"><i class="fas fa-comments fa-2x text-gray-300"></i></a>

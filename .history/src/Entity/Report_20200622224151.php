@@ -37,6 +37,11 @@ class Report
      */
     private $reportedBy;
 
+    /**
+     * @ORM\Column(type="object")
+     */
+    private $entityReported;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,4 +95,15 @@ class Report
         return $this;
     }
 
+    public function getEntityReported()
+    {
+        return $this->entityReported;
+    }
+
+    public function setEntityReported($entityReported): self
+    {
+        $this->entityReported = $entityReported;
+
+        return $this;
+    }
 }

@@ -249,22 +249,40 @@ class UserController extends AbstractController
     /**
      * @Route("/user/report", name="report")
      */
-    public function report(Request $request,EntityManagerInterface $manager){
-        $stack = $this->get('request_stack');
-        $masterRequest = $stack->getMasterRequest();
-        $currentRoute = $masterRequest->get('_route');
+    public function report(Request $request, EntityManagerInterface $manager){
         $report = new Report();
         $user=$this->getUser();
-    if (isset($_POST["cause"]) && isset($_POST["details"])) { 
-        $report->setReportCause($_POST["cause"]);
-        $report->setDetails($_POST["details"]);
+    /*$Reportform = $this->createFormBuilder($report)
+       
+        ->add('ReportCause', ChoiceType::class, [
+            "attr" => [
+                "label" => "Choose One:"
+            ],
+            "choices" => [
+                "one" => "Inapropriate content",
+                "two" => "Unsuitable behavior",
+                "three" => "Spam"
+            ]
+
+        ])
+        ->add('Details', TextareaType::class, [
+            "attr" => [
+                "placeholder" => "details.. ",
+            ]
+        ])
+        ->add('send', SubmitType::class)
+        ->getForm();
+    $Reportform->handleRequest($request);*/
+
+    if ($Reportform->isSubmitted() && $Reportform->isValid()) {
         $report->setDate(new \DateTime());
+        $report->setEntityReported($obj);
         $report->setReportedBy($user);
         $manager->persist($report);
         $manager->flush();
-        $this->addFlash('success', 'thanks for reporting');
+       $this->redirectToRoute('/');
     }
-    return $this->redirect($_POST["currentRoute"]);
+    return $this->redirect('/');
 }
 
 }

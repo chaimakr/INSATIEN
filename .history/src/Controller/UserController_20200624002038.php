@@ -249,22 +249,18 @@ class UserController extends AbstractController
     /**
      * @Route("/user/report", name="report")
      */
-    public function report(Request $request,EntityManagerInterface $manager){
-        $stack = $this->get('request_stack');
-        $masterRequest = $stack->getMasterRequest();
-        $currentRoute = $masterRequest->get('_route');
+    public function report(Request $request, EntityManagerInterface $manager){
         $report = new Report();
         $user=$this->getUser();
     if (isset($_POST["cause"]) && isset($_POST["details"])) { 
         $report->setReportCause($_POST["cause"]);
         $report->setDetails($_POST["details"]);
         $report->setDate(new \DateTime());
+        $report->setEntityReported($obj);
         $report->setReportedBy($user);
         $manager->persist($report);
         $manager->flush();
-        $this->addFlash('success', 'thanks for reporting');
-    }
-    return $this->redirect($_POST["currentRoute"]);
+    return $this->redirect('/');
 }
 
 }

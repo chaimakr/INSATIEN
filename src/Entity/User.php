@@ -26,10 +26,6 @@ class User implements UserInterface
      */
     private $id;
 
-    /**
-     * @ORM\Column(type="json")
-     */
-    private $roles = [];
 
     /**
      * @ORM\Column(type="string", length=30)
@@ -258,8 +254,15 @@ class User implements UserInterface
     public function eraseCredentials(){}
     public function getSalt(){}
     public function getRoles()
-    {
-        return $this->roles;
+    {  if($this->confirmationCode=='confirmed'){
+        if($this->getRegisterAs()=='student') return  ['ROLE_STUDENT'];
+        elseif ($this->getRegisterAs()=="teacher") return  ['ROLE_TEACHER'];
+        elseif ($this->getRegisterAs()=="admin") return  ['ROLE_ADMIN'];
+
+    }
+
+    else
+        return['ROLE_UNCONFIRMED'];
     }
 
     /**
@@ -618,18 +621,7 @@ class User implements UserInterface
     }
 
 
-    public function setRoles(): self
-    {
-        if($this->confirmationCode=='confirmed'){
-            if($this->getRegisterAs()=='student') $this->roles=['ROLE_STUDENT'];
-            elseif ($this->getRegisterAs()=="teacher") $this->roles=['ROLE_TEACHER'];
-    }
 
-        else
-        $this->roles=['ROLE_UNCONFIRMED'];
-        
-        return $this;
-    }
 
     /**
      * @return Collection|Report[]

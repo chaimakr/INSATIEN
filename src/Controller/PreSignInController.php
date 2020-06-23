@@ -150,7 +150,6 @@ class PreSignInController extends AbstractController
             $compte->setConfirmationCode($random_string);
             $hash = $encoder->encodePassword($compte, $compte->getPassword());
             $compte->setPassword($hash);
-            $compte->setRoles();
             $manager->persist($compte);
             $manager->flush();
             $session = new Session();

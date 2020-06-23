@@ -83,7 +83,7 @@ class ClassController extends AbstractController
             foreach ($allRequests as $request) {
                 if ($request->getStudent() == $this->getUser() && $request->getClassGroup() == $class) {
                     $this->addFlash('info',
-                        'You already sent a request to join' . $class->getTitle()
+                        'You already sent a request to join ' . $class->getTitle()
                         . ' or the teacher already invited you to join, please check your requests '
                     );
                     return $this->redirect('/student/showClasses');

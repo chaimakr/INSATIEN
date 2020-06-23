@@ -134,20 +134,6 @@ class UserController extends AbstractController
 
 
 
-    /**
-     * @Route("/test", name="test")
-     */
-    public function test(PublisherInterface $publisher)
-    {
-
-        $update = new Update('newRequest4', "[]");
-
-        // The Publisher service is an invokable object
-        $publisher($update);
-
-        return new Response("done");
-
-    }
 
 
 
@@ -252,8 +238,8 @@ class UserController extends AbstractController
 
         }
         else{
-            $this->addFlash('error', 'connot access request ');
-            return $this->redirect('/user/showRequests');
+
+            return $this->render('user/cannotAccess.html.twig');
 
         }
 
@@ -297,7 +283,7 @@ class UserController extends AbstractController
        $this->redirectToRoute('/');
     }
     return $this->render('inc/studentSidebar.html.twig', [
-        "form" => $Reportform->createView()
+        "formReport" => $Reportform->createView()
     ]);
 }
 

@@ -19,12 +19,13 @@ class ResponseController extends AbstractController
 
             if (!($class && $class->getStudentsMembers()->contains($this->getUser()))) {
                 $this->addFlash("error", 'cannot access class');
-                return $this->redirect('/student/myClasses');
+
+                return $this->render('user/cannotAccess.html.twig');
             };
         } elseif (in_array('ROLE_TEACHER', $this->getUser()->getRoles())) {
             if (!($class && $class->getOwner() == $this->getUser())) {
                 $this->addFlash("error", 'cannot access class');
-                return $this->redirect('/teacher/showClasses');
+                return $this->render('user/cannotAccess.html.twig');
             }
         }
 
@@ -87,20 +88,18 @@ class ResponseController extends AbstractController
 
             }
 
-            
             $reply=new Response();
-            if (($request->get('ModifyIdRepl'))) 
-            $relpy = $manager->getRepository('App:Response')->findOneById($request->get('ModifyIdRepl'));
+
+
+
             $formAddReplyToResponse=$this->createFormBuilder($reply)
-            ->add('content',TextareaType::class);
-            if (($request->get('ModifyIdRepl'))) {
-                $formAddReplyToResponse=$formAddReplyToResponse->add('ModifyReply',SubmitType::class)
-            ->getForm();
-        }
-            else {
-                $formAddReplyToResponse=$formAddReplyToResponse->add('AddReply',SubmitType::class)
-            ->getForm();
-        }           
+                ->add('content',TextareaType::class)
+                ->add('AddReply',SubmitType::class)
+                ->getForm();
+
+
+
+
 
         $formAddReplyToResponse->handleRequest($request);
 
@@ -123,11 +122,11 @@ class ResponseController extends AbstractController
                 'question'=>$question,
                 'allResponses'=>$allResponses,
                 'formAddResponse'=>$formAddResponse->createView(),
-                'form'=>$formAddReplyToResponse
+                'formReplyNoView'=>$formAddReplyToResponse
             ]);
         }
 
-        return $this->redirect('/');
+        return $this->render('user/cannotAccess.html.twig');
 
 
 
@@ -139,37 +138,50 @@ class ResponseController extends AbstractController
     {
         $manager = $this->getDoctrine()->getManager();
         $response = $manager->getRepository('App:Response')->findOneById($id);
-        $questionId=$response->getQuestion()->getId();
-        if ($response->getOwner()->getId() != $this->getUser()->getId())
+
+
+
+        if (!($response && $response->getOwner()== $this->getUser())){
             $this->addFlash('error', "deletion failed !!");
+            return $this->render('user/cannotAccess.html.twig');
+        }
+
 
         else {
+            $questionId=$response->getQuestion()->getId();
             $manager->remove($response);
             $manager->flush();
             $this->addFlash('success', "Response has been deleted !");
+            return $this->redirect('/user/questionResponces/'.$questionId);
         }
 
-        return $this->redirect('/user/questionResponces/'.$questionId);
+
     }
 
     /**
-     * @Route("/user/Reply/delete/{replyId}", name="deleteResponse")
+     * @Route("/user/Reply/delete/{replyId}", name="deleteReply")
      */
     public function deleteReply($replyId)
     {
         $manager = $this->getDoctrine()->getManager();
         $reply = $manager->getRepository('App:Response')->findOneById($replyId);
-        $questionId=$reply->getMain()->getQuestion()->getId();
-        if ($reply->getOwner()->getId() != $this->getUser()->getId())
+
+
+        if (!($reply && $reply->getOwner()->getId() == $this->getUser()->getId())){
             $this->addFlash('error', "deletion failed !!");
+            return $this->render('user/cannotAccess.html.twig');
+        }
+
 
         else {
+            $questionId=$reply->getMain()->getQuestion()->getId();
             $manager->remove($reply);
             $manager->flush();
             $this->addFlash('success', "Reply has been deleted !");
+            return $this->redirect('/user/questionResponces/'.$questionId);
         }
 
-        return $this->redirect('/user/questionResponces/'.$questionId);
+
 
 
     }

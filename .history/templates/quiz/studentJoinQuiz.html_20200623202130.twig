@@ -76,7 +76,7 @@
         state=0;
         quizState.onmessage = event => {
             if(event.data=='quizEnded'){
-                $('div')[0].innerHTML='<div class="container"><h1 class="mt-4 mb-4 mr-2 ml-2">Quiz ended !</h1></div>';
+                $('div')[0].innerHTML='quiz ended';
 
             }
             else{
@@ -89,17 +89,15 @@
 
               answers=data['answers'];
 
-                answersDiv= '<div class="quiz-answer low-value">' +
-                                       '<div class="answer-wrap"> ' +
-                                        '<p class="answer-text ">Answers</p>'+
-                                        '</div>'+
-                                    '</div>' ;
+                answersDiv=' <div class="row">' +
+                    '      <legend class="col-form-label col-sm-2 pt-0">Answers</legend>' +
+                    '      <div class="col-sm-10">' ;
 
 
               answers.forEach((answer)=>{
 
                   answersDiv+= '        <div class="form-check">' +
-                      '          <input class="option-input radio" type="radio" name="gridRadios" id="answer'+answers.indexOf(answer)
+                      '          <input class="answer-check" type="radio" name="gridRadios" id="answer'+answers.indexOf(answer)
                       +'" value="'+answers.indexOf(answer)  +'" checked>' +
                       '          <label class="form-check-label" for="gridRadios1">' +
                       answer +

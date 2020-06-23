@@ -54,8 +54,10 @@
                                         </div>
                                         <div class="mic-info">
                                             <small>
-                                                By: <a href="#">{{ question.owner.firstName }} {{ question.owner.lastName }}</a> {{ question.date|date('Y-m-d H:i:s') }}
-                                               
+                                                By:    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-social">Report User</button>
+
+                                                <a href="#">{{ question.owner.firstName }} {{ question.owner.lastName }}</a> {{ question.date|date('Y-m-d H:i:s') }}
+                                                {{ include('security/report.html.twig')}}
 
                                             </small>
                                         </div>

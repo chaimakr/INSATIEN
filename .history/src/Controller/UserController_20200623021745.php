@@ -7,9 +7,6 @@ use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Mercure\PublisherInterface;
@@ -20,7 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Constraints\File;
-use App\Entity\Report;
+use App\Entity\Report
 
 
 class UserController extends AbstractController
@@ -294,9 +291,9 @@ class UserController extends AbstractController
         $report->setReportedBy($user);
         $manager->persist($report);
         $manager->flush();
-       $this->redirectToRoute('/');
+       
     }
-    return $this->render('inc/studentSidebar.html.twig', [
+    return $this->render('security/report.html.twig', [
         "form" => $Reportform->createView()
     ]);
 }

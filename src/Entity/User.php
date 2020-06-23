@@ -140,6 +140,11 @@ class User implements UserInterface
      */
     private $quizTries;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Report::class, mappedBy="reportedBy")
+     */
+    private $reports;
+
     public function __construct()
     {
         $this->covoiturages = new ArrayCollection();
@@ -155,6 +160,7 @@ class User implements UserInterface
         $this->voteQuestions = new ArrayCollection();
         $this->voteResponses = new ArrayCollection();
         $this->quizTries = new ArrayCollection();
+        $this->reports = new ArrayCollection();
     }
 
 
@@ -619,6 +625,37 @@ class User implements UserInterface
         else
         $this->roles=['ROLE_UNCONFIRMED'];
         
+        return $this;
+    }
+
+    /**
+     * @return Collection|Report[]
+     */
+    public function getReports(): Collection
+    {
+        return $this->reports;
+    }
+
+    public function addReport(Report $report): self
+    {
+        if (!$this->reports->contains($report)) {
+            $this->reports[] = $report;
+            $report->setReportedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReport(Report $report): self
+    {
+        if ($this->reports->contains($report)) {
+            $this->reports->removeElement($report);
+            // set the owning side to null (unless already changed)
+            if ($report->getReportedBy() === $this) {
+                $report->setReportedBy(null);
+            }
+        }
+
         return $this;
     }
 }

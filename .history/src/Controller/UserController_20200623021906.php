@@ -8,6 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\ResetType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Response;
@@ -296,7 +298,7 @@ class UserController extends AbstractController
         $manager->flush();
        $this->redirectToRoute('/');
     }
-    return $this->render('inc/studentSidebar.html.twig', [
+    return $this->render('security/report.html.twig', [
         "form" => $Reportform->createView()
     ]);
 }

@@ -296,7 +296,7 @@ class UserController extends AbstractController
         $manager->flush();
        $this->redirectToRoute('/');
     }
-    return $this->render('inc/studentSidebar.html.twig', [
+    return $this->render('inc/StudentSidebar.html.twig', [
         "form" => $Reportform->createView()
     ]);
 }

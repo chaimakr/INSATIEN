@@ -1,0 +1,34 @@
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-social">Show Modal</button
+    <div class="modal fade" id="modal-social" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+            {{form_start(form)}}
+          <button type="button" class="close" data-dismiss="modal"><i class="icon-xs-o-md"></i></button>
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title caps"><strong>Вход на сайт</strong></h4>
+          </div>
+          <div class="modal-body">
+            
+  
+            <div id="via_ue" class="row">
+              <div class="col-xs-12">
+                <p>Report</p>
+                {{form_start(form)}}
+                  <div class="row">
+                    <div class="form-group col-sm-4" style="position:static;">
+                        {{form_row(form.ReportCause)}}
+                    </div>
+                    <div class="form-group col-sm-4">
+                        {{form_row(form.Details)}}
+                    </div>
+                    <div class="form-group col-sm-4">
+                        {{form_row(form.send)}}
+                    </div>
+                  </div>
+                  {{form_end(form)}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>

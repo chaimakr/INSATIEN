@@ -47,7 +47,7 @@
     <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">Utilities:</h6>
-        <a id="Report" class="collapse-item" data-toggle="modal" data-target="#modal-social" ><i class="fa fa-ban" aria-hidden="true"></i> Report</a>
+        <a class="collapse-item" data-toggle="modal" data-target="/user/report#modal-social" href="/user/report"><i class="fa fa-ban" aria-hidden="true"></i> Report</a>
       </div>
     </div>
   </li>
@@ -133,5 +133,37 @@
 
 
 
-
+<div class="modal fade" id="modal-social" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <button type="button" class="close" data-dismiss="modal"><i class="icon-xs-o-md"></i></button>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        {#<h4 class="modal-title caps"><strong>close</strong></h4>#}
+      </div>
+      <div class="modal-body">
+        <div id="via_ue" class="row">
+          <div class="col-xs-12">
+            
+            {% if formReport is defined %}
+            {{form_start(formReport)}}
+              <div class="row">
+                <div class="form-group col-sm-4" style="position:static;">
+                    {{form_row(formReport.ReportCause)}}
+                </div>
+                <div class="form-group col-sm-4">
+                    {{form_row(formReport.Details)}}
+                </div>
+                <div class="form-group col-sm-4">
+                    {{form_row(formReport.send)}}
+                </div>
+              </div>
+              {{form_end(formReport)}}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
 <!-- End of Sidebar -->

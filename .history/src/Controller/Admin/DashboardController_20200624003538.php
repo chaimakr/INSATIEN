@@ -54,7 +54,5 @@ class DashboardController extends AbstractDashboardController
 
         yield    MenuItem::section('Calendar');
         yield    MenuItem::linkToCrud('Events', 'fa fa-calendar', Event::class);
-        yield    MenuItem::section('tools');
-        yield    MenuItem::linkToCrud('Reports', 'fa fa-ban', Report::class);
     }
 }

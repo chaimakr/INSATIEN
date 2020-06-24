@@ -262,7 +262,6 @@ class UserController extends AbstractController
         $report->setReportedBy($user);
         $manager->persist($report);
         $manager->flush();
-        $this->addFlash('success', 'thanks for reporting');
     }
     return $this->redirect($_POST["currentRoute"]);
 }

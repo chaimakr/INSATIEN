@@ -70,7 +70,7 @@
                         <div class="offset-2 col-sm-8">
                           <form method="POST" action="/user/report">
                               <div class="form-group" style="position:static;">
-                                <select class="custom-select check-answer" name="cause" >
+                                <select class="custom-select check-answer">
                                     <option selected="">Open this select menu</option>
                                     <option value="1">Inapropriate content</option>
                                     <option value="2">Spam</option>
@@ -78,13 +78,10 @@
                                   </select>                             
                                 </div>
                               <div class="form-group">
-                                    <textarea class="form-control" name="details" placeholder="Details.." ></textarea> 
-                                    <input type="hidden" name="currentRoute" value="{{ app.request.uri}}">
-                                    <div class="form-group col-sm-4">
+                                    <textarea class="form-control" id="exampleTextarea" placeholder="Details.." ></textarea>                              <div class="form-group col-sm-4">
                                 </div>
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-danger">Send</button>                              
-                                </div>
+                                    <button type="submit" class="btn btn-danger">Send</button>                              </div>
                             </div>
                         </form>
                           </div>

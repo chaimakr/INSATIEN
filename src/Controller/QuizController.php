@@ -9,6 +9,7 @@ use App\Entity\QuizSession;
 use App\Entity\QuizTry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Array_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -63,7 +64,7 @@ class QuizController extends AbstractController
 
                     $quizAnswer = new QuizAnswer();
                     $quizAnswer->setContent($answer->answer);
-                    if($answer->valid) $quizAnswer->setValid(1);
+                    if ($answer->valid) $quizAnswer->setValid(1);
                     else $quizAnswer->setValid(0);
 
                     $manager->persist($quizAnswer);
@@ -208,9 +209,6 @@ class QuizController extends AbstractController
         }
 
 
-
-
-
         $quiz = $manager->getRepository('App:Quiz')->findOneById($quizId);
 
 
@@ -263,11 +261,10 @@ class QuizController extends AbstractController
         }
 
 
-        if ($quizState > $quizSession->getQuiz()->getQuizQuestions()->count()){
+        if ($quizState > $quizSession->getQuiz()->getQuizQuestions()->count()) {
             $quizSession->setStatus(-1);
             $request->getSession()->remove('quizSession');
-        }
-        else $quizSession->setStatus($quizState);
+        } else $quizSession->setStatus($quizState);
 
 
         $manager->persist($quizSession);
@@ -282,11 +279,13 @@ class QuizController extends AbstractController
             }
 
 
-            $update = new Update('quizState' . $quizSessionId, json_encode(['question' => $question->getContent(), 'answers' => $answers]));
+            $update = new Update('quizState' . $quizSessionId,
+                json_encode(['topic' => 'nextQuestion', 'question' => $question->getContent(), 'answers' => $answers])
+            );
             $publisher($update);
 
         } elseif ($quizState > $quizSession->getQuiz()->getQuizQuestions()->count()) {
-            $update = new Update('quizState' . $quizSessionId, 'quizEnded');
+            $update = new Update('quizState' . $quizSessionId, json_encode(['topic' => 'quizEnd']));
             $publisher($update);
         }
 
@@ -320,13 +319,12 @@ class QuizController extends AbstractController
         }
 
 
-
         $quizTry = $manager->getRepository('App:QuizTry')->findOneBy([
             'student' => $this->getUser(),
             'quizSession' => $quizSession
         ]);
 
-        if($quizSession->getStatus()==-1 || $quizSession->getStatus()!=$quizState){
+        if ($quizSession->getStatus() == -1 || $quizSession->getStatus() != $quizState) {
             return new Response('cannot access quiz', 401);
         }
 
@@ -356,10 +354,19 @@ class QuizController extends AbstractController
 
     }
 
+
+
+
+
+
+
+
+
+
     /**
      * @Route("/teacher/quizSessions/{quizId}", name="showQuizSessions")
      */
-    public function showQuizSessions( EntityManagerInterface $manager,$quizId)
+    public function showQuizSessions(EntityManagerInterface $manager, $quizId)
     {
         $quiz = $manager->getRepository('App:Quiz')->findOneById($quizId);
 
@@ -368,31 +375,109 @@ class QuizController extends AbstractController
 
         }
 
-        $quizSessions=$manager->getRepository('App:QuizSession')->findByQuiz($quiz,['id'=>'desc']);
+        $quizSessions = $manager->getRepository('App:QuizSession')->findByQuiz($quiz, ['id' => 'desc']);
 
-        return $this->render('quiz/quizSessions.html.twig',[
-            'quizSessions'=>$quizSessions,
-            'quiz'=>$quiz
+        return $this->render('quiz/quizSessions.html.twig', [
+            'quizSessions' => $quizSessions,
+            'quiz' => $quiz
         ]);
 
 
     }
 
+
+
+
+
+
+
+
+
+
     /**
      * @Route("/teacher/quizSessionDetails/{quizSessionId}", name="QuizSessionDetails")
      */
-    public function QuizSessionDetails( EntityManagerInterface $manager,$quizSessionId)
+    public function QuizSessionDetails(EntityManagerInterface $manager, $quizSessionId)
     {
-        $quizSession=$manager->getRepository('App:QuizSession')->findOneById($quizSessionId);
+        $quizSession = $manager->getRepository('App:QuizSession')->findOneById($quizSessionId);
         if (!($quizSession && $quizSession->getQuiz()->getClass()->getOwner() == $this->getUser())) {
             return new Response('cannot access quiz ', 401);
 
         }
 
-        return $this->render('quiz/quizSessionDetails.html.twig',[
-            'quizSession'=>$quizSession,
-            'quiz'=>$quizSession->getQuiz()
+        return $this->render('quiz/quizSessionDetails.html.twig', [
+            'quizSession' => $quizSession,
+            'quiz' => $quizSession->getQuiz()
         ]);
+
+    }
+
+
+
+
+
+
+
+
+
+
+    /**
+     * @Route("/teacher/showQuestionResults/{quizSessionId}", name="showQuestionResults")
+     */
+    public function showQuestionResults(EntityManagerInterface $manager, $quizSessionId, PublisherInterface $publisher)
+    {
+
+        $quizSession = $manager->getRepository('App:QuizSession')->findOneById($quizSessionId);
+
+
+        if (!($quizSession && $quizSession->getQuiz()->getClass()->getOwner() == $this->getUser())) {
+            return new Response('cannot access quiz ', 401);
+
+        }
+        $answers = $quizSession->getQuiz()->getQuizQuestions()[$quizSession->getStatus() - 1]->getQuizAnswers();
+
+
+        $stats = array_fill(0, count($answers), 0);
+        $numParticipants=0;
+        foreach ($quizSession->getQuizTries() as $quizTry) {
+            $numParticipants++;
+            foreach ($answers as $key => $answer) {
+                if ($quizTry->getQuizAnswers()->contains($answer)) {
+                    $stats[$key]++;
+                    break;
+                }
+
+            }
+
+        }
+
+
+        foreach ($stats as $key=>$stat){
+            $stats[$key]=$stat/$numParticipants;
+        }
+
+
+
+
+
+        $answersStats=[];
+        foreach ($answers as $key=>$answer) {
+            array_push($answersStats,[ $answer->getContent(), $answer->getValid(),$stats[$key]]);
+        }
+
+//        dd($answersArray);
+
+        $update = new Update('quizState' . $quizSessionId,
+            json_encode(['topic' => 'questionResults','stats'=>$answersStats])
+        );
+        $publisher($update);
+
+
+        $quizSession->setStatus(0);
+        $manager->persist($quizSession);
+        $manager->flush();
+
+        return new Response('done');
 
     }
 

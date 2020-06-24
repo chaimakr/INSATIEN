@@ -22,9 +22,24 @@
                         </div>
                         <div type="button" class="quiz-answer low-value" id="nextQuestion">
                             <div class="answer-wrap">
-                            <p class="answer-text">next Question</p>
+                                {% if quizSession.status==0 %}
+                                    <p class="answer-text">Start Quiz</p>
+                                {% else %}
+                                    <p class="answer-text">next Question</p>
+
+                                {% endif %}
+
                             </div> 
                         </div>
+
+
+                        <div type="button" class="quiz-answer low-value" onclick="showResults()" id="showResults" style="display: none">
+
+                            <div class="answer-wrap">
+                                <p class="answer-text">Show Results </p>
+                            </div>
+                        </div>
+
                         <div id="question" class="question-title-wrap"></div>
                     </div>
                 </div>  
@@ -46,6 +61,8 @@
 
 
     $('#nextQuestion')[0].addEventListener('click',(e)=>{
+        $('#nextQuestion').find('.answer-text')[0].innerHTML='Next Question';
+        $('#showResults')[0].style.display='block';
         if(state<quiz['questions'].length){
             $('#question')[0].innerHTML=quiz['questions'][state]['question'];
             state++;
@@ -74,9 +91,13 @@
                     read: 1
                 }
             });
-            $('#question')[0].innerHTML='quiz ended <br> <a type="button" class="quiz-answer low-value answer-text" href="/teacher/quizSessionDetails/{{ quizSession.id }}">Get Results</a>';
+            $('#question')[0].innerHTML='Quiz ended <br> ' +
+                '<a type="button" class="quiz-answer low-value answer-text" href="/teacher/quizSessionDetails/{{ quizSession.id }}">Get Results</a>'+
+                '<br>'+
+                '<a type="button" class="quiz-answer low-value answer-text" href="">Redo Quiz</a>'
+            ;
             $('#nextQuestion')[0].remove();
-
+            $('#showResults')[0].style.display='none';
 
 
         }
@@ -123,6 +144,20 @@
 
 
 
+
+    }
+
+    function showResults() {
+        $.ajax({
+
+
+            url:'/teacher/showQuestionResults/{{ quizSession.id }}',
+            method: 'POST',
+            data: {
+
+                read: 1
+            }
+        });
 
     }
 </script>

@@ -2,48 +2,64 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {#    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">#}
+    {#    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">#}
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
     <link href="{{ asset('assetStudent/css/sb-admin-2.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assetsUser/assetsQuiz/quiz.css') }}">
     <title>Quiz</title>
 
 <body>
-    <div class="container-fluid">
-        <div class="personalised-container">
-            {% if quizSession.status==-1 %}
-            <div class="container">
+
+
+<div class="container-fluid">
+    <div class="personalised-container">
+        {% if quizSession.status==-1 %}
+        <div class="container">
             <h1 class="mt-4 mb-4 mr-2 ml-2">Quiz ended !</h1>
-            </div>
-            {% else %}
-            <h1 id="question">
-                {% if quizSession.status>0 %}
-                    {{ quizSession.quiz.quizQuestions[quizSession.status-1].content }}
-                {% endif %}
-            </h1>
-            <div class="row  justify-content-start align-items-center">
-                <div class=" offset-3 col-lg-6 offset-3 ">
-                    <div id="answers">
-                        {% if quizSession.status>0 %}
-                    
-                                    <div class="quiz-answer low-value">
-                                        <div class="answer-wrap">
-                                        <p class="answer-text ">Answers</p>
-                                        </div> 
-                                    </div>
-                        
-                            {% for answer in quizSession.quiz.quizQuestions[quizSession.status-1].quizAnswers %}
+        </div>
+        {% else %}
+        <h1 id="question">
+            {% if quizSession.status>0 %}
+                {{ quizSession.quiz.quizQuestions[quizSession.status-1].content }}
+            {% endif %}
+        </h1>
+        <div class="row  justify-content-start align-items-center">
+            <div class=" offset-3 col-lg-6 offset-3 ">
+
+
+                <div id="answers" class="col-sm-6">
+                    {% if quizSession.status>0 %}
+
+                        <div class="quiz-answer low-value">
+                            <div class="answer-wrap">
+                                <p class="answer-text ">Answers</p>
+                            </div>
+                        </div>
+
+                        {% for answer in quizSession.quiz.quizQuestions[quizSession.status-1].quizAnswers %}
                             <div class="row">
-                            <input class="answer-check option-input radio " type="radio" name="gridRadios" id="answer{{ loop.index }}"
-                                                value="{{ loop.index }}" checked>
-                                    <label class="form-check-label" for="gridRadios1">
-                                 <p>{{ answer.content }}</p>
-                                    </label>
-                                </div>
-                            {% endfor %}
-                {% endif %}
+                                <input class="answer-check option-input radio " type="radio" name="gridRadios"
+                                       id="answer{{ loop.index}}"
+                                       value="{{ loop.index -1}}" checked>
+                                <label class="form-check-label" for="gridRadios1">
+                                    <p>{{ answer.content }}</p>
+                                </label>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
                 </div>
-             
                 <div id="send">
                     {% if quizSession.status==0 %}
                         <div class="container">
@@ -52,91 +68,135 @@
                     {% endif %}
 
                     {% if quizSession.status>0 %}
-                        <button type="submit" class="mt-4 answer-text question-title-wrap" onclick="sendAnswer()">send</button>
+                        <button type="submit" class="mt-4 answer-text question-title-wrap" onclick="sendAnswer()">send
+                        </button>
 
                     {% endif %}
-                </div>
 
-                    {% endif %}
                 </div>
+<div id="confirmSent" style="display: none;" class=" animated fadeIn ">
+    <svg   class="bi bi-check-circle-fill"
+           width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+           xmlns="http://www.w3.org/2000/svg">
+
+        <path fill-rule="evenodd"
+              d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+    </svg>
+    <text>answer sent</text>
+</div>
+
+
+
+
+                {% endif %}
             </div>
         </div>
     </div>
+</div>
+<!-- JQuery -->
+
 <script src="{{ asset('assetStudent/vendor/jquery/jquery.min.js') }}"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
 <script src="{{ asset('assetStudent/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('assetStudent/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-    <script>
+<script>
 
 
+    const quizState = new EventSource('http://localhost:3000/.well-known/mercure?topic=quizState{{ quizSession.id }}');
+    state = {{ quizSession.status }};
+    quizState.onmessage = event => {
+        $('#send')[0].style.display='block';
+        $('#confirmSent')[0].style.display = 'none';
+        data = JSON.parse(event.data);
+        if (data['topic'] == 'quizEnd') {
+            $('div')[0].innerHTML = '<div class="container"><h1 class="mt-4 mb-4 mr-2 ml-2">Quiz ended !</h1></div>';
+
+        } else if (data['topic'] == 'nextQuestion') {
+
+            $('#send')[0].innerHTML = ' <button class="mt-4 answer-text question-title-wrap" onclick="sendAnswer()">send</button>';
+            state++;
 
 
+            $('#question')[0].innerHTML = data['question'];
+
+            answers = data['answers'];
+
+            answersDiv = '<div class="quiz-answer low-value">' +
+                '<div class="answer-wrap"> ' +
+                '<p class="answer-text ">Answers</p>' +
+                '</div>' +
+                '</div>';
 
 
-        const quizState = new EventSource('http://localhost:3000/.well-known/mercure?topic=quizState{{ quizSession.id }}');
-        state=0;
-        quizState.onmessage = event => {
-            if(event.data=='quizEnded'){
-                $('div')[0].innerHTML='<div class="container"><h1 class="mt-4 mb-4 mr-2 ml-2">Quiz ended !</h1></div>';
+            answers.forEach((answer) => {
 
-            }
-            else{
-
-                $('#send')[0].innerHTML=' <button class="mt-4 answer-text question-title-wrap" onclick="sendAnswer()">send</button>';
-                state++;
-
-                data=JSON.parse(event.data);
-                $('#question')[0].innerHTML=data['question'];
-
-              answers=data['answers'];
-
-                answersDiv= '<div class="quiz-answer low-value">' +
-                                       '<div class="answer-wrap"> ' +
-                                        '<p class="answer-text ">Answers</p>'+
-                                        '</div>'+
-                                    '</div>' ;
-
-
-              answers.forEach((answer)=>{
-
-                  answersDiv+= '        <div class="row">' +
-                      '          <input class="option-input radio answer-check" type="radio" name="gridRadios" id="answer'+answers.indexOf(answer)
-                      +'" value="'+answers.indexOf(answer)  +'" checked>' +
-                      '          <label class="form-check-label" for="gridRadios1"><p>' +
-                      answer +
-                      '     </p>     </label>' +
-                      '        </div>'
-              });
-
-
-                    answersDiv+='      </div></div>' ;
-
-
-                $('#answers')[0].innerHTML=answersDiv;
-            }
-
-
-
-
-        }
-
-        function sendAnswer(){
-            console.log('/student/quizAnswer/{{ quizSession.id }}/'+state+'/'+$('.answer-check:checked').val());
-            $.ajax({
-
-
-                url:'/student/quizAnswer/{{ quizSession.id }}/'+state+'/'+$('.answer-check:checked').val(),
-                method: 'POST',
-                data: {
-
-                    read: 1
-                },
-                success:(data)=>{
-                    console.log(data);
-                }
+                answersDiv += '        <div class="row">' +
+                    '          <input class="option-input radio answer-check" type="radio" name="gridRadios" id="answer' + answers.indexOf(answer)
+                    + '" value="' + answers.indexOf(answer) + '" checked>' +
+                    '          <label class="form-check-label" for="gridRadios1"><p>' +
+                    answer +
+                    '     </p>     </label>' +
+                    '        </div>'
             });
+
+
+            answersDiv += '      </div></div>';
+
+
+            $('#answers')[0].innerHTML = answersDiv;
+        }else if (data['topic'] == 'questionResults'){
+            $('#answers')[0].innerHTML='';
+            data['stats'].forEach((answer)=>{
+                if(answer[1]==true)
+                    $('#answers').append(
+                       answer[0] +' '+answer[2]*100+' %'+
+                        '<div class="progress mb-4">' +
+                        '  <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: '+
+                        +answer[2]*100+'%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">' +
+                        '</div>' +
+                        '</div>');
+                else if(answer[1]==false)
+                    $('#answers').append(
+                       answer[0] +' '+answer[2]*100+' %'+
+                        '<div class="progress mb-4">' +
+                        '  <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: '+
+                        +answer[2]*100+'%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">' +
+                        '</div>' +
+                        '</div>');
+            })
+
+            $('#send')[0].style.display='none';
         }
 
 
+            };
 
-    </script>
+
+
+    function sendAnswer() {
+        $('#confirmSent')[0].style.display = 'none';
+        console.log('/student/quizAnswer/{{ quizSession.id }}/' + state + '/' + $('.answer-check:checked').val());
+        $.ajax({
+
+            url: '/student/quizAnswer/{{ quizSession.id }}/' + state + '/' + $('.answer-check:checked').val(),
+            method: 'POST',
+            data: {
+
+                read: 1
+            },
+            success: () => {
+                console.log('erer');
+                $('#confirmSent')[0].style.display = 'block';
+            }
+        });
+    }
+
+
+</script>
 </body>

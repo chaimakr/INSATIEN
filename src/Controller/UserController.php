@@ -172,6 +172,13 @@ class UserController extends AbstractController
 
 
 
+ /**
+     * @Route("/testing",name="testing")
+     */
+    public function test()
+    {
+        return $this->render("pre_sign_in/home2.html.twig");
+    }
 
 
 

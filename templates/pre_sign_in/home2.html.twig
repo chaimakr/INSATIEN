@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>INSATIEN</title>
+		<style></style>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		<link href="{{ asset('assetStudent/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+		<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
+		<link rel="stylesheet" href="{{asset('heartStyle.css')}}">
+		<link rel="stylesheet" href="{{asset('home/home.css')}}">
+	</head>
+	<body>
+		<div class="insat-bg">
+			<nav id='nav_bar'>
+				<div class='menu'>
+					<span class='toggle'>
+						<i></i>
+						<i></i>
+						<i></i>
+					</span>
+					<div class='menuContent'>
+						<ul>
+							<li><a class="navbar-brand"href="{{ path('home')}}">INSATIEN</a></li>
+							<li><a class="nav-link" href="/event/calendar">Events calendar</a></li>
+							<li><a class="nav-link" href="#contactUs">Contact us</a></li>
+							<li><a class="nav-link" href="#signUp">Sign Up</a></li>
+						</ul>
+					</div>
+				</div>
+				<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+			</nav>
+
+			<br>
+			<br>
+			<br>
+			<br>
+			<p class="header-text">INSATIEN</p>
+			<br>
+			<br>
+			<br>
+			<br>
+			<div class="container">
+				<div class="card mx-auto">
+					<p style="font-size:20px">
+						INSATIEN is a Website created by Insatiens for Insatiens
+						<br>
+						It aims to be the main mean of communication between students, teachers and even other students by providing them the best tools to help each other
+					</p>
+					<hr>
+					<div class="col-sm-12 col-lg-12">
+						<h6 class="text-center text-uppercase font-weight-bold text-teal mx-3">
+							MADE WITH
+						</h6>
+						<br>
+						<br>
+						<div class="flex-container fancy-heart">
+							<div class="unit">
+								<div class="heart">
+									<div class="heart-piece-0"></div>
+									<div class="heart-piece-1"></div>
+									<div class="heart-piece-2"></div>
+									<div class="heart-piece-3"></div>
+									<div class="heart-piece-4"></div>
+									<div class="heart-piece-5"></div>
+									<div class="heart-piece-6"></div>
+									<div class="heart-piece-7"></div>
+									<div class="heart-piece-8"></div>
+								</div>
+							</div>
+						</div>
+						<br>
+						<br>
+						<br>
+					</div>
+				</div>
+				<br>
+				<br>
+				<br>
+				<br>
+				<a class="pulse-button" href="#services">
+					<span style="font-size:10px">Wanna Join Us?</span>
+				</a>
+			</div>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+		</div>
+		<div class="rest-of-content">
+			<h1>alo</h1>
+		</div>
+
+		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+		<script>
+			$('.toggle').on('click', function () {
+$('.menu').toggleClass('active');
+});
+		</script>
+		<script>
+			$(document).ready(function () {
+
+$(window).scroll(function () {
+// if you hard code, then use console
+// .log to determine when you want the
+// nav bar to stick.
+console.log($(window).scrollTop())
+if ($(window).scrollTop() > 50) {
+$('#nav_bar').addClass('navbar-fixed');
+}
+if ($(window).scrollTop() < 51) {
+$('#nav_bar').removeClass('navbar-fixed');
+}
+});
+});
+		</script>
+	</body>
+</html>

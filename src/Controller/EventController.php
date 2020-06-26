@@ -24,6 +24,13 @@ class EventController extends AbstractController
             'events' => $eventRepository->findAll(),
         ]);
     }
+    /**
+     * @Route("/testing",name="testing")
+     */
+    public function test()
+    {
+        return $this->render("pre_sign_in/home2.html.twig");
+    }
 
     /**
      * @Route("/new", name="event_new", methods={"GET","POST"})

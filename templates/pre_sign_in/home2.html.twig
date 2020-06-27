@@ -11,6 +11,7 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
 		<link rel="stylesheet" href="{{asset('heartStyle.css')}}">
 		<link rel="stylesheet" href="{{asset('home/home.css')}}">
+		<link rel="stylesheet" href="{{asset('home/login.css')}}">
 	</head>
 	<body>
 		<div class="insat-bg">
@@ -37,78 +38,103 @@
 			<br>
 			<br>
 			<br>
+			<br>
 			<p class="header-text">INSATIEN</p>
 			<br>
 			<br>
 			<br>
 			<br>
+			<br>
+			<br>
+		</div>
+		<div class="second-part ">
 			<div class="container">
-				<div class="card mx-auto">
-					<p style="font-size:20px">
-						INSATIEN is a Website created by Insatiens for Insatiens
-						<br>
-						It aims to be the main mean of communication between students, teachers and even other students by providing them the best tools to help each other
-					</p>
-					<hr>
-					<div class="col-sm-12 col-lg-12">
-						<h6 class="text-center text-uppercase font-weight-bold text-teal mx-3">
-							MADE WITH
-						</h6>
-						<br>
-						<br>
-						<div class="flex-container fancy-heart">
-							<div class="unit">
-								<div class="heart">
-									<div class="heart-piece-0"></div>
-									<div class="heart-piece-1"></div>
-									<div class="heart-piece-2"></div>
-									<div class="heart-piece-3"></div>
-									<div class="heart-piece-4"></div>
-									<div class="heart-piece-5"></div>
-									<div class="heart-piece-6"></div>
-									<div class="heart-piece-7"></div>
-									<div class="heart-piece-8"></div>
+				<br>
+				<br>
+				<div class="container col-lg-12" id="scaleable-wrapper">
+					<div class="card mx-auto" id="very-specific-design">
+						<p>
+							INSATIEN is a Website created by Insatiens for Insatiens
+							<br>
+							It aims to be the main mean of communication between students, teachers and even other students by providing them the best tools to help each other
+						</p>
+						<hr>
+						<div class="col-sm-12 col-lg-12">
+							<h6 style="text-align: center ;font-size:1.28vw">
+								MADE WITH
+							</h6>
+							<br>
+							<br>
+							<div class="flex-container fancy-heart">
+								<div class="unit">
+									<div class="heart">
+										<div class="heart-piece-0"></div>
+										<div class="heart-piece-1"></div>
+										<div class="heart-piece-2"></div>
+										<div class="heart-piece-3"></div>
+										<div class="heart-piece-4"></div>
+										<div class="heart-piece-5"></div>
+										<div class="heart-piece-6"></div>
+										<div class="heart-piece-7"></div>
+										<div class="heart-piece-8"></div>
+									</div>
+								</div>
+							</div>
+							<br>
+							<br>
+							<br>
+						</div>
+					</div>
+					<br>
+					<br>
+					<hr><br>
+					<h2 style="text-align:center">Our services</h2>
+					<div class="container boxes">
+						<div class="box">
+							<div class="imageBx"><img src="{{asset("img/BoxImg1.jpg")}}" alt=""></div>
+							<div class="contentBX">
+								<div>
+									<h1>Carpooling</h1>
+									<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quo modi mollitia vero voluptatem necessitatibus ea delectus possimus, dolorum, quaerat ullam,</p>
 								</div>
 							</div>
 						</div>
-						<br>
-						<br>
-						<br>
+						<div class="box">
+							<div class="imageBx"><img src="{{asset("img/BoxImg2.jpg")}}" alt=""></div>
+							<div class="contentBX">
+								<div>
+									<h2>Taking classes</h2>
+									<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusamus, sapiente natus soluta voluptas excepturi maxime ratione assumenda officiis ipsa doloribus?</p>
+								</div>
+							</div>
+						</div>
+						<div class="box">
+							<div class="imageBx"><img src="{{asset("img/BoxImg3.jpg")}}" alt=""></div>
+							<div class="contentBX">
+								<div>
+									<h2>Taking Notes</h2>
+									<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minus dolorum dolore excepturi iste nemo, sunt, quibusdam odio molestiae saepe exercitationem</p>
+								</div>
+							</div>
+						</div>
 					</div>
+					<div style="text-align:center">
+						<button style="display:inline-block">Join Us!</button>
+					</div>
+
 				</div>
 				<br>
+				<hr>
 				<br>
+				<div class="container sign-up col-lg-8">
+					{{include("pre_sign_in/login.html.twig")}}
+				</div>
 				<br>
-				<br>
-				<a class="pulse-button" href="#services">
-					<span style="font-size:10px">Wanna Join Us?</span>
-				</a>
-			</div>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-		</div>
-		<div class="rest-of-content">
-			<h1>alo</h1>
-		</div>
+				<hr>
 
+			</div>
+		</div>
+		hr
 		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 		<script>
 			$('.toggle').on('click', function () {
@@ -119,18 +145,16 @@ $('.menu').toggleClass('active');
 			$(document).ready(function () {
 
 $(window).scroll(function () {
-// if you hard code, then use console
-// .log to determine when you want the
-// nav bar to stick.
 console.log($(window).scrollTop())
-if ($(window).scrollTop() > 50) {
+if ($(window).scrollTop() > 8) {
 $('#nav_bar').addClass('navbar-fixed');
 }
-if ($(window).scrollTop() < 51) {
+if ($(window).scrollTop() < 9) {
 $('#nav_bar').removeClass('navbar-fixed');
 }
 });
 });
 		</script>
+
 	</body>
 </html>

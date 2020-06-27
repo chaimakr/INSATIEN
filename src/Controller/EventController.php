@@ -29,7 +29,108 @@ class EventController extends AbstractController
      */
     public function test()
     {
-        return $this->render("pre_sign_in/home2.html.twig");
+        $message = new ContactMail();
+        $mailform = $this->createFormBuilder($message)
+            ->add('fullName', TextType::class)
+            ->add('email', TextType::class)
+            ->add('Subject', ChoiceType::class, [
+                'choices' => [
+                    "Problem"=>"problem",
+                    "Service" => "General Customer Service",
+                    "Suggestions" => "Suggestions",
+                    "Feedbacks" => "Feedbacks",
+
+                ]
+            ])
+            ->add('Message', TextareaType::class)
+            ->add('send', SubmitType::class)
+            ->add('reset', ResetType::class)
+            ->getForm();
+        $mailform->handleRequest($request);
+
+        if ($mailform->isSubmitted() && $mailform->isValid()) {
+            $manager->persist($message);
+            $manager->flush();
+            $contact = $mailform->getData();
+            $msg = (new \Swift_Message('Nouveau contact'))
+                ->setFrom('insatien.help@gmail.com')
+                ->setTo('insatien.help@gmail.com')
+                ->setBody(
+                    $this->renderView(
+                        'mailing/mail.html.twig', compact('contact')
+                    ),
+                    'text/html'
+                );
+            $mailer->send($msg);
+            return $this->redirect('feedback');
+        }
+
+
+        $compte = new User();
+        $formRegister = $this->createFormBuilder($compte)
+            ->add('firstName', TextType::class)
+            ->add('lastName', TextType::class)
+            ->add('password', PasswordType::class)
+            ->add('confirmPassword', PasswordType::class)
+            ->add('email', TextType::class)
+            ->add('RegisterAs', ChoiceType::class, [
+                "choices" => [
+                    "teacher" => "teacher",
+                    "student" => "student"
+                ]
+            ])
+            ->add('register', SubmitType::class)
+            ->getForm();
+        try {
+            $formRegister->handleRequest($request);
+        } catch (\Exception $e) {
+            echo "failed : " . $e->getMessage();
+        }
+
+        if ($formRegister->isSubmitted() && $formRegister->isValid()) {
+            $input = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $random_string = 'confirmed';
+            while ($random_string == 'confirmed') {
+                $random_string = '';
+                for ($i = 0; $i < 20; $i++) {
+                    $random_character = $input[mt_rand(0, strlen($input) - 1)];
+                    $random_string .= $random_character;
+                }
+            }
+
+            $compte->setConfirmationCode($random_string);
+            $hash = $encoder->encodePassword($compte, $compte->getPassword());
+            $compte->setPassword($hash);
+            $manager->persist($compte);
+            $manager->flush();
+            $session = new Session();
+            $session->set(Security::LAST_USERNAME, $compte->getEmail());
+            $this->forward('App\Controller\MailingController::ConfirmationMail', [
+                'email' => $compte->getEmail(),
+                'confirmationCode' => $compte->getConfirmationCode()
+            ]);
+            return $this->redirect('/anon/comfirmation?username=' . $compte->getFirstName());
+            /*in case makhdemch arjaa chouf hkeyet return hedhi
+            return $guardHandler->authenticateUserAndHandleSuccess(
+                 $user,
+                 $request,
+                 $authenticator,
+                 'main' // firewall name in security.yaml
+             );*/
+        }
+
+
+        return $this->render('pre_sign_in/home2.html.twig', [
+            "formContact" => $mailform->createView(),
+            "formRegister" => $formRegister->createView(),
+        ]);
+    }
+    /**
+     * @Route("/loging",name="loginn")
+     */
+    public function logg()
+    {
+        return $this->render("pre_sign_in/login.html.twig");
     }
 
     /**

@@ -2,27 +2,35 @@
 
 {% block title %}Reset your password
 {% endblock %}
-
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset("resetPassword/request.css")}}">
+{% endblock %}
 {% block body %}
-	<section class="about_area section_gap">
 
-		<div class="row justify-content-start align-items-center">
-			<div class="col-lg-5">
-				<div class="about_img">
-					<img class="" src="{{ asset('img/undraw_secure_login_pdn4.svg') }}" alt="">
-				</div>
-			</div>
-
-			<div class="offset-lg-2 col-lg-5">
-				<div class="main_title text-left">
-					<h1>Reset your password</h1>
-					{{ form_start(resetForm) }}
-					{{ form_row(resetForm.plainPassword) }}
-					<button class="btn btn-primary">Reset password</button>
-					{{ form_end(resetForm) }}
-				</div>
-			</div>
-
+	<br>
+	<br>
+	<br>
+	<div class="container">
+		<div class="left">
+			<div class="login">Reset your password</div>
+			<div class="eula">
+				Enter your email address and we we will send you a link to reset your password.</div>
 		</div>
-	</section>
+		<div class="right">
+
+			<div class="form">
+				{{ form_start(resetForm) }}
+
+				{{ form_row(resetForm.plainPassword, {'attr' : {'class' : 'email' }}) }}
+
+				<button class="btn btn-primary">Reset password</button>
+				{{ form_end(resetForm) }}
+			</div>
+		</div>
+	</div><br>
+
+	<br>
+	<br>
+	<br>
+
 {% endblock %}

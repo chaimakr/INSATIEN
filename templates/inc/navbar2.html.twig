@@ -11,7 +11,7 @@
 					<li><a class="navbar-brand"href="{{ path('home')}}">INSATIEN</a></li>
 					<li><a class="nav-link" href="/event/calendar">Events calendar</a></li>
 					<li><a class="nav-link" href="#contactUs">Contact us</a></li>
-					<li><a class="nav-link" href="#signUp">Sign Up</a></li>
+					<li><a class="nav-link" href="/anon#signUp">Sign Up</a></li>
 				</ul>
 			</div>
 		</div>
@@ -31,3 +31,22 @@
 	<br>
 	<br>
 </div>
+<script>
+	$('.toggle').on('click', function () {
+$('.menu').toggleClass('active');
+});
+</script>
+<script>
+	$(document).ready(function () {
+
+$(window).scroll(function () {
+console.log($(window).scrollTop())
+if ($(window).scrollTop() > 8) {
+$('#nav_bar').addClass('navbar-fixed');
+}
+if ($(window).scrollTop() < 9) {
+$('#nav_bar').removeClass('navbar-fixed');
+}
+});
+});
+</script>

@@ -10,11 +10,12 @@
 		</title>
 
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
 		<link href="{{ asset('assetStudent/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
 		<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-		<link href="{{ asset('assetStudent/css/sb-admin-2.min.css') }}" rel="stylesheet">
-
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
+		<link rel="stylesheet" href="{{asset('heartStyle.css')}}">
+		<link rel="stylesheet" href="{{asset('home/home.css')}}">
+		<link rel="stylesheet" href="{{asset('home/login.css')}}">
 		{#        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">        #}
 		{#        <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.css">#}
 			<style>
@@ -26,7 +27,7 @@ html {
 	</head>
 		<body>
 			{% block navbar %}
-		{{ include('inc/navbar.html.twig')}}
+		{{ include('inc/navbar2.html.twig')}}
 		{% endblock %}
 			<div class="container"> {% for message in app.session.flashBag.get('info') %}
 				<div class="alert alert-info">

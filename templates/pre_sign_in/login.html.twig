@@ -11,11 +11,12 @@
 					<legend>Please, enter your email and password for login.</legend>
 					<div class="input-block">
 						<label for="login-email">E-mail</label>
-						<input id="login-email" type="email" required>
+						<input id="login-email" type="email" name="email" id="inputEmail" required>
 					</div>
 					<div class="input-block">
 						<label for="login-password">Password</label>
-						<input id="login-password" type="password" required>
+						<input id="login-password" type="password" name="password" id="inputPassword" required>
+						<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 					</div>
 				</fieldset>
 				<button class="btn" type="submit">Login</button>

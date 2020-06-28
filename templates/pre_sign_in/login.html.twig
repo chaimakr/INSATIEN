@@ -18,7 +18,6 @@
 						<input id="login-password" type="password" name="password" id="inputPassword" required>
 						<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 					</div>
-					<a class="small" href="/reset-password/forgottenPassword">Forgot Password?</a>
 				</fieldset>
 				<button class="btn" type="submit">Login</button>
 			</form>
@@ -131,8 +130,11 @@
 
 				</fieldset>
 			</form>
+
 		</div>
 	</div>
+	<a class="small" href="/reset-password/forgottenPassword">Forgot Password?</a>
+
 </section>
 <script>
 	const switchers = [...document.querySelectorAll('.switcher')]

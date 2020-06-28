@@ -15,238 +15,189 @@
 	</head>
 	<body>
 		<div class="insat-bg">
-			<nav id='nav_bar'>
-				<div class='menu'>
-					<span class='toggle'>
-						<i></i>
-						<i></i>
-						<i></i>
-					</span>
-					<div class='menuContent'>
-						<ul>
-							<li><a class="navbar-brand"href="{{ path('home')}}">INSATIEN</a></li>
-							<li><a class="nav-link" href="/event/calendar">Events calendar</a></li>
-							<li><a class="nav-link" href="#contactUs">Contact us</a></li>
-							<li><a class="nav-link" href="#signUp">Sign Up</a></li>
-						</ul>
-					</div>
-				</div>
-				<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-			</nav>
-
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<p class="header-text">INSATIEN</p>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-		</div>
-		<div class="second-part ">
-			<div class="container">
-				<br>
-				<br>
-				<div class="container col-lg-12" id="scaleable-wrapper">
-					<div class="card mx-auto" id="very-specific-design">
-						<p>
-							INSATIEN is a Website created by Insatiens for Insatiens
-							<br>
-							It aims to be the main mean of communication between students, teachers and even other students by providing them the best tools to help each other
-						</p>
-						<hr>
-						<div class="col-sm-12 col-lg-12">
-							<h6 style="text-align: center ;font-size:1.28vw">
-								MADE WITH
-							</h6>
-							<br>
-							<br>
-							<div class="flex-container fancy-heart">
-								<div class="unit">
-									<div class="heart">
-										<div class="heart-piece-0"></div>
-										<div class="heart-piece-1"></div>
-										<div class="heart-piece-2"></div>
-										<div class="heart-piece-3"></div>
-										<div class="heart-piece-4"></div>
-										<div class="heart-piece-5"></div>
-										<div class="heart-piece-6"></div>
-										<div class="heart-piece-7"></div>
-										<div class="heart-piece-8"></div>
+			{{include('inc/navbar2.html.twig')}}
+			<div class="second-part ">
+				<div class="container">
+					<br>
+					<br>
+					<div class="container col-lg-12" id="scaleable-wrapper">
+						<div class="card mx-auto" id="very-specific-design">
+							<p>
+								INSATIEN is a Website created by Insatiens for Insatiens
+								<br>
+								It aims to be the main mean of communication between students, teachers and even other students by providing them the best tools to help each other
+							</p>
+							<hr>
+							<div class="col-sm-12 col-lg-12">
+								<h6 style="text-align: center ;font-size:1.28vw">
+									MADE WITH
+								</h6>
+								<br>
+								<br>
+								<div class="flex-container fancy-heart">
+									<div class="unit">
+										<div class="heart">
+											<div class="heart-piece-0"></div>
+											<div class="heart-piece-1"></div>
+											<div class="heart-piece-2"></div>
+											<div class="heart-piece-3"></div>
+											<div class="heart-piece-4"></div>
+											<div class="heart-piece-5"></div>
+											<div class="heart-piece-6"></div>
+											<div class="heart-piece-7"></div>
+											<div class="heart-piece-8"></div>
+										</div>
+									</div>
+								</div>
+								<br>
+								<br>
+								<br>
+							</div>
+						</div>
+						<br>
+						<br>
+						<hr><br>
+						<h2 style="text-align:center">Our services</h2>
+						<div class="container boxes">
+							<div class="box">
+								<div class="imageBx"><img src="{{asset("img/BoxImg1.jpg")}}" alt=""></div>
+								<div class="contentBX">
+									<div>
+										<h1>Carpooling</h1>
+										<p>Share rides with your neighbour fellow students to help your daily travel</p>
 									</div>
 								</div>
 							</div>
-							<br>
-							<br>
-							<br>
+							<div class="box">
+								<div class="imageBx"><img src="{{asset("img/BoxImg2.jpg")}}" alt=""></div>
+								<div class="contentBX">
+									<div>
+										<h2>Taking classes</h2>
+										<p>Ask your questions and answer the questions of your classmates under the instructions of your teacher</p>
+									</div>
+								</div>
+							</div>
+							<div class="box">
+								<div class="imageBx"><img src="{{asset("img/BoxImg3.jpg")}}" alt=""></div>
+								<div class="contentBX">
+									<div>
+										<h2>Taking Notes</h2>
+										<p>We will help you at organizing yourself by providing you a space to save your notes in</p>
+									</div>
+								</div>
+							</div>
 						</div>
+						<div style="text-align:center">
+							<a href="#signUp">
+								<button style="display:inline-block">Join Us!</button>
+							</a>
+						</div>
+
 					</div>
 					<br>
+					<hr>
 					<br>
-					<hr><br>
-					<h2 style="text-align:center">Our services</h2>
-					<div class="container boxes">
-						<div class="box">
-							<div class="imageBx"><img src="{{asset("img/BoxImg1.jpg")}}" alt=""></div>
-							<div class="contentBX">
-								<div>
-									<h1>Carpooling</h1>
-									<p>Share rides with your neighbour fellow students to help your daily travel</p>
+					<a id="signUp">
+						<div class="container sign-up col-lg-8">
+							{{include("pre_sign_in/login.html.twig")}}
+						</div>
+					</a>
+					<br>
+					<hr>
+
+					<div class="sticky-footer bg-blue" id="contactUs">
+
+						<div class="info-color-dark text-center py-4">
+							<div class="container">
+								<div class="row">
+									<div class="col-sm-12 col-lg-12">
+										<h1 class="text-center text-uppercase font-weight-bold text-teal mx-3">
+											Feel free to contact us</h1>
+									</div>
 								</div>
 							</div>
 						</div>
-						<div class="box">
-							<div class="imageBx"><img src="{{asset("img/BoxImg2.jpg")}}" alt=""></div>
-							<div class="contentBX">
-								<div>
-									<h2>Taking classes</h2>
-									<p>Ask your questions and answer the questions of your classmates under the instructions of your teacher</p>
-								</div>
-							</div>
-						</div>
-						<div class="box">
-							<div class="imageBx"><img src="{{asset("img/BoxImg3.jpg")}}" alt=""></div>
-							<div class="contentBX">
-								<div>
-									<h2>Taking Notes</h2>
-									<p>We will help you at organizing yourself by providing you a space to save your notes in</p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div style="text-align:center">
-						<a href="#signUp">
-							<button style="display:inline-block">Join Us!</button>
-						</a>
-					</div>
 
-				</div>
-				<br>
-				<hr>
-				<br>
-				<a id="signUp">
-					<div class="container sign-up col-lg-8">
-						{{include("pre_sign_in/login.html.twig")}}
-					</div>
-				</a>
-				<br>
-				<hr>
 
-				<div class="sticky-footer bg-blue" id="contactUs">
-
-					<div class="info-color-dark text-center py-4">
-						<div class="container">
+						<div class="container text-center text-md-left mt-5">
 							<div class="row">
-								<div class="col-sm-12 col-lg-12">
-									<h1 class="text-center text-uppercase font-weight-bold text-teal mx-3">
-										Feel free to contact us</h1>
+								<div class="col-md-8">
+									<div class="well well-sm">
+										<form method="POST">
+											{{ form_start(formContact) }}
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														{{ form_row(formContact.fullName,{'attr':{'placeholder':' add your full name'}}) }}
+													</div>
+													<div class="form-group">
+														{{ form_row(formContact.email,{'attr':{'placeholder':'example@insat.u-carthage.tn'}}) }}
+														<div class="input-group">{#<span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span>#}
+															{#</span>#}
+														</div>
+													</div>
+													<div class="form-group">
+														{{ form_row(formContact.Subject,{'attr':{'label':'Choose One:'}}) }}
+													</div>
+													<div class="row">
+														<div class="col-md-4">
+															{{ form_row(formContact.send) }}
+														</div>
+														<div class="col-md-4">
+															{{ form_row(formContact.reset) }}
+														</div>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														{{ form_row(formContact.Message,{'attr':{'placeholder':'Message '}}) }}
+													</div>
+												</div>
+											</div>
+											{{ form_end(formContact) }}
+										</form>
+									</div>
 								</div>
-							</div>
-						</div>
-					</div>
-
-
-					<div class="container text-center text-md-left mt-5">
-						<div class="row">
-							<div class="col-md-8">
-								<div class="well well-sm">
-									<form method="POST">
-										{{ form_start(formContact) }}
-										<div class="row">
-											<div class="col-md-6">
-												<div class="form-group">
-													{{ form_row(formContact.fullName,{'attr':{'placeholder':' add your full name'}}) }}
-												</div>
-												<div class="form-group">
-													{{ form_row(formContact.email,{'attr':{'placeholder':'example@insat.u-carthage.tn'}}) }}
-													<div class="input-group">{#<span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span>#}
-														{#</span>#}
-													</div>
-												</div>
-												<div class="form-group">
-													{{ form_row(formContact.Subject,{'attr':{'label':'Choose One:'}}) }}
-												</div>
-												<div class="row">
-													<div class="col-md-4">
-														{{ form_row(formContact.send) }}
-													</div>
-													<div class="col-md-4">
-														{{ form_row(formContact.reset) }}
-													</div>
-												</div>
-											</div>
-											<div class="col-md-6">
-												<div class="form-group">
-													{{ form_row(formContact.Message,{'attr':{'placeholder':'Message '}}) }}
-												</div>
-											</div>
-										</div>
-										{{ form_end(formContact) }}
+								<div class="col-md-4">
+									<form>
+										<legend>
+											<span class="glyphicon glyphicon-globe"></span>
+											Our office</legend>
+										<address>
+											<strong>Insat.</strong><br>
+											676 INSAT Centre Urbain Nord BP، Tunis Cedex 1080d<br>
+											<abbr title="Phone">(+216) 98 210 263</abbr>
+										</address>
+										<address>
+											<strong>our Email :</strong><br>
+											<a href="mailto:#">insatien.help@gmail.com</a>
+										</address>
 									</form>
 								</div>
-							</div>
-							<div class="col-md-4">
-								<form>
-									<legend>
-										<span class="glyphicon glyphicon-globe"></span>
-										Our office</legend>
-									<address>
-										<strong>Insat.</strong><br>
-										676 INSAT Centre Urbain Nord BP، Tunis Cedex 1080d<br>
-										<abbr title="Phone">(+216) 98 210 263</abbr>
-									</address>
-									<address>
-										<strong>our Email :</strong><br>
-										<a href="mailto:#">insatien.help@gmail.com</a>
-									</address>
-								</form>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<!-- Bootstrap core JavaScript-->
-		<script src="{{ asset('assetStudent/vendor/jquery/jquery.min.js') }}"></script>
-		<script src="{{ asset('assetStudent/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+			<!-- Bootstrap core JavaScript-->
+			<script src="{{ asset('assetStudent/vendor/jquery/jquery.min.js') }}"></script>
+			<script src="{{ asset('assetStudent/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-		<!-- Core plugin JavaScript-->
-		<script src="{{ asset('assetStudent/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+			<!-- Core plugin JavaScript-->
+			<script src="{{ asset('assetStudent/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
-		<!-- Custom scripts for all pages-->
-		<script src="{{ asset('assetStudent/js/sb-admin-2.min.js') }}"></script>
+			<!-- Custom scripts for all pages-->
+			<script src="{{ asset('assetStudent/js/sb-admin-2.min.js') }}"></script>
 
-		<!-- Page level plugins -->
-		<script src="{{ asset('assetStudent/vendor/chart.js/Chart.min.js') }}"></script>
+			<!-- Page level plugins -->
+			<script src="{{ asset('assetStudent/vendor/chart.js/Chart.min.js') }}"></script>
 
-		<!-- Page level custom scripts -->
-		<script src="{{ asset('assetStudent/js/demo/chart-area-demo.js') }}"></script>
-		<script src="{{ asset('assetStudent/js/demo/chart-pie-demo.js') }}"></script>
-		{% block javascripts %}{% endblock %}
-		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-		<script>
-			$('.toggle').on('click', function () {
-$('.menu').toggleClass('active');
-});
-		</script>
-		<script>
-			$(document).ready(function () {
+			<!-- Page level custom scripts -->
+			<script src="{{ asset('assetStudent/js/demo/chart-area-demo.js') }}"></script>
+			<script src="{{ asset('assetStudent/js/demo/chart-pie-demo.js') }}"></script>
+			{% block javascripts %}{% endblock %}
+			<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
-$(window).scroll(function () {
-console.log($(window).scrollTop())
-if ($(window).scrollTop() > 8) {
-$('#nav_bar').addClass('navbar-fixed');
-}
-if ($(window).scrollTop() < 9) {
-$('#nav_bar').removeClass('navbar-fixed');
-}
-});
-});
-		</script>
-
+		</body>
 	</body>
 </html>

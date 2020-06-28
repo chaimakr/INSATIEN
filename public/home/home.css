@@ -436,3 +436,12 @@ button:hover:after {
   width: 100%;
   transition: 800ms ease all;
 }
+input[type="button"] {
+  outline: none;
+}
+input[type="button"]::-moz-focus-inner {
+  border: 0;
+}
+button {
+  outline: none !important;
+}

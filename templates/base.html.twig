@@ -26,25 +26,27 @@ html {
 	{% endblock %}
 	</head>
 		<body>
-			{% block navbar %}
-		{{ include('inc/navbar2.html.twig')}}
-		{% endblock %}
-			<div class="container"> {% for message in app.session.flashBag.get('info') %}
-				<div class="alert alert-info">
-					{{ message }}
-				</div>
-			{% endfor %}
-			{% for message in app.session.flashBag.get('error') %}
-				<div class="alert alert-danger">
-					{{ message }}</div>
-			{% endfor %}
-			{% for message in app.session.flashBag.get('success') %}
-				<div class="alert alert-success">
-					{{ message }}</div>
-			{% endfor %}
-		</div>
+			<div class="insat-bg"> {% block navbar %}
+				{{ include('inc/navbar2.html.twig')}}
+			{% endblock %}
+			<div class="container">
+				{% for message in app.session.flashBag.get('info') %}
+					<div class="alert alert-info">
+						{{ message }}
+					</div>
+				{% endfor %}
+				{% for message in app.session.flashBag.get('error') %}
+					<div class="alert alert-danger">
+						{{ message }}</div>
+				{% endfor %}
+				{% for message in app.session.flashBag.get('success') %}
+					<div class="alert alert-success">
+						{{ message }}</div>
+				{% endfor %}
+			</div>
 
-		<div class="container-fluid"> {% block body %}{% endblock %}
+			<div class="second-part"> {% block body %}{% endblock %}
+				</div>
 			</div>
 			<!-- Bootstrap core JavaScript-->
 			<script src="{{ asset('assetStudent/vendor/jquery/jquery.min.js') }}"></script>

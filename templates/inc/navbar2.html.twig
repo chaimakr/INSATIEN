@@ -1,43 +1,38 @@
-<div class="insat-bg">
-	<nav id='nav_bar'>
-		<div class='menu'>
-			<span class='toggle'>
-				<i></i>
-				<i></i>
-				<i></i>
-			</span>
-			<div class='menuContent'>
-				<ul>
-					<li><a class="navbar-brand"href="{{ path('home')}}">INSATIEN</a></li>
-					<li><a class="nav-link" href="/event/calendar">Events calendar</a></li>
-					<li><a class="nav-link" href="#contactUs">Contact us</a></li>
-					<li><a class="nav-link" href="/anon#signUp">Sign Up</a></li>
-				</ul>
-			</div>
+<nav id='nav_bar'>
+	<div class='menu'>
+		<span class='toggle'>
+			<i></i>
+			<i></i>
+			<i></i>
+		</span>
+		<div class='menuContent'>
+			<ul>
+				<li><a class="navbar-brand"href="{{ path('home')}}">INSATIEN</a></li>
+				<li><a class="nav-link" href="/event/calendar">Events calendar</a></li>
+				<li><a class="nav-link" href="#contactUs">Contact us</a></li>
+				<li><a class="nav-link" href="#signUp">Sign Up</a></li>
+			</ul>
 		</div>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-	</nav>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</nav>
 
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<p class="header-text">INSATIEN</p>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-</div>
-<script>
-	$('.toggle').on('click', function () {
+<br>
+<br>
+<br>
+<br>
+<br>
+<p class="header-text">INSATIEN</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br></div><script>
+$('.toggle').on('click', function () {
 $('.menu').toggleClass('active');
-});
-</script>
-<script>
-	$(document).ready(function () {
+});</script><script>
+$(document).ready(function () {
 
 $(window).scroll(function () {
 console.log($(window).scrollTop())
@@ -48,5 +43,4 @@ if ($(window).scrollTop() < 9) {
 $('#nav_bar').removeClass('navbar-fixed');
 }
 });
-});
-</script>
+});</script>

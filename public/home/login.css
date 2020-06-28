@@ -20,7 +20,6 @@ body {
 .section-title {
   font-size: 32px;
   letter-spacing: 1px;
-  color: #fff;
 }
 
 .forms {
@@ -120,7 +119,7 @@ body {
 
 .form {
   overflow: hidden;
-  min-width: 260px;
+  min-width: 520px;
   margin-top: 50px;
   padding: 30px 25px;
   border-radius: 5px;

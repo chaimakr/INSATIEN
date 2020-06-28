@@ -119,22 +119,127 @@
 						</div>
 					</div>
 					<div style="text-align:center">
-						<button style="display:inline-block">Join Us!</button>
+						<a href="#signUp">
+							<button style="display:inline-block">Join Us!</button>
+						</a>
 					</div>
 
 				</div>
 				<br>
 				<hr>
 				<br>
-				<div class="container sign-up col-lg-8">
-					{{include("pre_sign_in/login.html.twig")}}
-				</div>
+				<a id="signUp">
+					<div class="container sign-up col-lg-8">
+						{{include("pre_sign_in/login.html.twig")}}
+					</div>
+				</a>
 				<br>
 				<hr>
 
+				<footer class="sticky-footer bg-blue" id="contactUs">
+
+					<div class="info-color-dark text-center py-4">
+						<div class="container">
+							<div class="row">
+								<div class="col-sm-12 col-lg-12">
+									<h1 class="text-center text-uppercase font-weight-bold text-teal mx-3">
+										Feel free to contact us</h1>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="container text-center text-md-left mt-5">
+						<div class="row">
+							<div class="col-md-8">
+								<div class="well well-sm">
+									<form method="POST">
+										{{ form_start(formContact) }}
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													{{ form_row(formContact.fullName,{'attr':{'placeholder':' add your full name'}}) }}
+												</div>
+												<div class="form-group">
+													{{ form_row(formContact.email,{'attr':{'placeholder':'example@insat.u-carthage.tn'}}) }}
+													<div class="input-group">{#<span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span>#}
+														{#</span>#}
+													</div>
+												</div>
+												<div class="form-group">
+													{{ form_row(formContact.Subject,{'attr':{'label':'Choose One:'}}) }}
+												</div>
+												<div class="row">
+													<div class="col-md-4">
+														{{ form_row(formContact.send) }}
+													</div>
+													<div class="col-md-4">
+														{{ form_row(formContact.reset) }}
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													{{ form_row(formContact.Message,{'attr':{'placeholder':'Message '}}) }}
+												</div>
+											</div>
+										</div>
+										{{ form_end(formContact) }}
+									</form>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<form>
+									<legend>
+										<span class="glyphicon glyphicon-globe"></span>
+										Our office</legend>
+									<address>
+										<strong>Insat.</strong><br>
+										676 INSAT Centre Urbain Nord BP، Tunis Cedex 1080d<br>
+										<abbr title="Phone">(+216) 98 210 263</abbr>
+									</address>
+									<address>
+										<strong>our Email :</strong><br>
+										<a href="mailto:#">insatien.help@gmail.com</a>
+									</address>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="info-color-dark text-center py-4">
+						<div class="container">
+							<div class="row">
+								<div class="col-sm-12 col-lg-12">
+									<h6 class="text-center text-uppercase font-weight-bold text-teal mx-3">
+										MADE WITH
+									</h6>
+									<br>
+									<div class="flex-container fancy-heart">
+										<div class="unit">
+											<div class="heart">
+												<div class="heart-piece-0"></div>
+												<div class="heart-piece-1"></div>
+												<div class="heart-piece-2"></div>
+												<div class="heart-piece-3"></div>
+												<div class="heart-piece-4"></div>
+												<div class="heart-piece-5"></div>
+												<div class="heart-piece-6"></div>
+												<div class="heart-piece-7"></div>
+												<div class="heart-piece-8"></div>
+											</div>
+										</div>
+									</div>
+									<br>
+									<br>
+									<br>
+								</div>
+							</div>
+						</div>
+					</div>
+				</footer>
 			</div>
 		</div>
-		hr
 		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 		<script>
 			$('.toggle').on('click', function () {

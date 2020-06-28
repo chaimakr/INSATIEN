@@ -16,6 +16,10 @@
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </nav>
+{% for message in app.session.flashBag.get('loginError') %}
+	<div class="alert alert-danger">
+		{{ message }}</div>
+{% endfor %}
 
 <br>
 <br>

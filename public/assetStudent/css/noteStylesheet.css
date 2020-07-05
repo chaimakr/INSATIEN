@@ -1,54 +1,52 @@
-@import url(https://fonts.googleapis.com/css?family=Gloria+Hallelujah);
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
-
 
 #create,
 textarea {
-    float: left;
-    padding: 25px 25px 40px;
-    margin: 0 20px 20px 0;
-    width: 250px;
-    height: 250px;
+  float: left;
+  padding: 1.563vw 1.563vw 2.5vw;
+  margin: 0 1.25vw 1.25vw 0;
+  width: 15.625vw;
+  height: 15.625vw;
 }
 
 #create {
-    user-select: none;
-    padding: 20px;
-    border-radius: 20px;
-    text-align: center;
-    border: 15px solid rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    color: rgba(0, 0, 0, 0.1);
-    font: 220px "Helvetica", sans-serif;
-    line-height: 185px;
+  user-select: none;
+  padding: 1.25vw;
+  border-radius: 1.25vw;
+  text-align: center;
+  border: 0.938vw solid rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.1);
+  font: 13.75vw "Helvetica", sans-serif;
+  line-height: 11.563vw;
 }
 
 #create:hover {
-    border-color: rgba(0, 0, 0, 0.2);
-    color: rgba(0, 0, 0, 0.2);
+  border-color: rgba(0, 0, 0, 0.2);
+  color: rgba(0, 0, 0, 0.2);
 }
 
 textarea {
-    font: 20px 'Gloria Hallelujah', cursive;
-    line-height: 1.5;
-    border: 0;
-    border-radius: 3px;
-    background: linear-gradient(#F9EFAF, #F7E98D);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: box-shadow 0.5s ease;
-    /*font-smoothing: subpixel-antialiased; webkit*/
-    max-width: 520px;
-    max-height: 250px;
+  font: 1.25vw "Gloria Hallelujah", cursive;
+  line-height: 1.5;
+  border: 0;
+  border-radius: 0.188vw;
+  background: linear-gradient(#f9efaf, #f7e98d);
+  box-shadow: 0 0.25vw 0.375vw rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: box-shadow 0.5s ease;
+  /*font-smoothing: subpixel-antialiased; webkit*/
+  max-width: 32.5vw;
+  max-height: 15.625vw;
 }
 
 textarea:hover {
-    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0.313vw 0.5vw rgba(0, 0, 0, 0.15);
 }
 
 textarea:focus {
-    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.2);
-    outline: none;
+  box-shadow: 0 0.313vw 0.75vw rgba(0, 0, 0, 0.2);
+  outline: none;
 }

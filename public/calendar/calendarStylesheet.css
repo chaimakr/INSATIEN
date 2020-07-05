@@ -1,54 +1,55 @@
 body {
-  margin-top: 40px;
+  margin-top: 2.5vw;
   text-align: center;
-  font-size: 14px;
-  font-family: "Helvetica Nueue",Arial,Verdana,sans-serif;
-  background-color: #DDDDDD;
-  }
+  font-size: 0.875vw;
+  font-family: "Helvetica Nueue", Arial, Verdana, sans-serif;
+  background-color: #dddddd;
+}
 
 #wrap {
-  width: 1100px;
+  width: 68.75vw;
   margin: 0 auto;
-  }
+}
 
 #external-events {
   float: left;
-  width: 150px;
-  padding: 0 10px;
+  width: 9.375vw;
+  padding: 0 0.625vw;
   text-align: left;
-  }
+}
 
 #external-events h4 {
-  font-size: 16px;
+  font-size: 1vw;
   margin-top: 0;
   padding-top: 1em;
-  }
+}
 
-.external-event { /* try to mimick the look of a real event */
-  margin: 10px 0;
-  padding: 2px 4px;
-  background: #3366CC;
+.external-event {
+  /* try to mimick the look of a real event */
+  margin: 0.625vw 0;
+  padding: 0.125vw 0.25vw;
+  background: #3366cc;
   color: #fff;
-  font-size: .85em;
+  font-size: 0.85em;
   cursor: pointer;
-  }
+}
 
 #external-events p {
   margin: 1.5em 0;
-  font-size: 11px;
+  font-size: 0.688vw;
   color: #666;
-  }
+}
 
 #external-events p input {
   margin: 0;
   vertical-align: middle;
-  }
+}
 
 #calendar {
-/* 		float: right; */
-      margin: 0 auto;
-  width: 900px;
-  background-color: #FFFFFF;
-    border-radius: 6px;
-      box-shadow: 0 1px 2px #C3C3C3;
-  }
+  /* 		float: right; */
+  margin: 0 auto;
+  width: 56.25vw;
+  background-color: #ffffff;
+  border-radius: 0.375vw;
+  box-shadow: 0 0.063vw 0.125vw #c3c3c3;
+}

@@ -148,14 +148,6 @@ li {
   text-align: center center;
   top: 0.64vw;
 }
-.card {
-  border-radius: 0.64vw;
-  padding: 0.64vw;
-  width: 70%;
-  align-self: center;
-  background-color: #fff;
-  opacity: 0.7;
-}
 #Introduction {
   font-size: 3vw;
   color: black;
@@ -311,9 +303,6 @@ p {
   font-size: 1.28vw;
   text-align: center;
 }
-.card {
-  background: #d4642fe0;
-}
 .second-part {
   background-color: #d8d8d5;
 }
@@ -395,4 +384,9 @@ p {
   transform: rotateX(0deg);
   opacity: 1;
   transition-delay: 0.2s;
+}
+
+.boder-sucess {
+  border-color: lightgray;
+  border: 0;
 }

@@ -169,7 +169,7 @@ class PreSignInController extends AbstractController
         }
 
 
-        return $this->render('pre_sign_in/home2.html.twig', [
+        return $this->render('pre_sign_in/home.html.twig', [
             "formContact" => $mailform->createView(),
             "formRegister" => $formRegister->createView(),
         ]);

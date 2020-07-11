@@ -1,7 +1,8 @@
 {% extends "userBase.html.twig" %}
 
 {% block stylesheets %}
-
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="{{ asset('assetStudent/css/card.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
@@ -36,6 +37,11 @@
             <div class="panel-body">
                 <ul class="list-group">
                     {% for question in questions %}
+
+
+
+
+
                         <li class="list-group-item" id="question{{ question.id }}">
                             <div class="row">
                                 <div class="col-xs-2 col-md-1">
@@ -95,6 +101,8 @@
                     {% endfor %}
                 </ul>
                 {{ knp_pagination_render(questions) }}
+
+                {#<a href="#" class="btn btn-primary btn-sm btn-block" role="button"><span class="glyphicon glyphicon-refresh"></span> More</a>#}
             </div>
         </div>
     </div>

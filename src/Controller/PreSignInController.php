@@ -111,7 +111,8 @@ class PreSignInController extends AbstractController
                     'text/html'
                 );
             $mailer->send($msg);
-            return $this->redirect('feedback');
+            $this->addFlash('success','thanks for contacting us we will be in touch with you shortly .');
+            return $this->redirect('/anon');
         }
 
 

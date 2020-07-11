@@ -39,6 +39,9 @@ class AccessDeniedHandler implements AccessDeniedHandlerInterface
         elseif($user->getRoles()[0]=="ROLE_ADMIN"){
             return new RedirectResponse('/admin');
         }
+        elseif($user->getRoles()[0]=="ROLE_UNCONFIRMED"){
+            return new RedirectResponse('/anon/comfirmation');
+        }
         else
             return new RedirectResponse('/');
 

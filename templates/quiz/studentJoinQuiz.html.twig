@@ -25,6 +25,7 @@
 
 <div class="container-fluid">
     <div class="personalised-container">
+
         {% if quizSession.status==-1 %}
         <div class="container">
             <h1 class="mt-4 mb-4 mr-2 ml-2">Quiz ended !</h1>
@@ -105,6 +106,8 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
 <script src="{{ asset('assetStudent/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('assetStudent/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+<script src="{{ asset('assetStudent/js/sb-admin-2.min.js') }}"></script>
+<script src="{{ asset('assetStudent/vendor/chart.js/Chart.min.js') }}"></script>
 <script>
 
 
@@ -151,27 +154,73 @@
 
             $('#answers')[0].innerHTML = answersDiv;
         }else if (data['topic'] == 'questionResults'){
+
+
+
+
+
             $('#answers')[0].innerHTML='';
+            answers=[];
+            stats=[];
+            backgroundColor=[];
+            hoverBackgroundColor=[];
+
+
             data['stats'].forEach((answer)=>{
-                if(answer[1]==true)
-                    $('#answers').append(
-                       answer[0] +' '+answer[2]*100+' %'+
-                        '<div class="progress mb-4">' +
-                        '  <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: '+
-                        +answer[2]*100+'%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">' +
-                        '</div>' +
-                        '</div>');
-                else if(answer[1]==false)
-                    $('#answers').append(
-                       answer[0] +' '+answer[2]*100+' %'+
-                        '<div class="progress mb-4">' +
-                        '  <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: '+
-                        +answer[2]*100+'%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">' +
-                        '</div>' +
-                        '</div>');
-            })
+                answers.push(answer[0]);
+                stats.push(answer[2]*100);
+                if(answer[1]==true){
+                    backgroundColor.push('#00b113');
+                    hoverBackgroundColor.push('#007f0e');
+                }
+
+                else if(answer[1]==false){
+                    backgroundColor.push('#ff0000');
+                    hoverBackgroundColor.push('#cd0000');
+                }
+
+            });
+
+
+
+
+
+            $('#answers')[0].innerHTML='<canvas id="chart"></canvas>';
+
+            myPieChart = new Chart($('#chart')[0], {
+                type: 'doughnut',
+                data: {
+                    labels: answers,
+                    datasets: [{
+                        data: stats,
+                        backgroundColor: backgroundColor,
+                        hoverBackgroundColor: hoverBackgroundColor,
+                        hoverBorderColor: "rgba(234, 236, 244, 1)",
+                    }],
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    tooltips: {
+                        backgroundColor: "rgb(255,255,255)",
+                        bodyFontColor: "#858796",
+                        borderColor: '#dddfeb',
+                        borderWidth: 1,
+                        xPadding: 15,
+                        yPadding: 15,
+                        displayColors: false,
+                        caretPadding: 10,
+                    },
+                    legend: {
+                        display: false
+                    },
+                    cutoutPercentage: 80,
+                },
+            });
+
 
             $('#send')[0].style.display='none';
+
+
         }
 
 

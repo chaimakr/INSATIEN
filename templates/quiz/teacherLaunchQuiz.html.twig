@@ -10,11 +10,14 @@
 </head>
     <body>
         <div class="container-fluid">
-            <div class="personalised-container">
+
+
                 <div class="row justify-content-start align-items-center">
+
                     <div class=" col-lg-3"></div>
                     <div class="col-lg-6">
-                        <h1 class="mt-4 mb-4 mr-2 ml-2">Quiz : {{ quizSession.quiz.title }}</h1>
+
+                        <h1 class=" mb-4 mr-2 ml-2">Quiz : {{ quizSession.quiz.title }}</h1>
                         <div class="quiz-step step1 current">
                             <div class="question-wrap ">
                             <h2>code to join quiz #{{ quizSession.id }}</h2>
@@ -40,20 +43,53 @@
                             </div>
                         </div>
 
-                        <div id="question" class="question-title-wrap"></div>
-                    </div>
-                </div>  
-                    <div class=" col-lg-3"></div>
-            </div> 
-        </div>          
+                        <div id="question" class="question-title-wrap mt-4"></div>
+                        <div id="answers">
 
-    </body>
+                        </div>
+                        <div class="chart-pie pt-4 pb-2" id="results">
+
+                        </div>
+                    </div>
+
+                </div>
+
+                    <div class=" col-lg-3"></div>
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+           </body>
 
 
 <script src="{{ asset('assetStudent/vendor/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('assetStudent/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('assetStudent/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+<script src="{{ asset('assetStudent/js/sb-admin-2.min.js') }}"></script>
+<script src="{{ asset('assetStudent/vendor/chart.js/Chart.min.js') }}"></script>
+{#<script src="{{ asset('assetStudent/js/demo/chart-pie-demo.js') }}"></script>#}
+
+
 <script>
+
+
+
+
+
+
+
+
     quiz=JSON.parse('{{ quizSession.quiz|json_encode()|raw }}');
     state=0;
 
@@ -61,10 +97,18 @@
 
 
     $('#nextQuestion')[0].addEventListener('click',(e)=>{
+        $('#answers')[0].innerHTML='';
+        $('#results')[0].innerHTML='';
+
         $('#nextQuestion').find('.answer-text')[0].innerHTML='Next Question';
         $('#showResults')[0].style.display='block';
         if(state<quiz['questions'].length){
             $('#question')[0].innerHTML=quiz['questions'][state]['question'];
+            quiz['questions'][state]['answers'].forEach((answer)=>{
+               $('#answers')[0].innerHTML+='<div class="alert alert-info" role="alert">' + answer+'</div>';
+               //  $('#answers')[0].innerHTML="x";
+                console.log(answer);
+            });
             state++;
             console.log('/teacher/quizState/{{ quizSession.id }}/'+state);
             $.ajax({
@@ -111,41 +155,41 @@
     {% endif %}
 
 
-    const studentJoined = new EventSource('http://localhost:3000/.well-known/mercure?topic=joinedQuiz{{ quizSession.id }}');
-    const studentQuit = new EventSource('http://localhost:3000/.well-known/mercure?topic=quitQuiz{{ quizSession.id }}');
+    {#const studentJoined = new EventSource('http://localhost:3000/.well-known/mercure?topic=joinedQuiz{{ quizSession.id }}');#}
+    {#const studentQuit = new EventSource('http://localhost:3000/.well-known/mercure?topic=quitQuiz{{ quizSession.id }}');#}
 
-    students={};
+    {#students={};#}
 
-    studentJoined.onmessage = event => {
-
-
-        data=JSON.parse(event.data);
-        if(!students[data[0]]){
-            students[data[0]]=data[1]+' '+data[2];
-
-            console.log(students);
-
-            for(studentId in students){
-                $('#connectedStudents').append('<div id="student'+studentId +'">' +
-                    students[studentId]+
-                    '</div>');
-            };
-        }
+    {#studentJoined.onmessage = event => {#}
 
 
+    {#    data=JSON.parse(event.data);#}
+    {#    if(!students[data[0]]){#}
+    {#        students[data[0]]=data[1]+' '+data[2];#}
 
+    {#        console.log(students);#}
 
-
-    }
-    studentQuit.onmessage = event => {
-
-        console.log(event.data);
-        $('#student'+event.data).remove();
+    {#        for(studentId in students){#}
+    {#            $('#connectedStudents').append('<div id="student'+studentId +'">' +#}
+    {#                students[studentId]+#}
+    {#                '</div>');#}
+    {#        };#}
+    {#    }#}
 
 
 
 
-    }
+
+    {#}#}
+    {#studentQuit.onmessage = event => {#}
+
+    {#    console.log(event.data);#}
+    {#    $('#student'+event.data).remove();#}
+
+
+
+
+    {#}#}
 
     function showResults() {
         $.ajax({
@@ -160,5 +204,78 @@
         });
 
     }
+
+
+
+
+
+    const quizState = new EventSource('http://localhost:3000/.well-known/mercure?topic=quizState{{ quizSession.id }}');
+    quizState.onmessage = event => {
+        data = JSON.parse(event.data);
+        console.log(data);
+        if (data['topic'] == 'questionResults') {
+
+            $('#answers')[0].innerHTML='';
+            answers=[];
+            stats=[];
+            backgroundColor=[];
+            hoverBackgroundColor=[];
+
+
+            data['stats'].forEach((answer)=>{
+                answers.push(answer[0]);
+                stats.push(answer[2]*100);
+                if(answer[1]==true){
+                    backgroundColor.push('#00b113');
+                    hoverBackgroundColor.push('#007f0e');
+                }
+
+                else if(answer[1]==false){
+                    backgroundColor.push('#ff0000');
+                    hoverBackgroundColor.push('#cd0000');
+                }
+
+            });
+
+
+
+
+
+            $('#results')[0].innerHTML='<canvas id="chart"></canvas>';
+
+             myPieChart = new Chart($('#chart')[0], {
+                type: 'doughnut',
+                data: {
+                    labels: answers,
+                    datasets: [{
+                        data: stats,
+                        backgroundColor: backgroundColor,
+                        hoverBackgroundColor: hoverBackgroundColor,
+                        hoverBorderColor: "rgba(234, 236, 244, 1)",
+                    }],
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    tooltips: {
+                        backgroundColor: "rgb(255,255,255)",
+                        bodyFontColor: "#858796",
+                        borderColor: '#dddfeb',
+                        borderWidth: 1,
+                        xPadding: 15,
+                        yPadding: 15,
+                        displayColors: false,
+                        caretPadding: 10,
+                    },
+                    legend: {
+                        display: false
+                    },
+                    cutoutPercentage: 80,
+                },
+            });
+        }
+    }
+
+
+
 </script>
 </html>

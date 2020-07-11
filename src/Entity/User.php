@@ -44,7 +44,7 @@ class User implements UserInterface
      * @Assert\NotBlank
      * @Assert\Regex(
      * pattern="#@insat.u-carthage.tn#",
-     * message="use your insat.u-carthage mail ya haj")
+     * message="use your insat.u-carthage mail")
      */
     private $email;
 

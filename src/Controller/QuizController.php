@@ -451,6 +451,8 @@ class QuizController extends AbstractController
 
         }
 
+        if($numParticipants==0)  return new Response('done');
+
 
         foreach ($stats as $key=>$stat){
             $stats[$key]=$stat/$numParticipants;

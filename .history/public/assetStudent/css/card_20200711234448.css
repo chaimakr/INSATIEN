@@ -15,16 +15,16 @@ body {
   border:1px solid #e0e0e0;
 }
 a {
-  color: #4e73df;
+  color: #dee2e6;
 }
 .text-primaryy {
   color: #4e73df !important;
 }
 .card-body{
-  background-color: #fff
+  background-color: #4e73df 
 }
 .tab-card-header {
-  background-color:#dee2e6;
+  background-color:#ffffff;
 }
 /* Default mode */
 .tab-card-header > .nav-tabs {
@@ -39,7 +39,7 @@ a {
   border-bottom:2px solid transparent;
   margin-right: 0;
   color: #737373;
-  padding: 2px 15px; 
+  padding: 2px 15px;
 }
 
 .tab-card-header > .nav-tabs > li > a.show {

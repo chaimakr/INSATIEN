@@ -12,7 +12,7 @@ body {
 /* Tabs Card */
 
 .tab-card {
-  border:1px solid #e0e0e0;
+  border:1px solid #dee2e6;
 }
 a {
   color: #4e73df;
@@ -24,7 +24,7 @@ a {
   background-color: #fff
 }
 .tab-card-header {
-  background-color:#dee2e6;
+  background-color:#ffffff;
 }
 /* Default mode */
 .tab-card-header > .nav-tabs {
@@ -39,7 +39,7 @@ a {
   border-bottom:2px solid transparent;
   margin-right: 0;
   color: #737373;
-  padding: 2px 15px; 
+  padding: 2px 15px;
 }
 
 .tab-card-header > .nav-tabs > li > a.show {

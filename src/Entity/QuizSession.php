@@ -27,7 +27,7 @@ class QuizSession
 
 
     /**
-     * @ORM\OneToMany(targetEntity=QuizTry::class, mappedBy="quizSession")
+     * @ORM\OneToMany(targetEntity=QuizTry::class, mappedBy="quizSession", cascade={"remove"})
      */
     private $QuizTries;
 

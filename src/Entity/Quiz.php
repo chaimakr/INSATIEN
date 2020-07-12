@@ -42,7 +42,7 @@ class Quiz implements JsonSerializable
     private $quizTries;
 
     /**
-     * @ORM\OneToMany(targetEntity=QuizSession::class, mappedBy="quiz")
+     * @ORM\OneToMany(targetEntity=QuizSession::class, mappedBy="quiz", cascade={"remove"})
      */
     private $quizSessions;
 

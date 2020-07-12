@@ -3,7 +3,7 @@
 {% block stylesheets %}
     <!-- Custom styles for this page -->
     <link href="{{ asset('assetStudent/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assetStudent/css/card.css') }}" rel="stylesheet">
+
 {% endblock %}
 
 {% block body %}
@@ -25,11 +25,11 @@
             <tr>
 
                 <td>
-                    <div class=" tab-card mb-3">
+                    <div class=" card border-success mb-3">
                         <!-- Card Header - Dropdown -->
-                        <div class="card-header tab-card-header py-3 d-flex flex-row align-items-center justify-content-between" style="background-color: lightgray;">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between" style="background-color: lightgray;">
                             <div>
-                                <h6 class="m-0 font-weight-bold text-primaryy"> {{ class.title }} </h6>
+                                <h6 class="m-0 font-weight-bold text-primary"> {{ class.title }} </h6>
 
 
                             </div>

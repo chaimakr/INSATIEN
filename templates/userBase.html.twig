@@ -14,7 +14,7 @@
 
     {% block stylesheets %} {% endblock %}
 </head>
-{% if app.user.confirmationCode == banned %}
+{% if app.user.confirmationCode == 'banned' %}
 {{ include('inc/banned.html.twig')}}
 {% else %}
 <body id="page-top">

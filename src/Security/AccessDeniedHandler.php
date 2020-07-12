@@ -32,6 +32,8 @@ class AccessDeniedHandler implements AccessDeniedHandlerInterface
 //        dd($user->getRoles());
         if($user->getRoles()[0]=="ROLE_STUDENT"){
             return new RedirectResponse('/student');
+        }elseif($user->getRoles()[0]=="ROLE_BANNED"){
+            return new RedirectResponse('/');
         }
         elseif($user->getRoles()[0]=="ROLE_TEACHER"){
             return new RedirectResponse('/teacher');

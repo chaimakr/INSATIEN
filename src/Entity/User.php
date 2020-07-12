@@ -258,6 +258,8 @@ class User implements UserInterface
         elseif ($this->getRegisterAs()=="teacher") return  ['ROLE_TEACHER'];
         elseif ($this->getRegisterAs()=="admin") return  ['ROLE_ADMIN'];
 
+    }elseif($this->confirmationCode=='banned'){
+        return['ROLE_BANNED'];
     }
 
     else

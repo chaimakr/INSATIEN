@@ -32,7 +32,7 @@ class PreSignInController extends AbstractController
         if ($this->getUser()) {
             $role = $this->getUser()->getRoles()[0];
 //            dd($role);
-
+            if ($role == 'ROLE_BANNED') return $this->render('inc/banned.html.twig');
             if ($role == 'ROLE_STUDENT') return $this->redirect('/student');
             elseif ($role == 'ROLE_TEACHER') return $this->redirect('/teacher');
 

@@ -52,7 +52,7 @@ public function canAccessClass($id){
     /**
      * @Route("/student/class/{id}/addQuestion", name="addQuestion")
      */
-    public function add(Request $request, $id)
+    public function add(Request $request, $id, $MQid)
     {
 
         $test=$this->canAccessClass($id);

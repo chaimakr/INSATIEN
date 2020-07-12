@@ -153,9 +153,6 @@ public function canAccessClass($id){
     }
 
 
-
-
-
      /**
      * @Route("/student/class/{id}/deleteMyQuestion/{idQ}", name="DeleteMyQuestion")
      */
@@ -215,10 +212,6 @@ public function canAccessClass($id){
             'questions' => $questions
         ]);
     }
-
-
-
-
 
     /**
      * @Route("/user/question/{action}/{id}", name="voteQuestion")

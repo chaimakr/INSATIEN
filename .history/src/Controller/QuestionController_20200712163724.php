@@ -153,11 +153,8 @@ public function canAccessClass($id){
     }
 
 
-
-
-
-     /**
-     * @Route("/student/class/{id}/deleteMyQuestion/{idQ}", name="DeleteMyQuestion")
+ /**
+     * @Route("/student/class/{id}/deleteMyQuestion/{idQ}", name="showMyQuestions")
      */
     public function DeleteMyQuestions(Request $request, $id, $idQ , PaginatorInterface $paginator)
     {
@@ -178,7 +175,7 @@ public function canAccessClass($id){
             $this->addFlash('success', "question has been deleted !");
         }
 
-        return $this->redirect('/student/class/'.$id.'/showMyQuestions');
+        return $this->redirect('/student/class/{'.$id.'}/showMyQuestions');
     }
 
 
@@ -215,10 +212,6 @@ public function canAccessClass($id){
             'questions' => $questions
         ]);
     }
-
-
-
-
 
     /**
      * @Route("/user/question/{action}/{id}", name="voteQuestion")

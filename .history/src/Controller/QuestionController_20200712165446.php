@@ -153,10 +153,7 @@ public function canAccessClass($id){
     }
 
 
-
-
-
-     /**
+ /**
      * @Route("/student/class/{id}/deleteMyQuestion/{idQ}", name="DeleteMyQuestion")
      */
     public function DeleteMyQuestions(Request $request, $id, $idQ , PaginatorInterface $paginator)
@@ -215,10 +212,6 @@ public function canAccessClass($id){
             'questions' => $questions
         ]);
     }
-
-
-
-
 
     /**
      * @Route("/user/question/{action}/{id}", name="voteQuestion")

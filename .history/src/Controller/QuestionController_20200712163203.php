@@ -153,13 +153,10 @@ public function canAccessClass($id){
     }
 
 
-
-
-
-     /**
-     * @Route("/student/class/{id}/deleteMyQuestion/{idQ}", name="DeleteMyQuestion")
+ /**
+     * @Route("/student/class/{id}/deleteMyQuestion/{idQ}", name="showMyQuestions")
      */
-    public function DeleteMyQuestions(Request $request, $id, $idQ , PaginatorInterface $paginator)
+    public function DeleteMyQuestions(Request $request, $id, PaginatorInterface $paginator)
     {
 
         $test=$this->canAccessClass($id);
@@ -168,17 +165,9 @@ public function canAccessClass($id){
         $manager = $this->getDoctrine()->getManager();
         $class = $manager->getRepository('App:ClassGroup')->findOneById($id);
         $user = $this->getUser();
-        $question = $manager->getRepository('App:Question')->findOneById($idQ);
-        if ($question->getOwner()->getId() != $this->getUser()->getId())
-            $this->addFlash('error', "deletion failed !!");
+        $donnees = $manager->getRepository('App:Question')->findOneById($idQ);
 
-        else {
-            $manager->remove($question);
-            $manager->flush();
-            $this->addFlash('success', "question has been deleted !");
-        }
-
-        return $this->redirect('/student/class/'.$id.'/showMyQuestions');
+        return $this->redirect('/student/class/{'.$id.'}/showMyQuestions');
     }
 
 
@@ -215,10 +204,6 @@ public function canAccessClass($id){
             'questions' => $questions
         ]);
     }
-
-
-
-
 
     /**
      * @Route("/user/question/{action}/{id}", name="voteQuestion")

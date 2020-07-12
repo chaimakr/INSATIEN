@@ -139,7 +139,8 @@ map.on('click', (event) => {
         $.ajax({
             url:'/covoiturage/getCovoiturage?covoiturageId='+feature.values_.covoiturageId,
             success:function (data) {
-                 covoiturage=JSON.parse(data);
+                console.log(data);
+                 covoiturage=JSON.parse(data.replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/\t/g, "\\t"));
             }
         });
         addCard(feature.values_covoiturageId);
@@ -154,7 +155,7 @@ function addCard(covoiturageId){
     if(covoiturage) {
 
         html="<div class=\"card text-white bg-dark mb-3\" style=\"max-width: 100%;\">" +
-            "  <div class=\"card-header\"><h2>"+ "Offre de "+ covoiturage.firstName+" "+ covoiturage.lastName+"</h2></div>" +
+            "  <div class=\"text-center\"><h2>"+ "Offre de "+ covoiturage.firstName+" "+ covoiturage.lastName+"</h2></div><hr>" +
             "  <div class=\"card-body\">" +
             "    <h5 class=\"card-title\">"+ "email : "+covoiturage.email +"</h5>" +
 
